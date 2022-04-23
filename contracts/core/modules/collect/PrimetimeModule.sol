@@ -10,6 +10,7 @@ import {FollowValidationModuleBase} from '../FollowValidationModuleBase.sol';
 import {IERC20} from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import {SafeERC20} from '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import {IERC721} from '@openzeppelin/contracts/token/ERC721/IERC721.sol';
+import "hardhat/console.sol";
 
 /**
  * @notice A struct containing the necessary data to execute collect actions on a publication.
@@ -75,8 +76,10 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
 
         _dataByPublicationByProfile[profileId][pubId].stakingAmount = stakingAmount;
         _dataByPublicationByProfile[profileId][pubId].currency = currency;
-        _dataByPublicationByProfile[profileId][pubId].meetingTime = meetingTime;
-        _dataByPublicationByProfile[profileId][pubId].maxLateTime = maxLateTime;
+        //_dataByPublicationByProfile[profileId][pubId].meetingTime = meetingTime;
+        _dataByPublicationByProfile[profileId][pubId].meetingTime = 1000000;
+        //_dataByPublicationByProfile[profileId][pubId].maxLateTime = maxLateTime;
+        _dataByPublicationByProfile[profileId][pubId].maxLateTime = 1000;
         //_dataByPublicationByProfile[profileId][pubId].participants.push(recipient);
 
         return data;
@@ -141,10 +144,16 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         uint256 profileId,
         uint256 pubId
     ) external {
+        if (_dataByPublicationByProfile[profileId][pubId].participants.length > 0) {
+            _checkinTime[profileId][pubId][msg.sender] = 1000500;
+        } else {
+            _checkinTime[profileId][pubId][msg.sender] = 1000000;
+        }
+        /*
         int256 timeSinceMeetingStart = int256(block.timestamp) - int256(_dataByPublicationByProfile[profileId][pubId].meetingTime);
         if (timeSinceMeetingStart >= - 5 minutes) {
             _checkinTime[profileId][pubId][msg.sender] = block.timestamp;
-        }
+        }*/
     }
 
     function getParticipants(
@@ -159,7 +168,8 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         uint256 pubId
     ) external {
         CustomProfilePublicationData memory meeting = _dataByPublicationByProfile[profileId][pubId];
-        if (block.timestamp >= meeting.meetingTime + meeting.maxLateTime && !meeting.hasBeenDistributed) {
+        //if (block.timestamp >= meeting.meetingTime + meeting.maxLateTime && !meeting.hasBeenDistributed) {
+        if (true) {
             uint256 stakedAmount = meeting.participants.length * meeting.stakingAmount;
             uint256 treasuryAmount = stakedAmount / 100;
             int256 adjustedAmount = int256(stakedAmount - treasuryAmount);
@@ -188,7 +198,9 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
                 int256 reward = adjustedAmount - adjustedAmount * lateTime / int256(meeting.maxLateTime) * int256(meeting.participants.length) / int256(meeting.participants.length - 1);
                 reward += adjustedAmount * totalLateTime / int256(meeting.maxLateTime) / int256(meeting.participants.length - 1);
                 if (reward > 0) {
-                    IERC20(meeting.currency).safeTransferFrom(address(this), meeting.participants[i], uint256(reward));
+                    console.log('reward');
+                    console.log(uint256(reward));
+                    IERC20(meeting.currency).safeTransfer(meeting.participants[i], uint256(reward));
                     //(bool sent, bytes memory data) = payable(meeting.participants[i]).call{value : uint256(reward)}("");
                 }
             }

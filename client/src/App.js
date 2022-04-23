@@ -33,25 +33,21 @@ function App() {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
     const isMeetingCheckIn =
-        urlParams.publicationId !== undefined && urlParams.profileId !== undefined;
+        urlParams.publicationId && urlParams.profileId;
 
     useEffect(() => {
         async function checkIn() {
             setIsLoadingCheckin(true);
             console.log('run checkin');
-            const { contract } = web3state;
+            const { primetimeContract } = web3state;
 
-            const inputStruct = {
-                profileId: urlParams.profileId,
-                publicationId: urlParams.publicationId,
-            };
-            const x = await (await contract.checkin(inputStruct)).wait();
+            const x = await (await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)).wait();
             console.log(x);
             setIsLoadingCheckin(false);
         }
 
         const { contract } = web3state;
-        if ((isMeetingCheckIn, contract !== null)) {
+        if (isMeetingCheckIn && contract !== null) {
             checkIn();
         }
     }, [isMeetingCheckIn, web3state]);
@@ -189,9 +185,11 @@ function App() {
                                             (await currency.balanceOf(userAddress)).toNumber()
                                         );
 
+                                        console.log('prime balance: ', (await currency.balanceOf(Addresses['primetime collect module'])).toNumber());
                                         console.log('Collect');
                                         const x = await (await contract.collect(2, 1, [])).wait();
                                         console.log(x);
+                                        console.log('prime balance: ', (await currency.balanceOf(Addresses['primetime collect module'])).toNumber());
 
                                         console.log('Pub:');
                                         console.log(await contract.getPub(2, 1));
@@ -218,6 +216,7 @@ function App() {
                                             );
                                         }
                                         console.log('Distribute stake');
+                                        console.log('prime balance: ', (await currency.balanceOf(Addresses['primetime collect module'])).toNumber());
                                         console.log(await primetimeContract.distributeStake(2, 1));
                                         for (const p in participants) {
                                             console.log(
