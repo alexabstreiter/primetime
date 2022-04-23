@@ -78,8 +78,8 @@ function App() {
                 PrimetimeModule.abi,
                 signer
             );
-            const message = await contract.getProfile(1);
-            console.log(message);
+            //const message = await contract.getProfile(1);
+            //console.log(message);
 
             const currency = new ethers.Contract(Addresses['currency'], CurrencyModule.abi, signer);
 

@@ -19,6 +19,7 @@ async function getOrCreateBucket(buckets, bucketName) {
 }
 
 export async function pushTextToIpfs(text) {
+    return 'test'
     const bucketsX = await getBucketClient();
     //console.log(bucketsX);
     let bucketKeyX = await getOrCreateBucket(bucketsX, 'testbucket');
