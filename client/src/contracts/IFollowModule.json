@@ -1,0 +1,1327 @@
+{
+  "contractName": "IFollowModule",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "initializeFollowModule",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "follower",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "processFollow",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "followNFTTokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "followModuleTransferHook",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "follower",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "followNFTTokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "isFollowing",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"followNFTTokenId\",\"type\":\"uint256\"}],\"name\":\"followModuleTransferHook\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"initializeFollowModule\",\"outputs\":[{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"follower\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"followNFTTokenId\",\"type\":\"uint256\"}],\"name\":\"isFollowing\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"follower\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processFollow\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Lens Protocol\",\"kind\":\"dev\",\"methods\":{\"followModuleTransferHook(uint256,address,address,uint256)\":{\"params\":{\"followNFTTokenId\":\"The token ID of the follow NFT being transferred.\",\"from\":\"The address sending the follow NFT.\",\"profileId\":\"The token ID of the profile associated with the follow NFT being transferred.\",\"to\":\"The address receiving the follow NFT.\"}},\"initializeFollowModule(uint256,bytes)\":{\"params\":{\"data\":\"Arbitrary data passed by the profile creator.\",\"profileId\":\"The token ID of the profile to initialize this follow module for.\"},\"returns\":{\"_0\":\"bytes The encoded data to emit in the hub.\"}},\"isFollowing(uint256,address,uint256)\":{\"params\":{\"followNFTTokenId\":\"The followNFT token ID to validate the follow for.\",\"follower\":\"The follower address to validate the follow for.\",\"profileId\":\"The token ID of the profile to validate the follow for.\"},\"returns\":{\"_0\":\"true if the given address is following the given profile ID, false otherwise.\"}},\"processFollow(address,uint256,bytes)\":{\"params\":{\"data\":\"Arbitrary data passed by the follower.\",\"follower\":\"The follower address.\",\"profileId\":\"The token ID of the profile being followed.\"}}},\"title\":\"IFollowModule\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"followModuleTransferHook(uint256,address,address,uint256)\":{\"notice\":\"This is a transfer hook that is called upon follow NFT transfer in `beforeTokenTransfer. This can only be called from the LensHub contract. NOTE: Special care needs to be taken here: It is possible that follow NFTs were issued before this module was initialized if the profile's follow module was previously different. This transfer hook should take this into consideration, especially when the module holds state associated with individual follow NFTs.\"},\"initializeFollowModule(uint256,bytes)\":{\"notice\":\"Initializes a follow module for a given Lens profile. This can only be called by the hub contract.\"},\"isFollowing(uint256,address,uint256)\":{\"notice\":\"This is a helper function that could be used in conjunction with specific collect modules. NOTE: This function IS meant to replace a check on follower NFT ownership. NOTE: It is assumed that not all collect modules are aware of the token ID to pass. In these cases, this should receive a `followNFTTokenId` of 0, which is impossible regardless. One example of a use case for this would be a subscription-based following system:      1. The collect module:          - Decodes a follower NFT token ID from user-passed data.          - Fetches the follow module from the hub.          - Calls `isFollowing` passing the profile ID, follower & follower token ID and checks it returned true.      2. The follow module:          - Validates the subscription status for that given NFT, reverting on an invalid subscription.\"},\"processFollow(address,uint256,bytes)\":{\"notice\":\"Processes a given follow, this can only be called from the LensHub contract.\"}},\"notice\":\"This is the standard interface for all Lens-compatible FollowModules.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IFollowModule.sol\":\"IFollowModule\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interfaces/IFollowModule.sol\":{\"keccak256\":\"0xaa8d36b23abde70bcea807e979cdab0ba4e528273650f658f2adecba9c7b0694\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://33c2738ce8051bcc9194c87287a409543fcfc436971e0e079a034304c12ba71b\",\"dweb:/ipfs/QmTmSv5PzvTywnWVSeuqSCjRyu5wDHfNi8XAGjgaP53MJW\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: AGPL-3.0-only\n\npragma solidity 0.8.10;\n\n/**\n * @title IFollowModule\n * @author Lens Protocol\n *\n * @notice This is the standard interface for all Lens-compatible FollowModules.\n */\ninterface IFollowModule {\n    /**\n     * @notice Initializes a follow module for a given Lens profile. This can only be called by the hub contract.\n     *\n     * @param profileId The token ID of the profile to initialize this follow module for.\n     * @param data Arbitrary data passed by the profile creator.\n     *\n     * @return bytes The encoded data to emit in the hub.\n     */\n    function initializeFollowModule(uint256 profileId, bytes calldata data)\n        external\n        returns (bytes memory);\n\n    /**\n     * @notice Processes a given follow, this can only be called from the LensHub contract.\n     *\n     * @param follower The follower address.\n     * @param profileId The token ID of the profile being followed.\n     * @param data Arbitrary data passed by the follower.\n     */\n    function processFollow(\n        address follower,\n        uint256 profileId,\n        bytes calldata data\n    ) external;\n\n    /**\n     * @notice This is a transfer hook that is called upon follow NFT transfer in `beforeTokenTransfer. This can\n     * only be called from the LensHub contract.\n     *\n     * NOTE: Special care needs to be taken here: It is possible that follow NFTs were issued before this module\n     * was initialized if the profile's follow module was previously different. This transfer hook should take this\n     * into consideration, especially when the module holds state associated with individual follow NFTs.\n     *\n     * @param profileId The token ID of the profile associated with the follow NFT being transferred.\n     * @param from The address sending the follow NFT.\n     * @param to The address receiving the follow NFT.\n     * @param followNFTTokenId The token ID of the follow NFT being transferred.\n     */\n    function followModuleTransferHook(\n        uint256 profileId,\n        address from,\n        address to,\n        uint256 followNFTTokenId\n    ) external;\n\n    /**\n     * @notice This is a helper function that could be used in conjunction with specific collect modules.\n     *\n     * NOTE: This function IS meant to replace a check on follower NFT ownership.\n     *\n     * NOTE: It is assumed that not all collect modules are aware of the token ID to pass. In these cases,\n     * this should receive a `followNFTTokenId` of 0, which is impossible regardless.\n     *\n     * One example of a use case for this would be a subscription-based following system:\n     *      1. The collect module:\n     *          - Decodes a follower NFT token ID from user-passed data.\n     *          - Fetches the follow module from the hub.\n     *          - Calls `isFollowing` passing the profile ID, follower & follower token ID and checks it returned true.\n     *      2. The follow module:\n     *          - Validates the subscription status for that given NFT, reverting on an invalid subscription.\n     *\n     * @param profileId The token ID of the profile to validate the follow for.\n     * @param follower The follower address to validate the follow for.\n     * @param followNFTTokenId The followNFT token ID to validate the follow for.\n     *\n     * @return true if the given address is following the given profile ID, false otherwise.\n     */\n    function isFollowing(\n        uint256 profileId,\n        address follower,\n        uint256 followNFTTokenId\n    ) external view returns (bool);\n}\n",
+  "sourcePath": "/Users/korbinianabstreiter/crytoprojects/primetime/contracts/interfaces/IFollowModule.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/interfaces/IFollowModule.sol",
+    "exportedSymbols": {
+      "IFollowModule": [
+        11945
+      ]
+    },
+    "id": 11946,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 11899,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:49"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IFollowModule",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 11900,
+          "nodeType": "StructuredDocumentation",
+          "src": "68:140:49",
+          "text": " @title IFollowModule\n @author Lens Protocol\n @notice This is the standard interface for all Lens-compatible FollowModules."
+        },
+        "fullyImplemented": false,
+        "id": 11945,
+        "linearizedBaseContracts": [
+          11945
+        ],
+        "name": "IFollowModule",
+        "nameLocation": "219:13:49",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 11901,
+              "nodeType": "StructuredDocumentation",
+              "src": "239:352:49",
+              "text": " @notice Initializes a follow module for a given Lens profile. This can only be called by the hub contract.\n @param profileId The token ID of the profile to initialize this follow module for.\n @param data Arbitrary data passed by the profile creator.\n @return bytes The encoded data to emit in the hub."
+            },
+            "functionSelector": "9713958a",
+            "id": 11910,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "initializeFollowModule",
+            "nameLocation": "605:22:49",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11906,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11903,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "636:9:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11910,
+                  "src": "628:17:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11902,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "628:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11905,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "662:4:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11910,
+                  "src": "647:19:49",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 11904,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "647:5:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "627:40:49"
+            },
+            "returnParameters": {
+              "id": 11909,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11908,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11910,
+                  "src": "702:12:49",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 11907,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "702:5:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "701:14:49"
+            },
+            "scope": 11945,
+            "src": "596:120:49",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 11911,
+              "nodeType": "StructuredDocumentation",
+              "src": "722:281:49",
+              "text": " @notice Processes a given follow, this can only be called from the LensHub contract.\n @param follower The follower address.\n @param profileId The token ID of the profile being followed.\n @param data Arbitrary data passed by the follower."
+            },
+            "functionSelector": "0e096ae1",
+            "id": 11920,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processFollow",
+            "nameLocation": "1017:13:49",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11918,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11913,
+                  "mutability": "mutable",
+                  "name": "follower",
+                  "nameLocation": "1048:8:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11920,
+                  "src": "1040:16:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11912,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1040:7:49",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11915,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "1074:9:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11920,
+                  "src": "1066:17:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11914,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1066:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11917,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "1108:4:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11920,
+                  "src": "1093:19:49",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 11916,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1093:5:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1030:88:49"
+            },
+            "returnParameters": {
+              "id": 11919,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1127:0:49"
+            },
+            "scope": 11945,
+            "src": "1008:120:49",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 11921,
+              "nodeType": "StructuredDocumentation",
+              "src": "1134:815:49",
+              "text": " @notice This is a transfer hook that is called upon follow NFT transfer in `beforeTokenTransfer. This can\n only be called from the LensHub contract.\n NOTE: Special care needs to be taken here: It is possible that follow NFTs were issued before this module\n was initialized if the profile's follow module was previously different. This transfer hook should take this\n into consideration, especially when the module holds state associated with individual follow NFTs.\n @param profileId The token ID of the profile associated with the follow NFT being transferred.\n @param from The address sending the follow NFT.\n @param to The address receiving the follow NFT.\n @param followNFTTokenId The token ID of the follow NFT being transferred."
+            },
+            "functionSelector": "3cb22cc4",
+            "id": 11932,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "followModuleTransferHook",
+            "nameLocation": "1963:24:49",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11930,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11923,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "2005:9:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11932,
+                  "src": "1997:17:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11922,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1997:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11925,
+                  "mutability": "mutable",
+                  "name": "from",
+                  "nameLocation": "2032:4:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11932,
+                  "src": "2024:12:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11924,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2024:7:49",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11927,
+                  "mutability": "mutable",
+                  "name": "to",
+                  "nameLocation": "2054:2:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11932,
+                  "src": "2046:10:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11926,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2046:7:49",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11929,
+                  "mutability": "mutable",
+                  "name": "followNFTTokenId",
+                  "nameLocation": "2074:16:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11932,
+                  "src": "2066:24:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11928,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2066:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1987:109:49"
+            },
+            "returnParameters": {
+              "id": 11931,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2105:0:49"
+            },
+            "scope": 11945,
+            "src": "1954:152:49",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 11933,
+              "nodeType": "StructuredDocumentation",
+              "src": "2112:1274:49",
+              "text": " @notice This is a helper function that could be used in conjunction with specific collect modules.\n NOTE: This function IS meant to replace a check on follower NFT ownership.\n NOTE: It is assumed that not all collect modules are aware of the token ID to pass. In these cases,\n this should receive a `followNFTTokenId` of 0, which is impossible regardless.\n One example of a use case for this would be a subscription-based following system:\n      1. The collect module:\n          - Decodes a follower NFT token ID from user-passed data.\n          - Fetches the follow module from the hub.\n          - Calls `isFollowing` passing the profile ID, follower & follower token ID and checks it returned true.\n      2. The follow module:\n          - Validates the subscription status for that given NFT, reverting on an invalid subscription.\n @param profileId The token ID of the profile to validate the follow for.\n @param follower The follower address to validate the follow for.\n @param followNFTTokenId The followNFT token ID to validate the follow for.\n @return true if the given address is following the given profile ID, false otherwise."
+            },
+            "functionSelector": "451c3d0c",
+            "id": 11944,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isFollowing",
+            "nameLocation": "3400:11:49",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11940,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11935,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "3429:9:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11944,
+                  "src": "3421:17:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11934,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3421:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11937,
+                  "mutability": "mutable",
+                  "name": "follower",
+                  "nameLocation": "3456:8:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11944,
+                  "src": "3448:16:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11936,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3448:7:49",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11939,
+                  "mutability": "mutable",
+                  "name": "followNFTTokenId",
+                  "nameLocation": "3482:16:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11944,
+                  "src": "3474:24:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11938,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3474:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3411:93:49"
+            },
+            "returnParameters": {
+              "id": 11943,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11942,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11944,
+                  "src": "3528:4:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 11941,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3528:4:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3527:6:49"
+            },
+            "scope": 11945,
+            "src": "3391:143:49",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 11946,
+        "src": "209:3327:49",
+        "usedErrors": []
+      }
+    ],
+    "src": "43:3494:49"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/interfaces/IFollowModule.sol",
+    "exportedSymbols": {
+      "IFollowModule": [
+        11945
+      ]
+    },
+    "id": 11946,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 11899,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:49"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IFollowModule",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 11900,
+          "nodeType": "StructuredDocumentation",
+          "src": "68:140:49",
+          "text": " @title IFollowModule\n @author Lens Protocol\n @notice This is the standard interface for all Lens-compatible FollowModules."
+        },
+        "fullyImplemented": false,
+        "id": 11945,
+        "linearizedBaseContracts": [
+          11945
+        ],
+        "name": "IFollowModule",
+        "nameLocation": "219:13:49",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 11901,
+              "nodeType": "StructuredDocumentation",
+              "src": "239:352:49",
+              "text": " @notice Initializes a follow module for a given Lens profile. This can only be called by the hub contract.\n @param profileId The token ID of the profile to initialize this follow module for.\n @param data Arbitrary data passed by the profile creator.\n @return bytes The encoded data to emit in the hub."
+            },
+            "functionSelector": "9713958a",
+            "id": 11910,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "initializeFollowModule",
+            "nameLocation": "605:22:49",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11906,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11903,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "636:9:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11910,
+                  "src": "628:17:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11902,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "628:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11905,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "662:4:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11910,
+                  "src": "647:19:49",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 11904,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "647:5:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "627:40:49"
+            },
+            "returnParameters": {
+              "id": 11909,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11908,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11910,
+                  "src": "702:12:49",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 11907,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "702:5:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "701:14:49"
+            },
+            "scope": 11945,
+            "src": "596:120:49",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 11911,
+              "nodeType": "StructuredDocumentation",
+              "src": "722:281:49",
+              "text": " @notice Processes a given follow, this can only be called from the LensHub contract.\n @param follower The follower address.\n @param profileId The token ID of the profile being followed.\n @param data Arbitrary data passed by the follower."
+            },
+            "functionSelector": "0e096ae1",
+            "id": 11920,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processFollow",
+            "nameLocation": "1017:13:49",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11918,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11913,
+                  "mutability": "mutable",
+                  "name": "follower",
+                  "nameLocation": "1048:8:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11920,
+                  "src": "1040:16:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11912,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1040:7:49",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11915,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "1074:9:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11920,
+                  "src": "1066:17:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11914,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1066:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11917,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "1108:4:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11920,
+                  "src": "1093:19:49",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 11916,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1093:5:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1030:88:49"
+            },
+            "returnParameters": {
+              "id": 11919,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1127:0:49"
+            },
+            "scope": 11945,
+            "src": "1008:120:49",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 11921,
+              "nodeType": "StructuredDocumentation",
+              "src": "1134:815:49",
+              "text": " @notice This is a transfer hook that is called upon follow NFT transfer in `beforeTokenTransfer. This can\n only be called from the LensHub contract.\n NOTE: Special care needs to be taken here: It is possible that follow NFTs were issued before this module\n was initialized if the profile's follow module was previously different. This transfer hook should take this\n into consideration, especially when the module holds state associated with individual follow NFTs.\n @param profileId The token ID of the profile associated with the follow NFT being transferred.\n @param from The address sending the follow NFT.\n @param to The address receiving the follow NFT.\n @param followNFTTokenId The token ID of the follow NFT being transferred."
+            },
+            "functionSelector": "3cb22cc4",
+            "id": 11932,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "followModuleTransferHook",
+            "nameLocation": "1963:24:49",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11930,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11923,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "2005:9:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11932,
+                  "src": "1997:17:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11922,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1997:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11925,
+                  "mutability": "mutable",
+                  "name": "from",
+                  "nameLocation": "2032:4:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11932,
+                  "src": "2024:12:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11924,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2024:7:49",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11927,
+                  "mutability": "mutable",
+                  "name": "to",
+                  "nameLocation": "2054:2:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11932,
+                  "src": "2046:10:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11926,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2046:7:49",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11929,
+                  "mutability": "mutable",
+                  "name": "followNFTTokenId",
+                  "nameLocation": "2074:16:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11932,
+                  "src": "2066:24:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11928,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2066:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1987:109:49"
+            },
+            "returnParameters": {
+              "id": 11931,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2105:0:49"
+            },
+            "scope": 11945,
+            "src": "1954:152:49",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 11933,
+              "nodeType": "StructuredDocumentation",
+              "src": "2112:1274:49",
+              "text": " @notice This is a helper function that could be used in conjunction with specific collect modules.\n NOTE: This function IS meant to replace a check on follower NFT ownership.\n NOTE: It is assumed that not all collect modules are aware of the token ID to pass. In these cases,\n this should receive a `followNFTTokenId` of 0, which is impossible regardless.\n One example of a use case for this would be a subscription-based following system:\n      1. The collect module:\n          - Decodes a follower NFT token ID from user-passed data.\n          - Fetches the follow module from the hub.\n          - Calls `isFollowing` passing the profile ID, follower & follower token ID and checks it returned true.\n      2. The follow module:\n          - Validates the subscription status for that given NFT, reverting on an invalid subscription.\n @param profileId The token ID of the profile to validate the follow for.\n @param follower The follower address to validate the follow for.\n @param followNFTTokenId The followNFT token ID to validate the follow for.\n @return true if the given address is following the given profile ID, false otherwise."
+            },
+            "functionSelector": "451c3d0c",
+            "id": 11944,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isFollowing",
+            "nameLocation": "3400:11:49",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11940,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11935,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "3429:9:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11944,
+                  "src": "3421:17:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11934,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3421:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11937,
+                  "mutability": "mutable",
+                  "name": "follower",
+                  "nameLocation": "3456:8:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11944,
+                  "src": "3448:16:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11936,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3448:7:49",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11939,
+                  "mutability": "mutable",
+                  "name": "followNFTTokenId",
+                  "nameLocation": "3482:16:49",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11944,
+                  "src": "3474:24:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11938,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3474:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3411:93:49"
+            },
+            "returnParameters": {
+              "id": 11943,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11942,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11944,
+                  "src": "3528:4:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 11941,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3528:4:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3527:6:49"
+            },
+            "scope": 11945,
+            "src": "3391:143:49",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 11946,
+        "src": "209:3327:49",
+        "usedErrors": []
+      }
+    ],
+    "src": "43:3494:49"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.10+commit.fc410830.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-04-22T14:49:53.863Z",
+  "devdoc": {
+    "author": "Lens Protocol",
+    "kind": "dev",
+    "methods": {
+      "followModuleTransferHook(uint256,address,address,uint256)": {
+        "params": {
+          "followNFTTokenId": "The token ID of the follow NFT being transferred.",
+          "from": "The address sending the follow NFT.",
+          "profileId": "The token ID of the profile associated with the follow NFT being transferred.",
+          "to": "The address receiving the follow NFT."
+        }
+      },
+      "initializeFollowModule(uint256,bytes)": {
+        "params": {
+          "data": "Arbitrary data passed by the profile creator.",
+          "profileId": "The token ID of the profile to initialize this follow module for."
+        },
+        "returns": {
+          "_0": "bytes The encoded data to emit in the hub."
+        }
+      },
+      "isFollowing(uint256,address,uint256)": {
+        "params": {
+          "followNFTTokenId": "The followNFT token ID to validate the follow for.",
+          "follower": "The follower address to validate the follow for.",
+          "profileId": "The token ID of the profile to validate the follow for."
+        },
+        "returns": {
+          "_0": "true if the given address is following the given profile ID, false otherwise."
+        }
+      },
+      "processFollow(address,uint256,bytes)": {
+        "params": {
+          "data": "Arbitrary data passed by the follower.",
+          "follower": "The follower address.",
+          "profileId": "The token ID of the profile being followed."
+        }
+      }
+    },
+    "title": "IFollowModule",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "followModuleTransferHook(uint256,address,address,uint256)": {
+        "notice": "This is a transfer hook that is called upon follow NFT transfer in `beforeTokenTransfer. This can only be called from the LensHub contract. NOTE: Special care needs to be taken here: It is possible that follow NFTs were issued before this module was initialized if the profile's follow module was previously different. This transfer hook should take this into consideration, especially when the module holds state associated with individual follow NFTs."
+      },
+      "initializeFollowModule(uint256,bytes)": {
+        "notice": "Initializes a follow module for a given Lens profile. This can only be called by the hub contract."
+      },
+      "isFollowing(uint256,address,uint256)": {
+        "notice": "This is a helper function that could be used in conjunction with specific collect modules. NOTE: This function IS meant to replace a check on follower NFT ownership. NOTE: It is assumed that not all collect modules are aware of the token ID to pass. In these cases, this should receive a `followNFTTokenId` of 0, which is impossible regardless. One example of a use case for this would be a subscription-based following system:      1. The collect module:          - Decodes a follower NFT token ID from user-passed data.          - Fetches the follow module from the hub.          - Calls `isFollowing` passing the profile ID, follower & follower token ID and checks it returned true.      2. The follow module:          - Validates the subscription status for that given NFT, reverting on an invalid subscription."
+      },
+      "processFollow(address,uint256,bytes)": {
+        "notice": "Processes a given follow, this can only be called from the LensHub contract."
+      }
+    },
+    "notice": "This is the standard interface for all Lens-compatible FollowModules.",
+    "version": 1
+  }
+}

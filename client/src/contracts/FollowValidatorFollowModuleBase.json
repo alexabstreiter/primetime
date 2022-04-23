@@ -1,0 +1,2133 @@
+{
+  "contractName": "FollowValidatorFollowModuleBase",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "InitParamsInvalid",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "HUB",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "followNFTTokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "followModuleTransferHook",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "initializeFollowModule",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "follower",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "processFollow",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "follower",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "followNFTTokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "isFollowing",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"InitParamsInvalid\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"HUB\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"followNFTTokenId\",\"type\":\"uint256\"}],\"name\":\"followModuleTransferHook\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"initializeFollowModule\",\"outputs\":[{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"follower\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"followNFTTokenId\",\"type\":\"uint256\"}],\"name\":\"isFollowing\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"follower\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processFollow\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Lens Protocol\",\"kind\":\"dev\",\"methods\":{\"followModuleTransferHook(uint256,address,address,uint256)\":{\"params\":{\"followNFTTokenId\":\"The token ID of the follow NFT being transferred.\",\"from\":\"The address sending the follow NFT.\",\"profileId\":\"The token ID of the profile associated with the follow NFT being transferred.\",\"to\":\"The address receiving the follow NFT.\"}},\"initializeFollowModule(uint256,bytes)\":{\"params\":{\"data\":\"Arbitrary data passed by the profile creator.\",\"profileId\":\"The token ID of the profile to initialize this follow module for.\"},\"returns\":{\"_0\":\"bytes The encoded data to emit in the hub.\"}},\"processFollow(address,uint256,bytes)\":{\"params\":{\"data\":\"Arbitrary data passed by the follower.\",\"follower\":\"The follower address.\",\"profileId\":\"The token ID of the profile being followed.\"}}},\"title\":\"FollowValidatorFollowModuleBase\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"followModuleTransferHook(uint256,address,address,uint256)\":{\"notice\":\"This is a transfer hook that is called upon follow NFT transfer in `beforeTokenTransfer. This can only be called from the LensHub contract. NOTE: Special care needs to be taken here: It is possible that follow NFTs were issued before this module was initialized if the profile's follow module was previously different. This transfer hook should take this into consideration, especially when the module holds state associated with individual follow NFTs.\"},\"initializeFollowModule(uint256,bytes)\":{\"notice\":\"Initializes a follow module for a given Lens profile. This can only be called by the hub contract.\"},\"isFollowing(uint256,address,uint256)\":{\"notice\":\"Standard function to validate follow NFT ownership. This module is agnostic to follow NFT token IDs and other properties.\"},\"processFollow(address,uint256,bytes)\":{\"notice\":\"Processes a given follow, this can only be called from the LensHub contract.\"}},\"notice\":\"This abstract contract adds the default expected behavior for follow validation in a follow module to inheriting contracts.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/core/modules/follow/FollowValidatorFollowModuleBase.sol\":\"FollowValidatorFollowModuleBase\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC721/IERC721.sol\":{\"keccak256\":\"0x516a22876c1fab47f49b1bc22b4614491cd05338af8bd2e7b382da090a079990\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a439187f7126d31add4557f82d8aed6be0162007cd7182c48fd934dbab8f3849\",\"dweb:/ipfs/QmRPLguRFvrRJS7r6F1bcLvsx6q1VrgjEpZafyeL8D7xZh\"]},\"@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x447a5f3ddc18419d41ff92b3773fb86471b1db25773e07f877f548918a185bf1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://be161e54f24e5c6fae81a12db1a8ae87bc5ae1b0ddc805d82a1440a68455088f\",\"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy\"]},\"project:/contracts/core/modules/ModuleBase.sol\":{\"keccak256\":\"0x329a809e84f3cd66bcdc10d9005cf3396ba4fd793760c50780a1f7ff42df38cb\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://f1aa97a6bb49e3ef78a633860830189c45c91c45bfcbbbb9292b510122dc3f30\",\"dweb:/ipfs/QmYXyheE7dVGicgdZJtZfoFcHTz6i6MZSNCbLqyf2R9aqP\"]},\"project:/contracts/core/modules/follow/FollowValidatorFollowModuleBase.sol\":{\"keccak256\":\"0x442e1ca6d2c6760a6db4c4a9cd7dbcef028e3f39eb6aeb77664aca00e9d0aa7c\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://04283d2f30805304240ee4722ff60a969c7faa97eb0ae79028095af4b49e87d3\",\"dweb:/ipfs/QmX7pEEXrcB23xCcESuD76RcnqxoqbFN2LDChQpbUYLfFg\"]},\"project:/contracts/interfaces/IFollowModule.sol\":{\"keccak256\":\"0xaa8d36b23abde70bcea807e979cdab0ba4e528273650f658f2adecba9c7b0694\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://33c2738ce8051bcc9194c87287a409543fcfc436971e0e079a034304c12ba71b\",\"dweb:/ipfs/QmTmSv5PzvTywnWVSeuqSCjRyu5wDHfNi8XAGjgaP53MJW\"]},\"project:/contracts/interfaces/ILensHub.sol\":{\"keccak256\":\"0x93a75b7c2e257d87434fded5f1fbc1d375a7ab1dcfe53912b6cf2908d432eb4f\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://2fc8465c0f3ac766f303b8e4f3688d0e2d23903b026e238fb4ac79b4ca576191\",\"dweb:/ipfs/QmSJXqzyDfwW6uqXvYeHK631xgnLet1JWVnWi3AGu9d24X\"]},\"project:/contracts/libraries/DataTypes.sol\":{\"keccak256\":\"0xe32aa4c54612e6826b9426c33a526e155ebb0bf30197f597ad7b4f47f1f8eca5\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://f0b32e5c10cdd390af72e01ac7ec4455e5bcb0365d813b50566b775f140452b3\",\"dweb:/ipfs/QmYDuiCxa7TEiZzkwLnJBFNS96WZ2XD4dBpNWtjzBjhCVc\"]},\"project:/contracts/libraries/Errors.sol\":{\"keccak256\":\"0x9d28f8c357787962e0a01d649c5b2f2e41a65faf63b9a62f6edac359fc0e9a50\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://1562e3a3d83e60488362e43632a73de2f060aec2c8650217eb5e0bd12a8e08c1\",\"dweb:/ipfs/QmZpJv7LRq2rNknMBoXFujEd4EbhBTUoVyAt916BViHVwk\"]},\"project:/contracts/libraries/Events.sol\":{\"keccak256\":\"0x2d71ed87ddd74a481bbc85c9d4cb17be89170129ae9a50513e1276ef6e62034d\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://e3424a207954297bf0075761079bad1ae9005cbfbbe5694c9b55986135420ab2\",\"dweb:/ipfs/QmSExSh5fyWU1oezqqjRRjaChFYB4Ln2JNvDYq6mUCZ9Zj\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: AGPL-3.0-only\n\npragma solidity 0.8.10;\n\nimport {IFollowModule} from '../../../interfaces/IFollowModule.sol';\nimport {ILensHub} from '../../../interfaces/ILensHub.sol';\nimport {Errors} from '../../../libraries/Errors.sol';\nimport {ModuleBase} from '../ModuleBase.sol';\nimport {IERC721} from '@openzeppelin/contracts/token/ERC721/IERC721.sol';\n\n/**\n * @title FollowValidatorFollowModuleBase\n * @author Lens Protocol\n *\n * @notice This abstract contract adds the default expected behavior for follow validation in a follow module\n * to inheriting contracts.\n */\nabstract contract FollowValidatorFollowModuleBase is ModuleBase, IFollowModule {\n    /**\n     * @notice Standard function to validate follow NFT ownership. This module is agnostic to follow NFT token IDs\n     * and other properties.\n     */\n    function isFollowing(\n        uint256 profileId,\n        address follower,\n        uint256 followNFTTokenId\n    ) external view override returns (bool) {\n        address followNFT = ILensHub(HUB).getFollowNFT(profileId);\n        if (followNFT == address(0)) {\n            return false;\n        } else {\n            return\n                followNFTTokenId == 0\n                    ? IERC721(followNFT).balanceOf(follower) != 0\n                    : IERC721(followNFT).ownerOf(followNFTTokenId) == follower;\n        }\n    }\n}\n",
+  "sourcePath": "/Users/korbinianabstreiter/crytoprojects/primetime/contracts/core/modules/follow/FollowValidatorFollowModuleBase.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/core/modules/follow/FollowValidatorFollowModuleBase.sol",
+    "exportedSymbols": {
+      "Errors": [
+        12973
+      ],
+      "FollowValidatorFollowModuleBase": [
+        11484
+      ],
+      "IERC721": [
+        1553
+      ],
+      "IFollowModule": [
+        11945
+      ],
+      "ILensHub": [
+        12472
+      ],
+      "ModuleBase": [
+        7740
+      ]
+    },
+    "id": 11485,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 11413,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:43"
+      },
+      {
+        "absolutePath": "project:/contracts/interfaces/IFollowModule.sol",
+        "file": "../../../interfaces/IFollowModule.sol",
+        "id": 11415,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11485,
+        "sourceUnit": 11946,
+        "src": "68:68:43",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 11414,
+              "name": "IFollowModule",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "76:13:43",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/interfaces/ILensHub.sol",
+        "file": "../../../interfaces/ILensHub.sol",
+        "id": 11417,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11485,
+        "sourceUnit": 12473,
+        "src": "137:58:43",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 11416,
+              "name": "ILensHub",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "145:8:43",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/libraries/Errors.sol",
+        "file": "../../../libraries/Errors.sol",
+        "id": 11419,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11485,
+        "sourceUnit": 12974,
+        "src": "196:53:43",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 11418,
+              "name": "Errors",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "204:6:43",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/core/modules/ModuleBase.sol",
+        "file": "../ModuleBase.sol",
+        "id": 11421,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11485,
+        "sourceUnit": 7741,
+        "src": "250:45:43",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 11420,
+              "name": "ModuleBase",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "258:10:43",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+        "file": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+        "id": 11423,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11485,
+        "sourceUnit": 1554,
+        "src": "296:73:43",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 11422,
+              "name": "IERC721",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "304:7:43",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "abstract": true,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 11425,
+              "name": "ModuleBase",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 7740,
+              "src": "640:10:43"
+            },
+            "id": 11426,
+            "nodeType": "InheritanceSpecifier",
+            "src": "640:10:43"
+          },
+          {
+            "baseName": {
+              "id": 11427,
+              "name": "IFollowModule",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 11945,
+              "src": "652:13:43"
+            },
+            "id": 11428,
+            "nodeType": "InheritanceSpecifier",
+            "src": "652:13:43"
+          }
+        ],
+        "canonicalName": "FollowValidatorFollowModuleBase",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 11424,
+          "nodeType": "StructuredDocumentation",
+          "src": "371:215:43",
+          "text": " @title FollowValidatorFollowModuleBase\n @author Lens Protocol\n @notice This abstract contract adds the default expected behavior for follow validation in a follow module\n to inheriting contracts."
+        },
+        "fullyImplemented": false,
+        "id": 11484,
+        "linearizedBaseContracts": [
+          11484,
+          11945,
+          7740
+        ],
+        "name": "FollowValidatorFollowModuleBase",
+        "nameLocation": "605:31:43",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "baseFunctions": [
+              11944
+            ],
+            "body": {
+              "id": 11482,
+              "nodeType": "Block",
+              "src": "984:369:43",
+              "statements": [
+                {
+                  "assignments": [
+                    11442
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 11442,
+                      "mutability": "mutable",
+                      "name": "followNFT",
+                      "nameLocation": "1002:9:43",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 11482,
+                      "src": "994:17:43",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 11441,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "994:7:43",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 11449,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "id": 11447,
+                        "name": "profileId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 11431,
+                        "src": "1041:9:43",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "arguments": [
+                          {
+                            "id": 11444,
+                            "name": "HUB",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 7695,
+                            "src": "1023:3:43",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 11443,
+                          "name": "ILensHub",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 12472,
+                          "src": "1014:8:43",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_ILensHub_$12472_$",
+                            "typeString": "type(contract ILensHub)"
+                          }
+                        },
+                        "id": 11445,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1014:13:43",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_ILensHub_$12472",
+                          "typeString": "contract ILensHub"
+                        }
+                      },
+                      "id": 11446,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getFollowNFT",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 12344,
+                      "src": "1014:26:43",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
+                        "typeString": "function (uint256) view external returns (address)"
+                      }
+                    },
+                    "id": 11448,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1014:37:43",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "994:57:43"
+                },
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 11455,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 11450,
+                      "name": "followNFT",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 11442,
+                      "src": "1065:9:43",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "arguments": [
+                        {
+                          "hexValue": "30",
+                          "id": 11453,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1086:1:43",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          }
+                        ],
+                        "id": 11452,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "1078:7:43",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": {
+                          "id": 11451,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "1078:7:43",
+                          "typeDescriptions": {}
+                        }
+                      },
+                      "id": 11454,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1078:10:43",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1065:23:43",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": {
+                    "id": 11480,
+                    "nodeType": "Block",
+                    "src": "1133:214:43",
+                    "statements": [
+                      {
+                        "expression": {
+                          "condition": {
+                            "commonType": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            },
+                            "id": 11461,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "leftExpression": {
+                              "id": 11459,
+                              "name": "followNFTTokenId",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 11435,
+                              "src": "1170:16:43",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "nodeType": "BinaryOperation",
+                            "operator": "==",
+                            "rightExpression": {
+                              "hexValue": "30",
+                              "id": 11460,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "1190:1:43",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            },
+                            "src": "1170:21:43",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          },
+                          "falseExpression": {
+                            "commonType": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            },
+                            "id": 11477,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "leftExpression": {
+                              "arguments": [
+                                {
+                                  "id": 11474,
+                                  "name": "followNFTTokenId",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 11435,
+                                  "src": "1307:16:43",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "argumentTypes": [
+                                  {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                ],
+                                "expression": {
+                                  "arguments": [
+                                    {
+                                      "id": 11471,
+                                      "name": "followNFT",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 11442,
+                                      "src": "1288:9:43",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                      }
+                                    }
+                                  ],
+                                  "expression": {
+                                    "argumentTypes": [
+                                      {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                      }
+                                    ],
+                                    "id": 11470,
+                                    "name": "IERC721",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 1553,
+                                    "src": "1280:7:43",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_type$_t_contract$_IERC721_$1553_$",
+                                      "typeString": "type(contract IERC721)"
+                                    }
+                                  },
+                                  "id": 11472,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "kind": "typeConversion",
+                                  "lValueRequested": false,
+                                  "names": [],
+                                  "nodeType": "FunctionCall",
+                                  "src": "1280:18:43",
+                                  "tryCall": false,
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_contract$_IERC721_$1553",
+                                    "typeString": "contract IERC721"
+                                  }
+                                },
+                                "id": 11473,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "memberName": "ownerOf",
+                                "nodeType": "MemberAccess",
+                                "referencedDeclaration": 1486,
+                                "src": "1280:26:43",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
+                                  "typeString": "function (uint256) view external returns (address)"
+                                }
+                              },
+                              "id": 11475,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "functionCall",
+                              "lValueRequested": false,
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1280:44:43",
+                              "tryCall": false,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
+                              }
+                            },
+                            "nodeType": "BinaryOperation",
+                            "operator": "==",
+                            "rightExpression": {
+                              "id": 11476,
+                              "name": "follower",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 11433,
+                              "src": "1328:8:43",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
+                              }
+                            },
+                            "src": "1280:56:43",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          },
+                          "id": 11478,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "Conditional",
+                          "src": "1170:166:43",
+                          "trueExpression": {
+                            "commonType": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            },
+                            "id": 11469,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "leftExpression": {
+                              "arguments": [
+                                {
+                                  "id": 11466,
+                                  "name": "follower",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 11433,
+                                  "src": "1243:8:43",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "argumentTypes": [
+                                  {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  }
+                                ],
+                                "expression": {
+                                  "arguments": [
+                                    {
+                                      "id": 11463,
+                                      "name": "followNFT",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 11442,
+                                      "src": "1222:9:43",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                      }
+                                    }
+                                  ],
+                                  "expression": {
+                                    "argumentTypes": [
+                                      {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                      }
+                                    ],
+                                    "id": 11462,
+                                    "name": "IERC721",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 1553,
+                                    "src": "1214:7:43",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_type$_t_contract$_IERC721_$1553_$",
+                                      "typeString": "type(contract IERC721)"
+                                    }
+                                  },
+                                  "id": 11464,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "kind": "typeConversion",
+                                  "lValueRequested": false,
+                                  "names": [],
+                                  "nodeType": "FunctionCall",
+                                  "src": "1214:18:43",
+                                  "tryCall": false,
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_contract$_IERC721_$1553",
+                                    "typeString": "contract IERC721"
+                                  }
+                                },
+                                "id": 11465,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "memberName": "balanceOf",
+                                "nodeType": "MemberAccess",
+                                "referencedDeclaration": 1478,
+                                "src": "1214:28:43",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
+                                  "typeString": "function (address) view external returns (uint256)"
+                                }
+                              },
+                              "id": 11467,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "functionCall",
+                              "lValueRequested": false,
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1214:38:43",
+                              "tryCall": false,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "nodeType": "BinaryOperation",
+                            "operator": "!=",
+                            "rightExpression": {
+                              "hexValue": "30",
+                              "id": 11468,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "1256:1:43",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            },
+                            "src": "1214:43:43",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          },
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "functionReturnParameters": 11440,
+                        "id": 11479,
+                        "nodeType": "Return",
+                        "src": "1147:189:43"
+                      }
+                    ]
+                  },
+                  "id": 11481,
+                  "nodeType": "IfStatement",
+                  "src": "1061:286:43",
+                  "trueBody": {
+                    "id": 11458,
+                    "nodeType": "Block",
+                    "src": "1090:37:43",
+                    "statements": [
+                      {
+                        "expression": {
+                          "hexValue": "66616c7365",
+                          "id": 11456,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "bool",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1111:5:43",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          },
+                          "value": "false"
+                        },
+                        "functionReturnParameters": 11440,
+                        "id": 11457,
+                        "nodeType": "Return",
+                        "src": "1104:12:43"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "documentation": {
+              "id": 11429,
+              "nodeType": "StructuredDocumentation",
+              "src": "672:155:43",
+              "text": " @notice Standard function to validate follow NFT ownership. This module is agnostic to follow NFT token IDs\n and other properties."
+            },
+            "functionSelector": "451c3d0c",
+            "id": 11483,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isFollowing",
+            "nameLocation": "841:11:43",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 11437,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "960:8:43"
+            },
+            "parameters": {
+              "id": 11436,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11431,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "870:9:43",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11483,
+                  "src": "862:17:43",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11430,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "862:7:43",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11433,
+                  "mutability": "mutable",
+                  "name": "follower",
+                  "nameLocation": "897:8:43",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11483,
+                  "src": "889:16:43",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11432,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "889:7:43",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11435,
+                  "mutability": "mutable",
+                  "name": "followNFTTokenId",
+                  "nameLocation": "923:16:43",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11483,
+                  "src": "915:24:43",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11434,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "915:7:43",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "852:93:43"
+            },
+            "returnParameters": {
+              "id": 11440,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11439,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11483,
+                  "src": "978:4:43",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 11438,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "978:4:43",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "977:6:43"
+            },
+            "scope": 11484,
+            "src": "832:521:43",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 11485,
+        "src": "587:768:43",
+        "usedErrors": [
+          12954
+        ]
+      }
+    ],
+    "src": "43:1313:43"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/core/modules/follow/FollowValidatorFollowModuleBase.sol",
+    "exportedSymbols": {
+      "Errors": [
+        12973
+      ],
+      "FollowValidatorFollowModuleBase": [
+        11484
+      ],
+      "IERC721": [
+        1553
+      ],
+      "IFollowModule": [
+        11945
+      ],
+      "ILensHub": [
+        12472
+      ],
+      "ModuleBase": [
+        7740
+      ]
+    },
+    "id": 11485,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 11413,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:43"
+      },
+      {
+        "absolutePath": "project:/contracts/interfaces/IFollowModule.sol",
+        "file": "../../../interfaces/IFollowModule.sol",
+        "id": 11415,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11485,
+        "sourceUnit": 11946,
+        "src": "68:68:43",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 11414,
+              "name": "IFollowModule",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "76:13:43",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/interfaces/ILensHub.sol",
+        "file": "../../../interfaces/ILensHub.sol",
+        "id": 11417,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11485,
+        "sourceUnit": 12473,
+        "src": "137:58:43",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 11416,
+              "name": "ILensHub",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "145:8:43",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/libraries/Errors.sol",
+        "file": "../../../libraries/Errors.sol",
+        "id": 11419,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11485,
+        "sourceUnit": 12974,
+        "src": "196:53:43",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 11418,
+              "name": "Errors",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "204:6:43",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/core/modules/ModuleBase.sol",
+        "file": "../ModuleBase.sol",
+        "id": 11421,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11485,
+        "sourceUnit": 7741,
+        "src": "250:45:43",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 11420,
+              "name": "ModuleBase",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "258:10:43",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+        "file": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+        "id": 11423,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11485,
+        "sourceUnit": 1554,
+        "src": "296:73:43",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 11422,
+              "name": "IERC721",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "304:7:43",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "abstract": true,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 11425,
+              "name": "ModuleBase",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 7740,
+              "src": "640:10:43"
+            },
+            "id": 11426,
+            "nodeType": "InheritanceSpecifier",
+            "src": "640:10:43"
+          },
+          {
+            "baseName": {
+              "id": 11427,
+              "name": "IFollowModule",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 11945,
+              "src": "652:13:43"
+            },
+            "id": 11428,
+            "nodeType": "InheritanceSpecifier",
+            "src": "652:13:43"
+          }
+        ],
+        "canonicalName": "FollowValidatorFollowModuleBase",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 11424,
+          "nodeType": "StructuredDocumentation",
+          "src": "371:215:43",
+          "text": " @title FollowValidatorFollowModuleBase\n @author Lens Protocol\n @notice This abstract contract adds the default expected behavior for follow validation in a follow module\n to inheriting contracts."
+        },
+        "fullyImplemented": false,
+        "id": 11484,
+        "linearizedBaseContracts": [
+          11484,
+          11945,
+          7740
+        ],
+        "name": "FollowValidatorFollowModuleBase",
+        "nameLocation": "605:31:43",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "baseFunctions": [
+              11944
+            ],
+            "body": {
+              "id": 11482,
+              "nodeType": "Block",
+              "src": "984:369:43",
+              "statements": [
+                {
+                  "assignments": [
+                    11442
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 11442,
+                      "mutability": "mutable",
+                      "name": "followNFT",
+                      "nameLocation": "1002:9:43",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 11482,
+                      "src": "994:17:43",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 11441,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "994:7:43",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 11449,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "id": 11447,
+                        "name": "profileId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 11431,
+                        "src": "1041:9:43",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "arguments": [
+                          {
+                            "id": 11444,
+                            "name": "HUB",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 7695,
+                            "src": "1023:3:43",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 11443,
+                          "name": "ILensHub",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 12472,
+                          "src": "1014:8:43",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_ILensHub_$12472_$",
+                            "typeString": "type(contract ILensHub)"
+                          }
+                        },
+                        "id": 11445,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1014:13:43",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_ILensHub_$12472",
+                          "typeString": "contract ILensHub"
+                        }
+                      },
+                      "id": 11446,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "getFollowNFT",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 12344,
+                      "src": "1014:26:43",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
+                        "typeString": "function (uint256) view external returns (address)"
+                      }
+                    },
+                    "id": 11448,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1014:37:43",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "994:57:43"
+                },
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 11455,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 11450,
+                      "name": "followNFT",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 11442,
+                      "src": "1065:9:43",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "arguments": [
+                        {
+                          "hexValue": "30",
+                          "id": 11453,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1086:1:43",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          }
+                        ],
+                        "id": 11452,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "1078:7:43",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": {
+                          "id": 11451,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "1078:7:43",
+                          "typeDescriptions": {}
+                        }
+                      },
+                      "id": 11454,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1078:10:43",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1065:23:43",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": {
+                    "id": 11480,
+                    "nodeType": "Block",
+                    "src": "1133:214:43",
+                    "statements": [
+                      {
+                        "expression": {
+                          "condition": {
+                            "commonType": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            },
+                            "id": 11461,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "leftExpression": {
+                              "id": 11459,
+                              "name": "followNFTTokenId",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 11435,
+                              "src": "1170:16:43",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "nodeType": "BinaryOperation",
+                            "operator": "==",
+                            "rightExpression": {
+                              "hexValue": "30",
+                              "id": 11460,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "1190:1:43",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            },
+                            "src": "1170:21:43",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          },
+                          "falseExpression": {
+                            "commonType": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            },
+                            "id": 11477,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "leftExpression": {
+                              "arguments": [
+                                {
+                                  "id": 11474,
+                                  "name": "followNFTTokenId",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 11435,
+                                  "src": "1307:16:43",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "argumentTypes": [
+                                  {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                ],
+                                "expression": {
+                                  "arguments": [
+                                    {
+                                      "id": 11471,
+                                      "name": "followNFT",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 11442,
+                                      "src": "1288:9:43",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                      }
+                                    }
+                                  ],
+                                  "expression": {
+                                    "argumentTypes": [
+                                      {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                      }
+                                    ],
+                                    "id": 11470,
+                                    "name": "IERC721",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 1553,
+                                    "src": "1280:7:43",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_type$_t_contract$_IERC721_$1553_$",
+                                      "typeString": "type(contract IERC721)"
+                                    }
+                                  },
+                                  "id": 11472,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "kind": "typeConversion",
+                                  "lValueRequested": false,
+                                  "names": [],
+                                  "nodeType": "FunctionCall",
+                                  "src": "1280:18:43",
+                                  "tryCall": false,
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_contract$_IERC721_$1553",
+                                    "typeString": "contract IERC721"
+                                  }
+                                },
+                                "id": 11473,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "memberName": "ownerOf",
+                                "nodeType": "MemberAccess",
+                                "referencedDeclaration": 1486,
+                                "src": "1280:26:43",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_function_external_view$_t_uint256_$returns$_t_address_$",
+                                  "typeString": "function (uint256) view external returns (address)"
+                                }
+                              },
+                              "id": 11475,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "functionCall",
+                              "lValueRequested": false,
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1280:44:43",
+                              "tryCall": false,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
+                              }
+                            },
+                            "nodeType": "BinaryOperation",
+                            "operator": "==",
+                            "rightExpression": {
+                              "id": 11476,
+                              "name": "follower",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 11433,
+                              "src": "1328:8:43",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_address",
+                                "typeString": "address"
+                              }
+                            },
+                            "src": "1280:56:43",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          },
+                          "id": 11478,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "Conditional",
+                          "src": "1170:166:43",
+                          "trueExpression": {
+                            "commonType": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            },
+                            "id": 11469,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "leftExpression": {
+                              "arguments": [
+                                {
+                                  "id": 11466,
+                                  "name": "follower",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 11433,
+                                  "src": "1243:8:43",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  }
+                                }
+                              ],
+                              "expression": {
+                                "argumentTypes": [
+                                  {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                  }
+                                ],
+                                "expression": {
+                                  "arguments": [
+                                    {
+                                      "id": 11463,
+                                      "name": "followNFT",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 11442,
+                                      "src": "1222:9:43",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                      }
+                                    }
+                                  ],
+                                  "expression": {
+                                    "argumentTypes": [
+                                      {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                      }
+                                    ],
+                                    "id": 11462,
+                                    "name": "IERC721",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 1553,
+                                    "src": "1214:7:43",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_type$_t_contract$_IERC721_$1553_$",
+                                      "typeString": "type(contract IERC721)"
+                                    }
+                                  },
+                                  "id": 11464,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "kind": "typeConversion",
+                                  "lValueRequested": false,
+                                  "names": [],
+                                  "nodeType": "FunctionCall",
+                                  "src": "1214:18:43",
+                                  "tryCall": false,
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_contract$_IERC721_$1553",
+                                    "typeString": "contract IERC721"
+                                  }
+                                },
+                                "id": 11465,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "memberName": "balanceOf",
+                                "nodeType": "MemberAccess",
+                                "referencedDeclaration": 1478,
+                                "src": "1214:28:43",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
+                                  "typeString": "function (address) view external returns (uint256)"
+                                }
+                              },
+                              "id": 11467,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "kind": "functionCall",
+                              "lValueRequested": false,
+                              "names": [],
+                              "nodeType": "FunctionCall",
+                              "src": "1214:38:43",
+                              "tryCall": false,
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            },
+                            "nodeType": "BinaryOperation",
+                            "operator": "!=",
+                            "rightExpression": {
+                              "hexValue": "30",
+                              "id": 11468,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "kind": "number",
+                              "lValueRequested": false,
+                              "nodeType": "Literal",
+                              "src": "1256:1:43",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_rational_0_by_1",
+                                "typeString": "int_const 0"
+                              },
+                              "value": "0"
+                            },
+                            "src": "1214:43:43",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          },
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "functionReturnParameters": 11440,
+                        "id": 11479,
+                        "nodeType": "Return",
+                        "src": "1147:189:43"
+                      }
+                    ]
+                  },
+                  "id": 11481,
+                  "nodeType": "IfStatement",
+                  "src": "1061:286:43",
+                  "trueBody": {
+                    "id": 11458,
+                    "nodeType": "Block",
+                    "src": "1090:37:43",
+                    "statements": [
+                      {
+                        "expression": {
+                          "hexValue": "66616c7365",
+                          "id": 11456,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "bool",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1111:5:43",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          },
+                          "value": "false"
+                        },
+                        "functionReturnParameters": 11440,
+                        "id": 11457,
+                        "nodeType": "Return",
+                        "src": "1104:12:43"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "documentation": {
+              "id": 11429,
+              "nodeType": "StructuredDocumentation",
+              "src": "672:155:43",
+              "text": " @notice Standard function to validate follow NFT ownership. This module is agnostic to follow NFT token IDs\n and other properties."
+            },
+            "functionSelector": "451c3d0c",
+            "id": 11483,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isFollowing",
+            "nameLocation": "841:11:43",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 11437,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "960:8:43"
+            },
+            "parameters": {
+              "id": 11436,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11431,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "870:9:43",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11483,
+                  "src": "862:17:43",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11430,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "862:7:43",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11433,
+                  "mutability": "mutable",
+                  "name": "follower",
+                  "nameLocation": "897:8:43",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11483,
+                  "src": "889:16:43",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11432,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "889:7:43",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11435,
+                  "mutability": "mutable",
+                  "name": "followNFTTokenId",
+                  "nameLocation": "923:16:43",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11483,
+                  "src": "915:24:43",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11434,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "915:7:43",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "852:93:43"
+            },
+            "returnParameters": {
+              "id": 11440,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11439,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11483,
+                  "src": "978:4:43",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 11438,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "978:4:43",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "977:6:43"
+            },
+            "scope": 11484,
+            "src": "832:521:43",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 11485,
+        "src": "587:768:43",
+        "usedErrors": [
+          12954
+        ]
+      }
+    ],
+    "src": "43:1313:43"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.10+commit.fc410830.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-04-22T14:49:53.858Z",
+  "devdoc": {
+    "author": "Lens Protocol",
+    "kind": "dev",
+    "methods": {
+      "followModuleTransferHook(uint256,address,address,uint256)": {
+        "params": {
+          "followNFTTokenId": "The token ID of the follow NFT being transferred.",
+          "from": "The address sending the follow NFT.",
+          "profileId": "The token ID of the profile associated with the follow NFT being transferred.",
+          "to": "The address receiving the follow NFT."
+        }
+      },
+      "initializeFollowModule(uint256,bytes)": {
+        "params": {
+          "data": "Arbitrary data passed by the profile creator.",
+          "profileId": "The token ID of the profile to initialize this follow module for."
+        },
+        "returns": {
+          "_0": "bytes The encoded data to emit in the hub."
+        }
+      },
+      "processFollow(address,uint256,bytes)": {
+        "params": {
+          "data": "Arbitrary data passed by the follower.",
+          "follower": "The follower address.",
+          "profileId": "The token ID of the profile being followed."
+        }
+      }
+    },
+    "title": "FollowValidatorFollowModuleBase",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "followModuleTransferHook(uint256,address,address,uint256)": {
+        "notice": "This is a transfer hook that is called upon follow NFT transfer in `beforeTokenTransfer. This can only be called from the LensHub contract. NOTE: Special care needs to be taken here: It is possible that follow NFTs were issued before this module was initialized if the profile's follow module was previously different. This transfer hook should take this into consideration, especially when the module holds state associated with individual follow NFTs."
+      },
+      "initializeFollowModule(uint256,bytes)": {
+        "notice": "Initializes a follow module for a given Lens profile. This can only be called by the hub contract."
+      },
+      "isFollowing(uint256,address,uint256)": {
+        "notice": "Standard function to validate follow NFT ownership. This module is agnostic to follow NFT token IDs and other properties."
+      },
+      "processFollow(address,uint256,bytes)": {
+        "notice": "Processes a given follow, this can only be called from the LensHub contract."
+      }
+    },
+    "notice": "This abstract contract adds the default expected behavior for follow validation in a follow module to inheriting contracts.",
+    "version": 1
+  }
+}

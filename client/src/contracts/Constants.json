@@ -1,0 +1,635 @@
+{
+  "contractName": "Constants",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/libraries/Constants.sol\":\"Constants\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/libraries/Constants.sol\":{\"keccak256\":\"0xa582b773fe17dd5964b93364e9374419d6d9a5f3349032f39df9b7b0f110deeb\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://5b8b65a9ce37bcf9959485dabc736d5d153b22a48cbb4c05d1e5a3f27bc4bb19\",\"dweb:/ipfs/QmVxYV5kFQ3YD8Wpq7mEQ3vQpnx3jDNvyovT98mAjRu4vb\"]}},\"version\":1}",
+  "bytecode": "0x60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122015fb103ab75596baf458d951aec59ff163af463978166bd6a88a0b178164def364736f6c634300080a0033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122015fb103ab75596baf458d951aec59ff163af463978166bd6a88a0b178164def364736f6c634300080a0033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "68:400:55:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "68:400:55:-:0;;;;;;;;",
+  "source": "// SPDX-License-Identifier: AGPL-3.0-only\n\npragma solidity 0.8.10;\n\nlibrary Constants {\n    string internal constant FOLLOW_NFT_NAME_SUFFIX = '-Follower';\n    string internal constant FOLLOW_NFT_SYMBOL_SUFFIX = '-Fl';\n    string internal constant COLLECT_NFT_NAME_INFIX = '-Collect-';\n    string internal constant COLLECT_NFT_SYMBOL_INFIX = '-Cl-';\n    uint8 internal constant MAX_HANDLE_LENGTH = 31;\n    uint16 internal constant MAX_PROFILE_IMAGE_URI_LENGTH = 6000;\n}\n",
+  "sourcePath": "/Users/korbinianabstreiter/crytoprojects/primetime/contracts/libraries/Constants.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/libraries/Constants.sol",
+    "exportedSymbols": {
+      "Constants": [
+        12648
+      ]
+    },
+    "id": 12649,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12629,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:55"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "Constants",
+        "contractDependencies": [],
+        "contractKind": "library",
+        "fullyImplemented": true,
+        "id": 12648,
+        "linearizedBaseContracts": [
+          12648
+        ],
+        "name": "Constants",
+        "nameLocation": "76:9:55",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "id": 12632,
+            "mutability": "constant",
+            "name": "FOLLOW_NFT_NAME_SUFFIX",
+            "nameLocation": "117:22:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "92:61:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_string_memory_ptr",
+              "typeString": "string"
+            },
+            "typeName": {
+              "id": 12630,
+              "name": "string",
+              "nodeType": "ElementaryTypeName",
+              "src": "92:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_string_storage_ptr",
+                "typeString": "string"
+              }
+            },
+            "value": {
+              "hexValue": "2d466f6c6c6f776572",
+              "id": 12631,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "string",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "142:11:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_stringliteral_65a1f9547dcd5701309bfd783a67dd3d561d9da9d4b2a1f7968a078070303866",
+                "typeString": "literal_string \"-Follower\""
+              },
+              "value": "-Follower"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 12635,
+            "mutability": "constant",
+            "name": "FOLLOW_NFT_SYMBOL_SUFFIX",
+            "nameLocation": "184:24:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "159:57:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_string_memory_ptr",
+              "typeString": "string"
+            },
+            "typeName": {
+              "id": 12633,
+              "name": "string",
+              "nodeType": "ElementaryTypeName",
+              "src": "159:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_string_storage_ptr",
+                "typeString": "string"
+              }
+            },
+            "value": {
+              "hexValue": "2d466c",
+              "id": 12634,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "string",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "211:5:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_stringliteral_ea6c50877042114aaed55eb9c66c08d58c5c04c97c88c098dda159aa257ef016",
+                "typeString": "literal_string \"-Fl\""
+              },
+              "value": "-Fl"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 12638,
+            "mutability": "constant",
+            "name": "COLLECT_NFT_NAME_INFIX",
+            "nameLocation": "247:22:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "222:61:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_string_memory_ptr",
+              "typeString": "string"
+            },
+            "typeName": {
+              "id": 12636,
+              "name": "string",
+              "nodeType": "ElementaryTypeName",
+              "src": "222:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_string_storage_ptr",
+                "typeString": "string"
+              }
+            },
+            "value": {
+              "hexValue": "2d436f6c6c6563742d",
+              "id": 12637,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "string",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "272:11:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_stringliteral_bb8247c96117271553996c9f75fad417a7a7eed8b0ffda27b80f666e6c9ee4d9",
+                "typeString": "literal_string \"-Collect-\""
+              },
+              "value": "-Collect-"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 12641,
+            "mutability": "constant",
+            "name": "COLLECT_NFT_SYMBOL_INFIX",
+            "nameLocation": "314:24:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "289:58:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_string_memory_ptr",
+              "typeString": "string"
+            },
+            "typeName": {
+              "id": 12639,
+              "name": "string",
+              "nodeType": "ElementaryTypeName",
+              "src": "289:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_string_storage_ptr",
+                "typeString": "string"
+              }
+            },
+            "value": {
+              "hexValue": "2d436c2d",
+              "id": 12640,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "string",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "341:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_stringliteral_c61236f7d5d377a59b313d623830b5fc1e37016eea5f1533768350b07c174af3",
+                "typeString": "literal_string \"-Cl-\""
+              },
+              "value": "-Cl-"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 12644,
+            "mutability": "constant",
+            "name": "MAX_HANDLE_LENGTH",
+            "nameLocation": "377:17:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "353:46:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint8",
+              "typeString": "uint8"
+            },
+            "typeName": {
+              "id": 12642,
+              "name": "uint8",
+              "nodeType": "ElementaryTypeName",
+              "src": "353:5:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint8",
+                "typeString": "uint8"
+              }
+            },
+            "value": {
+              "hexValue": "3331",
+              "id": 12643,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "397:2:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_31_by_1",
+                "typeString": "int_const 31"
+              },
+              "value": "31"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 12647,
+            "mutability": "constant",
+            "name": "MAX_PROFILE_IMAGE_URI_LENGTH",
+            "nameLocation": "430:28:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "405:60:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint16",
+              "typeString": "uint16"
+            },
+            "typeName": {
+              "id": 12645,
+              "name": "uint16",
+              "nodeType": "ElementaryTypeName",
+              "src": "405:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint16",
+                "typeString": "uint16"
+              }
+            },
+            "value": {
+              "hexValue": "36303030",
+              "id": 12646,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "461:4:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_6000_by_1",
+                "typeString": "int_const 6000"
+              },
+              "value": "6000"
+            },
+            "visibility": "internal"
+          }
+        ],
+        "scope": 12649,
+        "src": "68:400:55",
+        "usedErrors": []
+      }
+    ],
+    "src": "43:426:55"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/libraries/Constants.sol",
+    "exportedSymbols": {
+      "Constants": [
+        12648
+      ]
+    },
+    "id": 12649,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12629,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:55"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "Constants",
+        "contractDependencies": [],
+        "contractKind": "library",
+        "fullyImplemented": true,
+        "id": 12648,
+        "linearizedBaseContracts": [
+          12648
+        ],
+        "name": "Constants",
+        "nameLocation": "76:9:55",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "id": 12632,
+            "mutability": "constant",
+            "name": "FOLLOW_NFT_NAME_SUFFIX",
+            "nameLocation": "117:22:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "92:61:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_string_memory_ptr",
+              "typeString": "string"
+            },
+            "typeName": {
+              "id": 12630,
+              "name": "string",
+              "nodeType": "ElementaryTypeName",
+              "src": "92:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_string_storage_ptr",
+                "typeString": "string"
+              }
+            },
+            "value": {
+              "hexValue": "2d466f6c6c6f776572",
+              "id": 12631,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "string",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "142:11:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_stringliteral_65a1f9547dcd5701309bfd783a67dd3d561d9da9d4b2a1f7968a078070303866",
+                "typeString": "literal_string \"-Follower\""
+              },
+              "value": "-Follower"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 12635,
+            "mutability": "constant",
+            "name": "FOLLOW_NFT_SYMBOL_SUFFIX",
+            "nameLocation": "184:24:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "159:57:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_string_memory_ptr",
+              "typeString": "string"
+            },
+            "typeName": {
+              "id": 12633,
+              "name": "string",
+              "nodeType": "ElementaryTypeName",
+              "src": "159:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_string_storage_ptr",
+                "typeString": "string"
+              }
+            },
+            "value": {
+              "hexValue": "2d466c",
+              "id": 12634,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "string",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "211:5:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_stringliteral_ea6c50877042114aaed55eb9c66c08d58c5c04c97c88c098dda159aa257ef016",
+                "typeString": "literal_string \"-Fl\""
+              },
+              "value": "-Fl"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 12638,
+            "mutability": "constant",
+            "name": "COLLECT_NFT_NAME_INFIX",
+            "nameLocation": "247:22:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "222:61:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_string_memory_ptr",
+              "typeString": "string"
+            },
+            "typeName": {
+              "id": 12636,
+              "name": "string",
+              "nodeType": "ElementaryTypeName",
+              "src": "222:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_string_storage_ptr",
+                "typeString": "string"
+              }
+            },
+            "value": {
+              "hexValue": "2d436f6c6c6563742d",
+              "id": 12637,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "string",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "272:11:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_stringliteral_bb8247c96117271553996c9f75fad417a7a7eed8b0ffda27b80f666e6c9ee4d9",
+                "typeString": "literal_string \"-Collect-\""
+              },
+              "value": "-Collect-"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 12641,
+            "mutability": "constant",
+            "name": "COLLECT_NFT_SYMBOL_INFIX",
+            "nameLocation": "314:24:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "289:58:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_string_memory_ptr",
+              "typeString": "string"
+            },
+            "typeName": {
+              "id": 12639,
+              "name": "string",
+              "nodeType": "ElementaryTypeName",
+              "src": "289:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_string_storage_ptr",
+                "typeString": "string"
+              }
+            },
+            "value": {
+              "hexValue": "2d436c2d",
+              "id": 12640,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "string",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "341:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_stringliteral_c61236f7d5d377a59b313d623830b5fc1e37016eea5f1533768350b07c174af3",
+                "typeString": "literal_string \"-Cl-\""
+              },
+              "value": "-Cl-"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 12644,
+            "mutability": "constant",
+            "name": "MAX_HANDLE_LENGTH",
+            "nameLocation": "377:17:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "353:46:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint8",
+              "typeString": "uint8"
+            },
+            "typeName": {
+              "id": 12642,
+              "name": "uint8",
+              "nodeType": "ElementaryTypeName",
+              "src": "353:5:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint8",
+                "typeString": "uint8"
+              }
+            },
+            "value": {
+              "hexValue": "3331",
+              "id": 12643,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "397:2:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_31_by_1",
+                "typeString": "int_const 31"
+              },
+              "value": "31"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 12647,
+            "mutability": "constant",
+            "name": "MAX_PROFILE_IMAGE_URI_LENGTH",
+            "nameLocation": "430:28:55",
+            "nodeType": "VariableDeclaration",
+            "scope": 12648,
+            "src": "405:60:55",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint16",
+              "typeString": "uint16"
+            },
+            "typeName": {
+              "id": 12645,
+              "name": "uint16",
+              "nodeType": "ElementaryTypeName",
+              "src": "405:6:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint16",
+                "typeString": "uint16"
+              }
+            },
+            "value": {
+              "hexValue": "36303030",
+              "id": 12646,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "461:4:55",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_6000_by_1",
+                "typeString": "int_const 6000"
+              },
+              "value": "6000"
+            },
+            "visibility": "internal"
+          }
+        ],
+        "scope": 12649,
+        "src": "68:400:55",
+        "usedErrors": []
+      }
+    ],
+    "src": "43:426:55"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.10+commit.fc410830.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-04-22T14:49:53.868Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

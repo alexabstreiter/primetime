@@ -1,0 +1,1622 @@
+{
+  "contractName": "IModuleGlobals",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newGovernance",
+          "type": "address"
+        }
+      ],
+      "name": "setGovernance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newTreasury",
+          "type": "address"
+        }
+      ],
+      "name": "setTreasury",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint16",
+          "name": "newTreasuryFee",
+          "type": "uint16"
+        }
+      ],
+      "name": "setTreasuryFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "currency",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "toWhitelist",
+          "type": "bool"
+        }
+      ],
+      "name": "whitelistCurrency",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "currency",
+          "type": "address"
+        }
+      ],
+      "name": "isCurrencyWhitelisted",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getGovernance",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTreasury",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTreasuryFee",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTreasuryData",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getGovernance\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getTreasury\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getTreasuryData\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getTreasuryFee\",\"outputs\":[{\"internalType\":\"uint16\",\"name\":\"\",\"type\":\"uint16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"currency\",\"type\":\"address\"}],\"name\":\"isCurrencyWhitelisted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newGovernance\",\"type\":\"address\"}],\"name\":\"setGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newTreasury\",\"type\":\"address\"}],\"name\":\"setTreasury\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint16\",\"name\":\"newTreasuryFee\",\"type\":\"uint16\"}],\"name\":\"setTreasuryFee\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"currency\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"toWhitelist\",\"type\":\"bool\"}],\"name\":\"whitelistCurrency\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Lens Protocol\",\"kind\":\"dev\",\"methods\":{\"getGovernance()\":{\"returns\":{\"_0\":\"address The governance address.\"}},\"getTreasury()\":{\"returns\":{\"_0\":\"address The treasury address.\"}},\"getTreasuryData()\":{\"returns\":{\"_0\":\"tuplee First, the treasury address, second, the treasury fee.\"}},\"getTreasuryFee()\":{\"returns\":{\"_0\":\"uint16 The treasury fee.\"}},\"isCurrencyWhitelisted(address)\":{\"params\":{\"currency\":\"The currency to query the whitelist for.\"},\"returns\":{\"_0\":\"bool True if the queried currency is whitelisted, false otherwise.\"}},\"setGovernance(address)\":{\"params\":{\"newGovernance\":\"The new governance address to set.\"}},\"setTreasury(address)\":{\"params\":{\"newTreasury\":\"The new treasury address to set.\"}},\"setTreasuryFee(uint16)\":{\"params\":{\"newTreasuryFee\":\"The new treasury fee to set.\"}},\"whitelistCurrency(address,bool)\":{\"params\":{\"currency\":\"The currency to add or remove from the whitelist.\",\"toWhitelist\":\"Whether to add or remove the currency from the whitelist.\"}}},\"title\":\"IModuleGlobals\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getGovernance()\":{\"notice\":\"Returns the governance address.\"},\"getTreasury()\":{\"notice\":\"Returns the treasury address.\"},\"getTreasuryData()\":{\"notice\":\"Returns the treasury address and treasury fee in a single call.\"},\"getTreasuryFee()\":{\"notice\":\"Returns the treasury fee.\"},\"isCurrencyWhitelisted(address)\":{\"notice\":\"Returns whether a currency is whitelisted.\"},\"setGovernance(address)\":{\"notice\":\"Sets the governance address. This function can only be called by governance.\"},\"setTreasury(address)\":{\"notice\":\"Sets the treasury address. This function can only be called by governance.\"},\"setTreasuryFee(uint16)\":{\"notice\":\"Sets the treasury fee. This function can only be called by governance.\"},\"whitelistCurrency(address,bool)\":{\"notice\":\"Adds or removes a currency from the whitelist. This function can only be called by governance.\"}},\"notice\":\"This is the interface for the ModuleGlobals contract, a data providing contract to be queried by modules for the most up-to-date parameters.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IModuleGlobals.sol\":\"IModuleGlobals\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interfaces/IModuleGlobals.sol\":{\"keccak256\":\"0xf42d2e0aa3184f270b264658cf7be630456b2198c997f5302772743f56a63e64\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://2b9cefcdaaec715100cf97d9719f6b28b92c34f7118711d3c4b9e41a339b3da7\",\"dweb:/ipfs/QmYw73xGg8C79RdxtRSr183gyXqK6Bt4k23VSAFCh9pWWF\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: AGPL-3.0-only\n\npragma solidity 0.8.10;\n\n/**\n * @title IModuleGlobals\n * @author Lens Protocol\n *\n * @notice This is the interface for the ModuleGlobals contract, a data providing contract to be queried by modules\n * for the most up-to-date parameters.\n */\ninterface IModuleGlobals {\n    /**\n     * @notice Sets the governance address. This function can only be called by governance.\n     *\n     * @param newGovernance The new governance address to set.\n     */\n    function setGovernance(address newGovernance) external;\n\n    /**\n     * @notice Sets the treasury address. This function can only be called by governance.\n     *\n     * @param newTreasury The new treasury address to set.\n     */\n    function setTreasury(address newTreasury) external;\n\n    /**\n     * @notice Sets the treasury fee. This function can only be called by governance.\n     *\n     * @param newTreasuryFee The new treasury fee to set.\n     */\n    function setTreasuryFee(uint16 newTreasuryFee) external;\n\n    /**\n     * @notice Adds or removes a currency from the whitelist. This function can only be called by governance.\n     *\n     * @param currency The currency to add or remove from the whitelist.\n     * @param toWhitelist Whether to add or remove the currency from the whitelist.\n     */\n    function whitelistCurrency(address currency, bool toWhitelist) external;\n\n    /// ************************\n    /// *****VIEW FUNCTIONS*****\n    /// ************************\n\n    /**\n     * @notice Returns whether a currency is whitelisted.\n     *\n     * @param currency The currency to query the whitelist for.\n     *\n     * @return bool True if the queried currency is whitelisted, false otherwise.\n     */\n    function isCurrencyWhitelisted(address currency) external view returns (bool);\n\n    /**\n     * @notice Returns the governance address.\n     *\n     * @return address The governance address.\n     */\n    function getGovernance() external view returns (address);\n\n    /**\n     * @notice Returns the treasury address.\n     *\n     * @return address The treasury address.\n     */\n    function getTreasury() external view returns (address);\n\n    /**\n     * @notice Returns the treasury fee.\n     *\n     * @return uint16 The treasury fee.\n     */\n    function getTreasuryFee() external view returns (uint16);\n\n    /**\n     * @notice Returns the treasury address and treasury fee in a single call.\n     *\n     * @return tuplee First, the treasury address, second, the treasury fee.\n     */\n    function getTreasuryData() external view returns (address, uint16);\n}\n",
+  "sourcePath": "/Users/korbinianabstreiter/crytoprojects/primetime/contracts/interfaces/IModuleGlobals.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/interfaces/IModuleGlobals.sol",
+    "exportedSymbols": {
+      "IModuleGlobals": [
+        12587
+      ]
+    },
+    "id": 12588,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12525,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:53"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IModuleGlobals",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 12526,
+          "nodeType": "StructuredDocumentation",
+          "src": "68:215:53",
+          "text": " @title IModuleGlobals\n @author Lens Protocol\n @notice This is the interface for the ModuleGlobals contract, a data providing contract to be queried by modules\n for the most up-to-date parameters."
+        },
+        "fullyImplemented": false,
+        "id": 12587,
+        "linearizedBaseContracts": [
+          12587
+        ],
+        "name": "IModuleGlobals",
+        "nameLocation": "294:14:53",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 12527,
+              "nodeType": "StructuredDocumentation",
+              "src": "315:173:53",
+              "text": " @notice Sets the governance address. This function can only be called by governance.\n @param newGovernance The new governance address to set."
+            },
+            "functionSelector": "ab033ea9",
+            "id": 12532,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setGovernance",
+            "nameLocation": "502:13:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12530,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12529,
+                  "mutability": "mutable",
+                  "name": "newGovernance",
+                  "nameLocation": "524:13:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12532,
+                  "src": "516:21:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12528,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "516:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "515:23:53"
+            },
+            "returnParameters": {
+              "id": 12531,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "547:0:53"
+            },
+            "scope": 12587,
+            "src": "493:55:53",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12533,
+              "nodeType": "StructuredDocumentation",
+              "src": "554:167:53",
+              "text": " @notice Sets the treasury address. This function can only be called by governance.\n @param newTreasury The new treasury address to set."
+            },
+            "functionSelector": "f0f44260",
+            "id": 12538,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setTreasury",
+            "nameLocation": "735:11:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12536,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12535,
+                  "mutability": "mutable",
+                  "name": "newTreasury",
+                  "nameLocation": "755:11:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12538,
+                  "src": "747:19:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12534,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "747:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "746:21:53"
+            },
+            "returnParameters": {
+              "id": 12537,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "776:0:53"
+            },
+            "scope": 12587,
+            "src": "726:51:53",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12539,
+              "nodeType": "StructuredDocumentation",
+              "src": "783:162:53",
+              "text": " @notice Sets the treasury fee. This function can only be called by governance.\n @param newTreasuryFee The new treasury fee to set."
+            },
+            "functionSelector": "a652db49",
+            "id": 12544,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setTreasuryFee",
+            "nameLocation": "959:14:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12542,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12541,
+                  "mutability": "mutable",
+                  "name": "newTreasuryFee",
+                  "nameLocation": "981:14:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12544,
+                  "src": "974:21:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 12540,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "974:6:53",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "973:23:53"
+            },
+            "returnParameters": {
+              "id": 12543,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1005:0:53"
+            },
+            "scope": 12587,
+            "src": "950:56:53",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12545,
+              "nodeType": "StructuredDocumentation",
+              "src": "1012:285:53",
+              "text": " @notice Adds or removes a currency from the whitelist. This function can only be called by governance.\n @param currency The currency to add or remove from the whitelist.\n @param toWhitelist Whether to add or remove the currency from the whitelist."
+            },
+            "functionSelector": "8c3bfb1c",
+            "id": 12552,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "whitelistCurrency",
+            "nameLocation": "1311:17:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12550,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12547,
+                  "mutability": "mutable",
+                  "name": "currency",
+                  "nameLocation": "1337:8:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12552,
+                  "src": "1329:16:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12546,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1329:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12549,
+                  "mutability": "mutable",
+                  "name": "toWhitelist",
+                  "nameLocation": "1352:11:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12552,
+                  "src": "1347:16:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 12548,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1347:4:53",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1328:36:53"
+            },
+            "returnParameters": {
+              "id": 12551,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1373:0:53"
+            },
+            "scope": 12587,
+            "src": "1302:72:53",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12553,
+              "nodeType": "StructuredDocumentation",
+              "src": "1480:229:53",
+              "text": " @notice Returns whether a currency is whitelisted.\n @param currency The currency to query the whitelist for.\n @return bool True if the queried currency is whitelisted, false otherwise."
+            },
+            "functionSelector": "43b938c5",
+            "id": 12560,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isCurrencyWhitelisted",
+            "nameLocation": "1723:21:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12556,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12555,
+                  "mutability": "mutable",
+                  "name": "currency",
+                  "nameLocation": "1753:8:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12560,
+                  "src": "1745:16:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12554,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1745:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1744:18:53"
+            },
+            "returnParameters": {
+              "id": 12559,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12558,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12560,
+                  "src": "1786:4:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 12557,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1786:4:53",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1785:6:53"
+            },
+            "scope": 12587,
+            "src": "1714:78:53",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12561,
+              "nodeType": "StructuredDocumentation",
+              "src": "1798:112:53",
+              "text": " @notice Returns the governance address.\n @return address The governance address."
+            },
+            "functionSelector": "289b3c0d",
+            "id": 12566,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getGovernance",
+            "nameLocation": "1924:13:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12562,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1937:2:53"
+            },
+            "returnParameters": {
+              "id": 12565,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12564,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12566,
+                  "src": "1963:7:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12563,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1963:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1962:9:53"
+            },
+            "scope": 12587,
+            "src": "1915:57:53",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12567,
+              "nodeType": "StructuredDocumentation",
+              "src": "1978:108:53",
+              "text": " @notice Returns the treasury address.\n @return address The treasury address."
+            },
+            "functionSelector": "3b19e84a",
+            "id": 12572,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTreasury",
+            "nameLocation": "2100:11:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12568,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2111:2:53"
+            },
+            "returnParameters": {
+              "id": 12571,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12570,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12572,
+                  "src": "2137:7:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12569,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2137:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2136:9:53"
+            },
+            "scope": 12587,
+            "src": "2091:55:53",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12573,
+              "nodeType": "StructuredDocumentation",
+              "src": "2152:99:53",
+              "text": " @notice Returns the treasury fee.\n @return uint16 The treasury fee."
+            },
+            "functionSelector": "29070c6d",
+            "id": 12578,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTreasuryFee",
+            "nameLocation": "2265:14:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12574,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2279:2:53"
+            },
+            "returnParameters": {
+              "id": 12577,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12576,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12578,
+                  "src": "2305:6:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 12575,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2305:6:53",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2304:8:53"
+            },
+            "scope": 12587,
+            "src": "2256:57:53",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12579,
+              "nodeType": "StructuredDocumentation",
+              "src": "2319:174:53",
+              "text": " @notice Returns the treasury address and treasury fee in a single call.\n @return tuplee First, the treasury address, second, the treasury fee."
+            },
+            "functionSelector": "98f965d1",
+            "id": 12586,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTreasuryData",
+            "nameLocation": "2507:15:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12580,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2522:2:53"
+            },
+            "returnParameters": {
+              "id": 12585,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12582,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12586,
+                  "src": "2548:7:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12581,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2548:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12584,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12586,
+                  "src": "2557:6:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 12583,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2557:6:53",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2547:17:53"
+            },
+            "scope": 12587,
+            "src": "2498:67:53",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 12588,
+        "src": "284:2283:53",
+        "usedErrors": []
+      }
+    ],
+    "src": "43:2525:53"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/interfaces/IModuleGlobals.sol",
+    "exportedSymbols": {
+      "IModuleGlobals": [
+        12587
+      ]
+    },
+    "id": 12588,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12525,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:53"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IModuleGlobals",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 12526,
+          "nodeType": "StructuredDocumentation",
+          "src": "68:215:53",
+          "text": " @title IModuleGlobals\n @author Lens Protocol\n @notice This is the interface for the ModuleGlobals contract, a data providing contract to be queried by modules\n for the most up-to-date parameters."
+        },
+        "fullyImplemented": false,
+        "id": 12587,
+        "linearizedBaseContracts": [
+          12587
+        ],
+        "name": "IModuleGlobals",
+        "nameLocation": "294:14:53",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 12527,
+              "nodeType": "StructuredDocumentation",
+              "src": "315:173:53",
+              "text": " @notice Sets the governance address. This function can only be called by governance.\n @param newGovernance The new governance address to set."
+            },
+            "functionSelector": "ab033ea9",
+            "id": 12532,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setGovernance",
+            "nameLocation": "502:13:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12530,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12529,
+                  "mutability": "mutable",
+                  "name": "newGovernance",
+                  "nameLocation": "524:13:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12532,
+                  "src": "516:21:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12528,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "516:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "515:23:53"
+            },
+            "returnParameters": {
+              "id": 12531,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "547:0:53"
+            },
+            "scope": 12587,
+            "src": "493:55:53",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12533,
+              "nodeType": "StructuredDocumentation",
+              "src": "554:167:53",
+              "text": " @notice Sets the treasury address. This function can only be called by governance.\n @param newTreasury The new treasury address to set."
+            },
+            "functionSelector": "f0f44260",
+            "id": 12538,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setTreasury",
+            "nameLocation": "735:11:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12536,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12535,
+                  "mutability": "mutable",
+                  "name": "newTreasury",
+                  "nameLocation": "755:11:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12538,
+                  "src": "747:19:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12534,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "747:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "746:21:53"
+            },
+            "returnParameters": {
+              "id": 12537,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "776:0:53"
+            },
+            "scope": 12587,
+            "src": "726:51:53",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12539,
+              "nodeType": "StructuredDocumentation",
+              "src": "783:162:53",
+              "text": " @notice Sets the treasury fee. This function can only be called by governance.\n @param newTreasuryFee The new treasury fee to set."
+            },
+            "functionSelector": "a652db49",
+            "id": 12544,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setTreasuryFee",
+            "nameLocation": "959:14:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12542,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12541,
+                  "mutability": "mutable",
+                  "name": "newTreasuryFee",
+                  "nameLocation": "981:14:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12544,
+                  "src": "974:21:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 12540,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "974:6:53",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "973:23:53"
+            },
+            "returnParameters": {
+              "id": 12543,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1005:0:53"
+            },
+            "scope": 12587,
+            "src": "950:56:53",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12545,
+              "nodeType": "StructuredDocumentation",
+              "src": "1012:285:53",
+              "text": " @notice Adds or removes a currency from the whitelist. This function can only be called by governance.\n @param currency The currency to add or remove from the whitelist.\n @param toWhitelist Whether to add or remove the currency from the whitelist."
+            },
+            "functionSelector": "8c3bfb1c",
+            "id": 12552,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "whitelistCurrency",
+            "nameLocation": "1311:17:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12550,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12547,
+                  "mutability": "mutable",
+                  "name": "currency",
+                  "nameLocation": "1337:8:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12552,
+                  "src": "1329:16:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12546,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1329:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12549,
+                  "mutability": "mutable",
+                  "name": "toWhitelist",
+                  "nameLocation": "1352:11:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12552,
+                  "src": "1347:16:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 12548,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1347:4:53",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1328:36:53"
+            },
+            "returnParameters": {
+              "id": 12551,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1373:0:53"
+            },
+            "scope": 12587,
+            "src": "1302:72:53",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12553,
+              "nodeType": "StructuredDocumentation",
+              "src": "1480:229:53",
+              "text": " @notice Returns whether a currency is whitelisted.\n @param currency The currency to query the whitelist for.\n @return bool True if the queried currency is whitelisted, false otherwise."
+            },
+            "functionSelector": "43b938c5",
+            "id": 12560,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isCurrencyWhitelisted",
+            "nameLocation": "1723:21:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12556,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12555,
+                  "mutability": "mutable",
+                  "name": "currency",
+                  "nameLocation": "1753:8:53",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12560,
+                  "src": "1745:16:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12554,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1745:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1744:18:53"
+            },
+            "returnParameters": {
+              "id": 12559,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12558,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12560,
+                  "src": "1786:4:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 12557,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1786:4:53",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1785:6:53"
+            },
+            "scope": 12587,
+            "src": "1714:78:53",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12561,
+              "nodeType": "StructuredDocumentation",
+              "src": "1798:112:53",
+              "text": " @notice Returns the governance address.\n @return address The governance address."
+            },
+            "functionSelector": "289b3c0d",
+            "id": 12566,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getGovernance",
+            "nameLocation": "1924:13:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12562,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1937:2:53"
+            },
+            "returnParameters": {
+              "id": 12565,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12564,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12566,
+                  "src": "1963:7:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12563,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1963:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1962:9:53"
+            },
+            "scope": 12587,
+            "src": "1915:57:53",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12567,
+              "nodeType": "StructuredDocumentation",
+              "src": "1978:108:53",
+              "text": " @notice Returns the treasury address.\n @return address The treasury address."
+            },
+            "functionSelector": "3b19e84a",
+            "id": 12572,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTreasury",
+            "nameLocation": "2100:11:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12568,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2111:2:53"
+            },
+            "returnParameters": {
+              "id": 12571,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12570,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12572,
+                  "src": "2137:7:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12569,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2137:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2136:9:53"
+            },
+            "scope": 12587,
+            "src": "2091:55:53",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12573,
+              "nodeType": "StructuredDocumentation",
+              "src": "2152:99:53",
+              "text": " @notice Returns the treasury fee.\n @return uint16 The treasury fee."
+            },
+            "functionSelector": "29070c6d",
+            "id": 12578,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTreasuryFee",
+            "nameLocation": "2265:14:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12574,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2279:2:53"
+            },
+            "returnParameters": {
+              "id": 12577,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12576,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12578,
+                  "src": "2305:6:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 12575,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2305:6:53",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2304:8:53"
+            },
+            "scope": 12587,
+            "src": "2256:57:53",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12579,
+              "nodeType": "StructuredDocumentation",
+              "src": "2319:174:53",
+              "text": " @notice Returns the treasury address and treasury fee in a single call.\n @return tuplee First, the treasury address, second, the treasury fee."
+            },
+            "functionSelector": "98f965d1",
+            "id": 12586,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTreasuryData",
+            "nameLocation": "2507:15:53",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12580,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2522:2:53"
+            },
+            "returnParameters": {
+              "id": 12585,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12582,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12586,
+                  "src": "2548:7:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 12581,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2548:7:53",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12584,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12586,
+                  "src": "2557:6:53",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint16",
+                    "typeString": "uint16"
+                  },
+                  "typeName": {
+                    "id": 12583,
+                    "name": "uint16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2557:6:53",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint16",
+                      "typeString": "uint16"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2547:17:53"
+            },
+            "scope": 12587,
+            "src": "2498:67:53",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 12588,
+        "src": "284:2283:53",
+        "usedErrors": []
+      }
+    ],
+    "src": "43:2525:53"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.10+commit.fc410830.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-04-22T14:49:53.867Z",
+  "devdoc": {
+    "author": "Lens Protocol",
+    "kind": "dev",
+    "methods": {
+      "getGovernance()": {
+        "returns": {
+          "_0": "address The governance address."
+        }
+      },
+      "getTreasury()": {
+        "returns": {
+          "_0": "address The treasury address."
+        }
+      },
+      "getTreasuryData()": {
+        "returns": {
+          "_0": "tuplee First, the treasury address, second, the treasury fee."
+        }
+      },
+      "getTreasuryFee()": {
+        "returns": {
+          "_0": "uint16 The treasury fee."
+        }
+      },
+      "isCurrencyWhitelisted(address)": {
+        "params": {
+          "currency": "The currency to query the whitelist for."
+        },
+        "returns": {
+          "_0": "bool True if the queried currency is whitelisted, false otherwise."
+        }
+      },
+      "setGovernance(address)": {
+        "params": {
+          "newGovernance": "The new governance address to set."
+        }
+      },
+      "setTreasury(address)": {
+        "params": {
+          "newTreasury": "The new treasury address to set."
+        }
+      },
+      "setTreasuryFee(uint16)": {
+        "params": {
+          "newTreasuryFee": "The new treasury fee to set."
+        }
+      },
+      "whitelistCurrency(address,bool)": {
+        "params": {
+          "currency": "The currency to add or remove from the whitelist.",
+          "toWhitelist": "Whether to add or remove the currency from the whitelist."
+        }
+      }
+    },
+    "title": "IModuleGlobals",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "getGovernance()": {
+        "notice": "Returns the governance address."
+      },
+      "getTreasury()": {
+        "notice": "Returns the treasury address."
+      },
+      "getTreasuryData()": {
+        "notice": "Returns the treasury address and treasury fee in a single call."
+      },
+      "getTreasuryFee()": {
+        "notice": "Returns the treasury fee."
+      },
+      "isCurrencyWhitelisted(address)": {
+        "notice": "Returns whether a currency is whitelisted."
+      },
+      "setGovernance(address)": {
+        "notice": "Sets the governance address. This function can only be called by governance."
+      },
+      "setTreasury(address)": {
+        "notice": "Sets the treasury address. This function can only be called by governance."
+      },
+      "setTreasuryFee(uint16)": {
+        "notice": "Sets the treasury fee. This function can only be called by governance."
+      },
+      "whitelistCurrency(address,bool)": {
+        "notice": "Adds or removes a currency from the whitelist. This function can only be called by governance."
+      }
+    },
+    "notice": "This is the interface for the ModuleGlobals contract, a data providing contract to be queried by modules for the most up-to-date parameters.",
+    "version": 1
+  }
+}

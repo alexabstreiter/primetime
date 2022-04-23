@@ -1,0 +1,872 @@
+{
+  "contractName": "ICollectNFT",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pubId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "mint",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getSourcePublicationPointer",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getSourcePublicationPointer\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"pubId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"}],\"name\":\"mint\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Lens Protocol\",\"kind\":\"dev\",\"methods\":{\"getSourcePublicationPointer()\":{\"returns\":{\"_0\":\"tuple First the profile ID uint256, and second the pubId uint256.\"}},\"initialize(uint256,uint256,string,string)\":{\"params\":{\"name\":\"The name to set for this NFT.\",\"profileId\":\"The token ID of the profile in the hub that this collectNFT points to.\",\"pubId\":\"The profile publication ID in the hub that this collectNFT points to.\",\"symbol\":\"The symbol to set for this NFT.\"}},\"mint(address)\":{\"params\":{\"to\":\"The address to mint the NFT to.\"},\"returns\":{\"_0\":\"uint256 An interger representing the minted token ID.\"}}},\"title\":\"ICollectNFT\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getSourcePublicationPointer()\":{\"notice\":\"Returns the source publication pointer mapped to this collect NFT.\"},\"initialize(uint256,uint256,string,string)\":{\"notice\":\"Initializes the collect NFT, setting the feed as the privileged minter, storing the collected publication pointer and initializing the name and symbol in the LensNFTBase contract.\"},\"mint(address)\":{\"notice\":\"Mints a collect NFT to the specified address. This can only be called by the hub, and is called upon collection.\"}},\"notice\":\"This is the interface for the CollectNFT contract. Which is cloned upon the first collect for any given publication.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/ICollectNFT.sol\":\"ICollectNFT\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interfaces/ICollectNFT.sol\":{\"keccak256\":\"0xbfa7ec021b11dc4be8052acc03d81466f0c0228bf814b6767b0eaec24145e7b2\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://6d2f36b04ba5858d19e8678fe69ee7b5ce4f323526b082250f13b85dffeffe0c\",\"dweb:/ipfs/QmSs19frnF7ACxJ13kSYwFGfUntFT3RJF4xK7SKsL87CnL\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: AGPL-3.0-only\n\npragma solidity 0.8.10;\n\n/**\n * @title ICollectNFT\n * @author Lens Protocol\n *\n * @notice This is the interface for the CollectNFT contract. Which is cloned upon the first collect for any given\n * publication.\n */\ninterface ICollectNFT {\n    /**\n     * @notice Initializes the collect NFT, setting the feed as the privileged minter, storing the collected publication pointer\n     * and initializing the name and symbol in the LensNFTBase contract.\n     *\n     * @param profileId The token ID of the profile in the hub that this collectNFT points to.\n     * @param pubId The profile publication ID in the hub that this collectNFT points to.\n     * @param name The name to set for this NFT.\n     * @param symbol The symbol to set for this NFT.\n     */\n    function initialize(\n        uint256 profileId,\n        uint256 pubId,\n        string calldata name,\n        string calldata symbol\n    ) external;\n\n    /**\n     * @notice Mints a collect NFT to the specified address. This can only be called by the hub, and is called\n     * upon collection.\n     *\n     * @param to The address to mint the NFT to.\n     *\n     * @return uint256 An interger representing the minted token ID.\n     */\n    function mint(address to) external returns (uint256);\n\n    /**\n     * @notice Returns the source publication pointer mapped to this collect NFT.\n     *\n     * @return tuple First the profile ID uint256, and second the pubId uint256.\n     */\n    function getSourcePublicationPointer() external view returns (uint256, uint256);\n}\n",
+  "sourcePath": "/Users/korbinianabstreiter/crytoprojects/primetime/contracts/interfaces/ICollectNFT.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/interfaces/ICollectNFT.sol",
+    "exportedSymbols": {
+      "ICollectNFT": [
+        11897
+      ]
+    },
+    "id": 11898,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 11867,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:48"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ICollectNFT",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 11868,
+          "nodeType": "StructuredDocumentation",
+          "src": "68:188:48",
+          "text": " @title ICollectNFT\n @author Lens Protocol\n @notice This is the interface for the CollectNFT contract. Which is cloned upon the first collect for any given\n publication."
+        },
+        "fullyImplemented": false,
+        "id": 11897,
+        "linearizedBaseContracts": [
+          11897
+        ],
+        "name": "ICollectNFT",
+        "nameLocation": "267:11:48",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 11869,
+              "nodeType": "StructuredDocumentation",
+              "src": "285:507:48",
+              "text": " @notice Initializes the collect NFT, setting the feed as the privileged minter, storing the collected publication pointer\n and initializing the name and symbol in the LensNFTBase contract.\n @param profileId The token ID of the profile in the hub that this collectNFT points to.\n @param pubId The profile publication ID in the hub that this collectNFT points to.\n @param name The name to set for this NFT.\n @param symbol The symbol to set for this NFT."
+            },
+            "functionSelector": "3fa78c0a",
+            "id": 11880,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "initialize",
+            "nameLocation": "806:10:48",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11878,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11871,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "834:9:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11880,
+                  "src": "826:17:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11870,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "826:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11873,
+                  "mutability": "mutable",
+                  "name": "pubId",
+                  "nameLocation": "861:5:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11880,
+                  "src": "853:13:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11872,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "853:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11875,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nameLocation": "892:4:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11880,
+                  "src": "876:20:48",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 11874,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "876:6:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11877,
+                  "mutability": "mutable",
+                  "name": "symbol",
+                  "nameLocation": "922:6:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11880,
+                  "src": "906:22:48",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 11876,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "906:6:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "816:118:48"
+            },
+            "returnParameters": {
+              "id": 11879,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "943:0:48"
+            },
+            "scope": 11897,
+            "src": "797:147:48",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 11881,
+              "nodeType": "StructuredDocumentation",
+              "src": "950:278:48",
+              "text": " @notice Mints a collect NFT to the specified address. This can only be called by the hub, and is called\n upon collection.\n @param to The address to mint the NFT to.\n @return uint256 An interger representing the minted token ID."
+            },
+            "functionSelector": "6a627842",
+            "id": 11888,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "mint",
+            "nameLocation": "1242:4:48",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11884,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11883,
+                  "mutability": "mutable",
+                  "name": "to",
+                  "nameLocation": "1255:2:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11888,
+                  "src": "1247:10:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11882,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1247:7:48",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1246:12:48"
+            },
+            "returnParameters": {
+              "id": 11887,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11886,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11888,
+                  "src": "1277:7:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11885,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1277:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1276:9:48"
+            },
+            "scope": 11897,
+            "src": "1233:53:48",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 11889,
+              "nodeType": "StructuredDocumentation",
+              "src": "1292:181:48",
+              "text": " @notice Returns the source publication pointer mapped to this collect NFT.\n @return tuple First the profile ID uint256, and second the pubId uint256."
+            },
+            "functionSelector": "3a755ed1",
+            "id": 11896,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getSourcePublicationPointer",
+            "nameLocation": "1487:27:48",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11890,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1514:2:48"
+            },
+            "returnParameters": {
+              "id": 11895,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11892,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11896,
+                  "src": "1540:7:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11891,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1540:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11894,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11896,
+                  "src": "1549:7:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11893,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1549:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1539:18:48"
+            },
+            "scope": 11897,
+            "src": "1478:80:48",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 11898,
+        "src": "257:1303:48",
+        "usedErrors": []
+      }
+    ],
+    "src": "43:1518:48"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/interfaces/ICollectNFT.sol",
+    "exportedSymbols": {
+      "ICollectNFT": [
+        11897
+      ]
+    },
+    "id": 11898,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 11867,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:48"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ICollectNFT",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 11868,
+          "nodeType": "StructuredDocumentation",
+          "src": "68:188:48",
+          "text": " @title ICollectNFT\n @author Lens Protocol\n @notice This is the interface for the CollectNFT contract. Which is cloned upon the first collect for any given\n publication."
+        },
+        "fullyImplemented": false,
+        "id": 11897,
+        "linearizedBaseContracts": [
+          11897
+        ],
+        "name": "ICollectNFT",
+        "nameLocation": "267:11:48",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 11869,
+              "nodeType": "StructuredDocumentation",
+              "src": "285:507:48",
+              "text": " @notice Initializes the collect NFT, setting the feed as the privileged minter, storing the collected publication pointer\n and initializing the name and symbol in the LensNFTBase contract.\n @param profileId The token ID of the profile in the hub that this collectNFT points to.\n @param pubId The profile publication ID in the hub that this collectNFT points to.\n @param name The name to set for this NFT.\n @param symbol The symbol to set for this NFT."
+            },
+            "functionSelector": "3fa78c0a",
+            "id": 11880,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "initialize",
+            "nameLocation": "806:10:48",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11878,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11871,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "834:9:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11880,
+                  "src": "826:17:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11870,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "826:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11873,
+                  "mutability": "mutable",
+                  "name": "pubId",
+                  "nameLocation": "861:5:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11880,
+                  "src": "853:13:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11872,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "853:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11875,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nameLocation": "892:4:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11880,
+                  "src": "876:20:48",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 11874,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "876:6:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11877,
+                  "mutability": "mutable",
+                  "name": "symbol",
+                  "nameLocation": "922:6:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11880,
+                  "src": "906:22:48",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 11876,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "906:6:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "816:118:48"
+            },
+            "returnParameters": {
+              "id": 11879,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "943:0:48"
+            },
+            "scope": 11897,
+            "src": "797:147:48",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 11881,
+              "nodeType": "StructuredDocumentation",
+              "src": "950:278:48",
+              "text": " @notice Mints a collect NFT to the specified address. This can only be called by the hub, and is called\n upon collection.\n @param to The address to mint the NFT to.\n @return uint256 An interger representing the minted token ID."
+            },
+            "functionSelector": "6a627842",
+            "id": 11888,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "mint",
+            "nameLocation": "1242:4:48",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11884,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11883,
+                  "mutability": "mutable",
+                  "name": "to",
+                  "nameLocation": "1255:2:48",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11888,
+                  "src": "1247:10:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11882,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1247:7:48",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1246:12:48"
+            },
+            "returnParameters": {
+              "id": 11887,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11886,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11888,
+                  "src": "1277:7:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11885,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1277:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1276:9:48"
+            },
+            "scope": 11897,
+            "src": "1233:53:48",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 11889,
+              "nodeType": "StructuredDocumentation",
+              "src": "1292:181:48",
+              "text": " @notice Returns the source publication pointer mapped to this collect NFT.\n @return tuple First the profile ID uint256, and second the pubId uint256."
+            },
+            "functionSelector": "3a755ed1",
+            "id": 11896,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getSourcePublicationPointer",
+            "nameLocation": "1487:27:48",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11890,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1514:2:48"
+            },
+            "returnParameters": {
+              "id": 11895,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11892,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11896,
+                  "src": "1540:7:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11891,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1540:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11894,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11896,
+                  "src": "1549:7:48",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11893,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1549:7:48",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1539:18:48"
+            },
+            "scope": 11897,
+            "src": "1478:80:48",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 11898,
+        "src": "257:1303:48",
+        "usedErrors": []
+      }
+    ],
+    "src": "43:1518:48"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.10+commit.fc410830.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-04-22T14:49:53.863Z",
+  "devdoc": {
+    "author": "Lens Protocol",
+    "kind": "dev",
+    "methods": {
+      "getSourcePublicationPointer()": {
+        "returns": {
+          "_0": "tuple First the profile ID uint256, and second the pubId uint256."
+        }
+      },
+      "initialize(uint256,uint256,string,string)": {
+        "params": {
+          "name": "The name to set for this NFT.",
+          "profileId": "The token ID of the profile in the hub that this collectNFT points to.",
+          "pubId": "The profile publication ID in the hub that this collectNFT points to.",
+          "symbol": "The symbol to set for this NFT."
+        }
+      },
+      "mint(address)": {
+        "params": {
+          "to": "The address to mint the NFT to."
+        },
+        "returns": {
+          "_0": "uint256 An interger representing the minted token ID."
+        }
+      }
+    },
+    "title": "ICollectNFT",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "getSourcePublicationPointer()": {
+        "notice": "Returns the source publication pointer mapped to this collect NFT."
+      },
+      "initialize(uint256,uint256,string,string)": {
+        "notice": "Initializes the collect NFT, setting the feed as the privileged minter, storing the collected publication pointer and initializing the name and symbol in the LensNFTBase contract."
+      },
+      "mint(address)": {
+        "notice": "Mints a collect NFT to the specified address. This can only be called by the hub, and is called upon collection."
+      }
+    },
+    "notice": "This is the interface for the CollectNFT contract. Which is cloned upon the first collect for any given publication.",
+    "version": 1
+  }
+}

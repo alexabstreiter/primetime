@@ -1,0 +1,1111 @@
+{
+  "contractName": "IReferenceModule",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pubId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "initializeReferenceModule",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "profileIdPointed",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pubIdPointed",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "processComment",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "profileId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "profileIdPointed",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pubIdPointed",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "processMirror",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"pubId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"initializeReferenceModule\",\"outputs\":[{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"profileIdPointed\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"pubIdPointed\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processComment\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"profileId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"profileIdPointed\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"pubIdPointed\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"processMirror\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Lens Protocol\",\"kind\":\"dev\",\"methods\":{\"initializeReferenceModule(uint256,uint256,bytes)\":{\"params\":{\"data\":\"Arbitrary data passed from the user to be decoded.\",\"profileId\":\"The token ID of the profile publishing the publication.\",\"pubId\":\"The associated publication's LensHub publication ID.\"},\"returns\":{\"_0\":\"bytes An abi encoded byte array encapsulating the execution's state changes. This will be emitted by the hub alongside the collect module's address and should be consumed by front ends.\"}},\"processComment(uint256,uint256,uint256,bytes)\":{\"params\":{\"data\":\"Arbitrary data __passed from the commenter!__ to be decoded.\",\"profileId\":\"The token ID of the profile associated with the publication being published.\",\"profileIdPointed\":\"The profile ID of the profile associated the publication being referenced.\",\"pubIdPointed\":\"The publication ID of the publication being referenced.\"}},\"processMirror(uint256,uint256,uint256,bytes)\":{\"params\":{\"data\":\"Arbitrary data __passed from the mirrorer!__ to be decoded.\",\"profileId\":\"The token ID of the profile associated with the publication being published.\",\"profileIdPointed\":\"The profile ID of the profile associated the publication being referenced.\",\"pubIdPointed\":\"The publication ID of the publication being referenced.\"}}},\"title\":\"IReferenceModule\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"initializeReferenceModule(uint256,uint256,bytes)\":{\"notice\":\"Initializes data for a given publication being published. This can only be called by the hub.\"},\"processComment(uint256,uint256,uint256,bytes)\":{\"notice\":\"Processes a comment action referencing a given publication. This can only be called by the hub.\"},\"processMirror(uint256,uint256,uint256,bytes)\":{\"notice\":\"Processes a mirror action referencing a given publication. This can only be called by the hub.\"}},\"notice\":\"This is the standard interface for all Lens-compatible ReferenceModules.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IReferenceModule.sol\":\"IReferenceModule\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interfaces/IReferenceModule.sol\":{\"keccak256\":\"0x09a1fc8bbfe0a2b5e4f2201c1ea6b2565a3761d3a8f31f8f6581edb8d55d7aa3\",\"license\":\"AGPL-3.0-only\",\"urls\":[\"bzz-raw://a620b734cd694f5745bd467dcbf0565b6d1bbc669a9b2f164d768eb168fa092d\",\"dweb:/ipfs/QmevACXVWe8atARM55DDmm4GHgAGXz58k4wyu28BNjJDR3\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: AGPL-3.0-only\n\npragma solidity 0.8.10;\n\n/**\n * @title IReferenceModule\n * @author Lens Protocol\n *\n * @notice This is the standard interface for all Lens-compatible ReferenceModules.\n */\ninterface IReferenceModule {\n    /**\n     * @notice Initializes data for a given publication being published. This can only be called by the hub.\n     * @param profileId The token ID of the profile publishing the publication.\n     * @param pubId The associated publication's LensHub publication ID.\n     * @param data Arbitrary data passed from the user to be decoded.\n     *\n     * @return bytes An abi encoded byte array encapsulating the execution's state changes. This will be emitted by the\n     * hub alongside the collect module's address and should be consumed by front ends.\n     */\n    function initializeReferenceModule(\n        uint256 profileId,\n        uint256 pubId,\n        bytes calldata data\n    ) external returns (bytes memory);\n\n    /**\n     * @notice Processes a comment action referencing a given publication. This can only be called by the hub.\n     *\n     * @param profileId The token ID of the profile associated with the publication being published.\n     * @param profileIdPointed The profile ID of the profile associated the publication being referenced.\n     * @param pubIdPointed The publication ID of the publication being referenced.\n     * @param data Arbitrary data __passed from the commenter!__ to be decoded.\n     */\n    function processComment(\n        uint256 profileId,\n        uint256 profileIdPointed,\n        uint256 pubIdPointed,\n        bytes calldata data\n    ) external;\n\n    /**\n     * @notice Processes a mirror action referencing a given publication. This can only be called by the hub.\n     *\n     * @param profileId The token ID of the profile associated with the publication being published.\n     * @param profileIdPointed The profile ID of the profile associated the publication being referenced.\n     * @param pubIdPointed The publication ID of the publication being referenced.\n     * @param data Arbitrary data __passed from the mirrorer!__ to be decoded.\n     */\n    function processMirror(\n        uint256 profileId,\n        uint256 profileIdPointed,\n        uint256 pubIdPointed,\n        bytes calldata data\n    ) external;\n}\n",
+  "sourcePath": "/Users/korbinianabstreiter/crytoprojects/primetime/contracts/interfaces/IReferenceModule.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/interfaces/IReferenceModule.sol",
+    "exportedSymbols": {
+      "IReferenceModule": [
+        12627
+      ]
+    },
+    "id": 12628,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12589,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:54"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IReferenceModule",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 12590,
+          "nodeType": "StructuredDocumentation",
+          "src": "68:146:54",
+          "text": " @title IReferenceModule\n @author Lens Protocol\n @notice This is the standard interface for all Lens-compatible ReferenceModules."
+        },
+        "fullyImplemented": false,
+        "id": 12627,
+        "linearizedBaseContracts": [
+          12627
+        ],
+        "name": "IReferenceModule",
+        "nameLocation": "225:16:54",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 12591,
+              "nodeType": "StructuredDocumentation",
+              "src": "248:558:54",
+              "text": " @notice Initializes data for a given publication being published. This can only be called by the hub.\n @param profileId The token ID of the profile publishing the publication.\n @param pubId The associated publication's LensHub publication ID.\n @param data Arbitrary data passed from the user to be decoded.\n @return bytes An abi encoded byte array encapsulating the execution's state changes. This will be emitted by the\n hub alongside the collect module's address and should be consumed by front ends."
+            },
+            "functionSelector": "56014afa",
+            "id": 12602,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "initializeReferenceModule",
+            "nameLocation": "820:25:54",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12598,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12593,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "863:9:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12602,
+                  "src": "855:17:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12592,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "855:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12595,
+                  "mutability": "mutable",
+                  "name": "pubId",
+                  "nameLocation": "890:5:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12602,
+                  "src": "882:13:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12594,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "882:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12597,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "920:4:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12602,
+                  "src": "905:19:54",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 12596,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "905:5:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "845:85:54"
+            },
+            "returnParameters": {
+              "id": 12601,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12600,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12602,
+                  "src": "949:12:54",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 12599,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "949:5:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "948:14:54"
+            },
+            "scope": 12627,
+            "src": "811:152:54",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12603,
+              "nodeType": "StructuredDocumentation",
+              "src": "969:499:54",
+              "text": " @notice Processes a comment action referencing a given publication. This can only be called by the hub.\n @param profileId The token ID of the profile associated with the publication being published.\n @param profileIdPointed The profile ID of the profile associated the publication being referenced.\n @param pubIdPointed The publication ID of the publication being referenced.\n @param data Arbitrary data __passed from the commenter!__ to be decoded."
+            },
+            "functionSelector": "a2830b2e",
+            "id": 12614,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processComment",
+            "nameLocation": "1482:14:54",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12612,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12605,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "1514:9:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12614,
+                  "src": "1506:17:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12604,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1506:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12607,
+                  "mutability": "mutable",
+                  "name": "profileIdPointed",
+                  "nameLocation": "1541:16:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12614,
+                  "src": "1533:24:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12606,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1533:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12609,
+                  "mutability": "mutable",
+                  "name": "pubIdPointed",
+                  "nameLocation": "1575:12:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12614,
+                  "src": "1567:20:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12608,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1567:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12611,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "1612:4:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12614,
+                  "src": "1597:19:54",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 12610,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1597:5:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1496:126:54"
+            },
+            "returnParameters": {
+              "id": 12613,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1631:0:54"
+            },
+            "scope": 12627,
+            "src": "1473:159:54",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12615,
+              "nodeType": "StructuredDocumentation",
+              "src": "1638:497:54",
+              "text": " @notice Processes a mirror action referencing a given publication. This can only be called by the hub.\n @param profileId The token ID of the profile associated with the publication being published.\n @param profileIdPointed The profile ID of the profile associated the publication being referenced.\n @param pubIdPointed The publication ID of the publication being referenced.\n @param data Arbitrary data __passed from the mirrorer!__ to be decoded."
+            },
+            "functionSelector": "57ba5584",
+            "id": 12626,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processMirror",
+            "nameLocation": "2149:13:54",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12624,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12617,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "2180:9:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12626,
+                  "src": "2172:17:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12616,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2172:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12619,
+                  "mutability": "mutable",
+                  "name": "profileIdPointed",
+                  "nameLocation": "2207:16:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12626,
+                  "src": "2199:24:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12618,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2199:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12621,
+                  "mutability": "mutable",
+                  "name": "pubIdPointed",
+                  "nameLocation": "2241:12:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12626,
+                  "src": "2233:20:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12620,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2233:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12623,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "2278:4:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12626,
+                  "src": "2263:19:54",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 12622,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2263:5:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2162:126:54"
+            },
+            "returnParameters": {
+              "id": 12625,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2297:0:54"
+            },
+            "scope": 12627,
+            "src": "2140:158:54",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 12628,
+        "src": "215:2085:54",
+        "usedErrors": []
+      }
+    ],
+    "src": "43:2258:54"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/interfaces/IReferenceModule.sol",
+    "exportedSymbols": {
+      "IReferenceModule": [
+        12627
+      ]
+    },
+    "id": 12628,
+    "license": "AGPL-3.0-only",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12589,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".10"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "43:23:54"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IReferenceModule",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 12590,
+          "nodeType": "StructuredDocumentation",
+          "src": "68:146:54",
+          "text": " @title IReferenceModule\n @author Lens Protocol\n @notice This is the standard interface for all Lens-compatible ReferenceModules."
+        },
+        "fullyImplemented": false,
+        "id": 12627,
+        "linearizedBaseContracts": [
+          12627
+        ],
+        "name": "IReferenceModule",
+        "nameLocation": "225:16:54",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 12591,
+              "nodeType": "StructuredDocumentation",
+              "src": "248:558:54",
+              "text": " @notice Initializes data for a given publication being published. This can only be called by the hub.\n @param profileId The token ID of the profile publishing the publication.\n @param pubId The associated publication's LensHub publication ID.\n @param data Arbitrary data passed from the user to be decoded.\n @return bytes An abi encoded byte array encapsulating the execution's state changes. This will be emitted by the\n hub alongside the collect module's address and should be consumed by front ends."
+            },
+            "functionSelector": "56014afa",
+            "id": 12602,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "initializeReferenceModule",
+            "nameLocation": "820:25:54",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12598,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12593,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "863:9:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12602,
+                  "src": "855:17:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12592,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "855:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12595,
+                  "mutability": "mutable",
+                  "name": "pubId",
+                  "nameLocation": "890:5:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12602,
+                  "src": "882:13:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12594,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "882:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12597,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "920:4:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12602,
+                  "src": "905:19:54",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 12596,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "905:5:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "845:85:54"
+            },
+            "returnParameters": {
+              "id": 12601,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12600,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12602,
+                  "src": "949:12:54",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 12599,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "949:5:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "948:14:54"
+            },
+            "scope": 12627,
+            "src": "811:152:54",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12603,
+              "nodeType": "StructuredDocumentation",
+              "src": "969:499:54",
+              "text": " @notice Processes a comment action referencing a given publication. This can only be called by the hub.\n @param profileId The token ID of the profile associated with the publication being published.\n @param profileIdPointed The profile ID of the profile associated the publication being referenced.\n @param pubIdPointed The publication ID of the publication being referenced.\n @param data Arbitrary data __passed from the commenter!__ to be decoded."
+            },
+            "functionSelector": "a2830b2e",
+            "id": 12614,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processComment",
+            "nameLocation": "1482:14:54",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12612,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12605,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "1514:9:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12614,
+                  "src": "1506:17:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12604,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1506:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12607,
+                  "mutability": "mutable",
+                  "name": "profileIdPointed",
+                  "nameLocation": "1541:16:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12614,
+                  "src": "1533:24:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12606,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1533:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12609,
+                  "mutability": "mutable",
+                  "name": "pubIdPointed",
+                  "nameLocation": "1575:12:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12614,
+                  "src": "1567:20:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12608,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1567:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12611,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "1612:4:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12614,
+                  "src": "1597:19:54",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 12610,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1597:5:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1496:126:54"
+            },
+            "returnParameters": {
+              "id": 12613,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1631:0:54"
+            },
+            "scope": 12627,
+            "src": "1473:159:54",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 12615,
+              "nodeType": "StructuredDocumentation",
+              "src": "1638:497:54",
+              "text": " @notice Processes a mirror action referencing a given publication. This can only be called by the hub.\n @param profileId The token ID of the profile associated with the publication being published.\n @param profileIdPointed The profile ID of the profile associated the publication being referenced.\n @param pubIdPointed The publication ID of the publication being referenced.\n @param data Arbitrary data __passed from the mirrorer!__ to be decoded."
+            },
+            "functionSelector": "57ba5584",
+            "id": 12626,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "processMirror",
+            "nameLocation": "2149:13:54",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12624,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12617,
+                  "mutability": "mutable",
+                  "name": "profileId",
+                  "nameLocation": "2180:9:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12626,
+                  "src": "2172:17:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12616,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2172:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12619,
+                  "mutability": "mutable",
+                  "name": "profileIdPointed",
+                  "nameLocation": "2207:16:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12626,
+                  "src": "2199:24:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12618,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2199:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12621,
+                  "mutability": "mutable",
+                  "name": "pubIdPointed",
+                  "nameLocation": "2241:12:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12626,
+                  "src": "2233:20:54",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 12620,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2233:7:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 12623,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "2278:4:54",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12626,
+                  "src": "2263:19:54",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 12622,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2263:5:54",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2162:126:54"
+            },
+            "returnParameters": {
+              "id": 12625,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2297:0:54"
+            },
+            "scope": 12627,
+            "src": "2140:158:54",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 12628,
+        "src": "215:2085:54",
+        "usedErrors": []
+      }
+    ],
+    "src": "43:2258:54"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.10+commit.fc410830.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.5",
+  "updatedAt": "2022-04-22T14:49:53.867Z",
+  "devdoc": {
+    "author": "Lens Protocol",
+    "kind": "dev",
+    "methods": {
+      "initializeReferenceModule(uint256,uint256,bytes)": {
+        "params": {
+          "data": "Arbitrary data passed from the user to be decoded.",
+          "profileId": "The token ID of the profile publishing the publication.",
+          "pubId": "The associated publication's LensHub publication ID."
+        },
+        "returns": {
+          "_0": "bytes An abi encoded byte array encapsulating the execution's state changes. This will be emitted by the hub alongside the collect module's address and should be consumed by front ends."
+        }
+      },
+      "processComment(uint256,uint256,uint256,bytes)": {
+        "params": {
+          "data": "Arbitrary data __passed from the commenter!__ to be decoded.",
+          "profileId": "The token ID of the profile associated with the publication being published.",
+          "profileIdPointed": "The profile ID of the profile associated the publication being referenced.",
+          "pubIdPointed": "The publication ID of the publication being referenced."
+        }
+      },
+      "processMirror(uint256,uint256,uint256,bytes)": {
+        "params": {
+          "data": "Arbitrary data __passed from the mirrorer!__ to be decoded.",
+          "profileId": "The token ID of the profile associated with the publication being published.",
+          "profileIdPointed": "The profile ID of the profile associated the publication being referenced.",
+          "pubIdPointed": "The publication ID of the publication being referenced."
+        }
+      }
+    },
+    "title": "IReferenceModule",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "initializeReferenceModule(uint256,uint256,bytes)": {
+        "notice": "Initializes data for a given publication being published. This can only be called by the hub."
+      },
+      "processComment(uint256,uint256,uint256,bytes)": {
+        "notice": "Processes a comment action referencing a given publication. This can only be called by the hub."
+      },
+      "processMirror(uint256,uint256,uint256,bytes)": {
+        "notice": "Processes a mirror action referencing a given publication. This can only be called by the hub."
+      }
+    },
+    "notice": "This is the standard interface for all Lens-compatible ReferenceModules.",
+    "version": 1
+  }
+}
