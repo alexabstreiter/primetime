@@ -183,10 +183,14 @@ function App() {
                                     onClick={async () => {
                                         const { primetimeContract, currency } = web3state;
 
+                                        const participants = await primetimeContract.getParticipants(2, 1);
+                                        console.log('participants');
+                                        console.log(participants);
+                                        return;
                                         console.log('Distribute stake')
-                                        //console.log(
-                                            //(await currency.balanceOf(userAddress)).toNumber()
-                                        //);
+                                        console.log(
+                                            (await currency.balanceOf(participants[0])).toNumber()
+                                        );
                                         console.log(await primetimeContract.distributeStake(2, 1));
                                     }}
                                 >
