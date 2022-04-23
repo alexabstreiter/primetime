@@ -97,6 +97,9 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: BLOCK_EXPLORER_KEY,
   },
+  paths: {
+    artifacts: "./client/artifacts"
+  }
 };
 
 export default config;
