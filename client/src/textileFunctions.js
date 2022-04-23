@@ -19,7 +19,6 @@ async function getOrCreateBucket(buckets, bucketName) {
 }
 
 export async function pushTextToIpfs(text) {
-    return 'test'
     const bucketsX = await getBucketClient();
     //console.log(bucketsX);
     let bucketKeyX = await getOrCreateBucket(bucketsX, 'testbucket');
@@ -27,7 +26,7 @@ export async function pushTextToIpfs(text) {
     const fileX = {
         path: '/index.html',
         //content: text//new Uint8Array(Buffer.from(text))
-        content: Buffer.from(text)
+        content: await new Response(new Blob([text])).arrayBuffer()
     }
     //console.log(fileX);
     const links = await bucketsX.pushPath(bucketKeyX, 'text.txt', fileX)//, { root })

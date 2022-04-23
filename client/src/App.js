@@ -97,6 +97,52 @@ function App() {
             const prof = (await contract.defaultProfile(userAddress)).toNumber();
             console.log('prof', prof);
 
+
+
+
+
+            console.log(Addresses['primetime collect module']);
+
+
+
+
+            console.log(
+                'prime balance: ',
+                (
+                    await currency.balanceOf(
+                        Addresses['primetime collect module']
+                    )
+                ).toNumber()
+            );
+
+            const participants = await primetimeContract.getParticipants(1, 1);
+            console.log('participants');
+            console.log(participants);
+            for (let i = 0; i < participants.length; i++) {
+                const p = participants[i];
+                console.log(p);
+                console.log(
+                    'balance ',
+                    p,
+                    ' ',
+                    (
+                        await currency.balanceOf(p)
+                    ).toNumber()
+                );
+            }
+
+            //const ipfsurl = await pushTextToIpfs('some meeting information');
+            //console.log(ipfsurl);
+            /*const url = 'https://ipfs.io/ipfs/bafkreicodlwqj6pxdpemsuhx53zneu4hsm234uq63vi6jl4rl5nr4siovy';
+            console.log('fetch');
+            const fetchUrl = url;//"http://api.scraperapi.com?api_key=" + process.env.REACT_APP_KEY_SCRAPERAPI + "&url=" + url;
+            console.log(fetchUrl);
+            await fetch(fetchUrl)
+                .then(response => response.text())
+                .then(async meetingInformation => {
+                    console.log(meetingInformation);
+                });*/
+
         }
 
         initializeWeb3();
@@ -151,7 +197,7 @@ function App() {
                                             ).toNumber()
                                         );
                                         console.log('Collect');
-                                        const x = await (await contract.collect(2, 1, [])).wait();
+                                        const x = await (await contract.collect(1, 1, [])).wait();
                                         console.log(x);
                                         console.log(
                                             'prime balance: ',
@@ -163,10 +209,10 @@ function App() {
                                         );
 
                                         console.log('Pub:');
-                                        console.log(await contract.getPub(2, 1));
+                                        console.log(await contract.getPub(1, 1));
 
                                         const participants =
-                                            await primetimeContract.getParticipants(2, 1);
+                                            await primetimeContract.getParticipants(1, 1);
                                         console.log('participants');
                                         console.log(participants);
                                         for (let i = 0; i < participants.length; i++) {
@@ -190,7 +236,7 @@ function App() {
                                         const {primetimeContract, currency} = web3state;
 
                                         const participants =
-                                            await primetimeContract.getParticipants(2, 1);
+                                            await primetimeContract.getParticipants(1, 1);
                                         console.log('participants');
                                         console.log(participants);
                                         for (let i = 0; i < participants.length; i++) {
@@ -266,11 +312,11 @@ function App() {
                                                         to: userAddress,
                                                         handle: handle,
                                                         imageURI:
-                                                            'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                                            'https://ipfs.io/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
                                                         followModule: ZERO_ADDRESS,
                                                         followModuleInitData: [],
                                                         followNFTURI:
-                                                            'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                                            'https://ipfs.io/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
                                                     };
                                                     console.log(inputStruct);
                                                     const x = await (
@@ -300,7 +346,7 @@ function App() {
                                                     1000;
                                                 const inputStructPub = {
                                                     profileId: defaultProfile,
-                                                    contentURI: `https://hub.textile.io${ipfsurl}`,
+                                                    contentURI: `https://ipfs.io${ipfsurl}`,
                                                     collectModule:
                                                         Addresses['primetime collect module'],
                                                     collectModuleInitData: defaultAbiCoder.encode(
@@ -328,7 +374,13 @@ function App() {
                                                 setMeetingLink(`http://localhost:3000/?publicationId=${profileId}&profileId=${pubId}`);
                                                 //console.log(pub.logs);
                                                 //console.log(await pub.events[0].getTransaction());
-                                                //console.log(await contract.getPub(defaultProfile, 1));
+
+                                                const publication = await contract.getPub(profileId, pubId);
+                                                await fetch(publication['contentURI'])
+                                                    .then(response => response.text())
+                                                    .then(async meetingInformation => {
+                                                        console.log(meetingInformation);
+                                                    });
                                             }}
                                         >
                                             <Grid
