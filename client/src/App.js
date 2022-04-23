@@ -25,6 +25,8 @@ function App() {
         signer: null,
         userAddress: null,
         contract: null,
+        primetimeContract: null,
+        currency: null,
     });
 
     const urlSearchParams = new URLSearchParams(window.location.searcsh);
@@ -56,8 +58,15 @@ function App() {
             console.log('currency address: ', Addresses['currency']);
 
             const contract = new ethers.Contract(Addresses['lensHub proxy'], LensHub.abi, signer);
+            const primetimeContract = new ethers.Contract(Addresses['primetime collect module'], PrimetimeModule.abi, signer);
             const message = await contract.getProfile(1);
             console.log(message);
+
+            const currency = new ethers.Contract(
+                Addresses['currency'],
+                CurrencyModule.abi,
+                signer
+            );
 
             console.log(Addresses['lensHub proxy']);
             setWeb3state({
@@ -65,6 +74,8 @@ function App() {
                 signer,
                 userAddress,
                 contract,
+                primetimeContract,
+                currency,
             });
         }
 
@@ -141,14 +152,8 @@ function App() {
                                 </Button>
                                 <Button
                                     onClick={async () => {
-                                        console.log('Collecting..');
-                                        const { contract, userAddress, signer } = web3state;
-                                        const currency = new ethers.Contract(
-                                            Addresses['currency'],
-                                            CurrencyModule.abi,
-                                            signer
-                                        );
-                                        console.log('start approving');
+                                        const { contract, userAddress, signer, currency } = web3state;
+                                        console.log('Approve');
 
                                         await (
                                             await currency.mint(userAddress, 100000000000)
@@ -159,16 +164,33 @@ function App() {
                                                 1000000000
                                             )
                                         ).wait();
-                                        console.log('Approved');
+                                        console.log('Balance');
                                         console.log(
                                             (await currency.balanceOf(userAddress)).toNumber()
                                         );
 
-                                        const x = await (await contract.collect(1, 1, [])).wait();
+                                        console.log('Collect')
+                                        const x = await (await contract.collect(2, 1, [])).wait();
                                         console.log(x);
+
+                                        console.log('Pub:')
+                                        console.log(await contract.getPub(2, 1));
                                     }}
                                 >
                                     Collect
+                                </Button>
+                                <Button
+                                    onClick={async () => {
+                                        const { primetimeContract, currency } = web3state;
+
+                                        console.log('Distribute stake')
+                                        //console.log(
+                                            //(await currency.balanceOf(userAddress)).toNumber()
+                                        //);
+                                        console.log(await primetimeContract.distributeStake(2, 1));
+                                    }}
+                                >
+                                    Distribute
                                 </Button>
                             </Grid>
                         </Grid>
