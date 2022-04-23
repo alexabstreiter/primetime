@@ -156,7 +156,6 @@ function App() {
                 .then(async meetingInformation => {
                     console.log(meetingInformation);
                 });*/
-
         }
 
         initializeWeb3();
