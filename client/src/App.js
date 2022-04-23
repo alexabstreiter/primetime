@@ -18,6 +18,9 @@ import Typography from '@mui/material/Typography';
 import Confetti from 'react-confetti';
 import { defaultAbiCoder } from 'ethers/lib/utils';
 import { pushTextToIpfs } from './textileFunctions';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 function App() {
     const [web3state, setWeb3state] = useState({
@@ -29,6 +32,7 @@ function App() {
         currency: null,
     });
     const [isLoadingCheckIn, setIsLoadingCheckin] = useState(true);
+    const [value, setValue] = React.useState(new Date());
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
@@ -248,6 +252,15 @@ function App() {
                                     <form
                                         onSubmit={async (event) => {
                                             event.preventDefault();
+
+                                            console.log(new Date(event.target.meetingTime.value));
+                                            console.log(
+                                                'abcd' +
+                                                    new Date(
+                                                        event.target.meetingTime.value
+                                                    ).getTime() /
+                                                        1000
+                                            );
                                             const { contract, userAddress } = web3state;
                                             //event.target.handle.value;
 
@@ -289,6 +302,9 @@ function App() {
                                             console.log(profileId);
 
                                             // create publication
+                                            const meetingTime =
+                                                new Date(event.target.meetingTime.value).getTime() /
+                                                1000;
                                             const inputStructPub = {
                                                 profileId: profileId,
                                                 contentURI: `https://hub.textile.io${ipfsurl}`,
@@ -299,8 +315,8 @@ function App() {
                                                     [
                                                         event.target.stakingAmount.value,
                                                         Addresses['currency'],
-                                                        event.target.meetingTime.value,
-                                                        event.target.maxLateTime.value,
+                                                        meetingTime,
+                                                        event.target.maxLateTime.value * 60,
                                                     ]
                                                 ),
                                                 referenceModule: ZERO_ADDRESS,
@@ -332,19 +348,28 @@ function App() {
                                                 />
                                             </Grid>
                                             <Grid item>
-                                                <TextField
-                                                    variant="outlined"
-                                                    name="meetingTime"
-                                                    defaultValue={1650738372}
-                                                    placeholder="Meeting time"
-                                                />
+                                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                    <DateTimePicker
+                                                        renderInput={(props) => (
+                                                            <TextField
+                                                                {...props}
+                                                                name="meetingTime"
+                                                            />
+                                                        )}
+                                                        label="DateTimePicker"
+                                                        value={value}
+                                                        onChange={(newValue) => {
+                                                            setValue(newValue);
+                                                        }}
+                                                    />
+                                                </LocalizationProvider>
                                             </Grid>
                                             <Grid item>
                                                 <TextField
                                                     variant="outlined"
                                                     name="maxLateTime"
                                                     defaultValue={600}
-                                                    placeholder="Max late time"
+                                                    placeholder="Max tolerance in minutes"
                                                 />
                                             </Grid>
                                             <Grid item>
