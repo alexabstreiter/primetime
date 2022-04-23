@@ -10,6 +10,7 @@ import {FollowValidationModuleBase} from '../FollowValidationModuleBase.sol';
 import {IERC20} from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import {SafeERC20} from '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import {IERC721} from '@openzeppelin/contracts/token/ERC721/IERC721.sol';
+import "hardhat/console.sol";
 
 /**
  * @notice A struct containing the necessary data to execute collect actions on a publication.
@@ -133,16 +134,24 @@ contract FeeCollectModule is FeeModuleBase, FollowValidationModuleBase, ICollect
     ) internal {
         uint256 amount = _dataByPublicationByProfile[profileId][pubId].amount;
         address currency = _dataByPublicationByProfile[profileId][pubId].currency;
-        _validateDataIsExpected(data, currency, amount);
+        //_validateDataIsExpected(data, currency, amount);
 
         (address treasury, uint16 treasuryFee) = _treasuryData();
         address recipient = _dataByPublicationByProfile[profileId][pubId].recipient;
         uint256 treasuryAmount = (amount * treasuryFee) / BPS_MAX;
         uint256 adjustedAmount = amount - treasuryAmount;
 
+        console.log('collector/owner: ', collector);
+        console.log('poster/spender: ', recipient);
+        console.log('amount: ', adjustedAmount);
+        console.log('currency: ', currency);
+        console.log('balanceOf: ', IERC20(currency).balanceOf(collector));
+        console.log('allowance: ', IERC20(currency).allowance(collector, recipient));
         IERC20(currency).safeTransferFrom(collector, recipient, adjustedAmount);
-        if (treasuryAmount > 0)
-            IERC20(currency).safeTransferFrom(collector, treasury, treasuryAmount);
+//        console.log(IERC20(currency).allowance(collector, recipient));
+        //IERC20(currency).transferFrom(collector, recipient, adjustedAmount);
+        //if (treasuryAmount > 0)
+        //    IERC20(currency).safeTransferFrom(collector, treasury, treasuryAmount);
     }
 
     function _processCollectWithReferral(

@@ -98,7 +98,7 @@ const config: HardhatUserConfig = {
     apiKey: BLOCK_EXPLORER_KEY,
   },
   paths: {
-    artifacts: "./client/artifacts"
+    artifacts: "./client/src/artifacts"
   }
 };
 

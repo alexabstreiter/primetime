@@ -16,6 +16,7 @@ import {LensMultiState} from './base/LensMultiState.sol';
 import {LensHubStorage} from './storage/LensHubStorage.sol';
 import {VersionedInitializable} from '../upgradeability/VersionedInitializable.sol';
 import {IERC721Enumerable} from '@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol';
+import "hardhat/console.sol";
 
 /**
  * @title LensHub
@@ -144,10 +145,13 @@ contract LensHub is LensNFTBase, VersionedInitializable, LensMultiState, LensHub
         whenNotPaused
         returns (uint256)
     {
-        if (!_profileCreatorWhitelisted[msg.sender]) revert Errors.ProfileCreatorNotWhitelisted();
+        console.log('test');
+        //if (!_profileCreatorWhitelisted[msg.sender]) revert Errors.ProfileCreatorNotWhitelisted();
         unchecked {
             uint256 profileId = ++_profileCounter;
+            console.log('test2');
             _mint(vars.to, profileId);
+            console.log('test3');
             PublishingLogic.createProfile(
                 vars,
                 profileId,
@@ -157,6 +161,7 @@ contract LensHub is LensNFTBase, VersionedInitializable, LensMultiState, LensHub
             );
             return profileId;
         }
+        console.log('test2');
     }
 
     /// @inheritdoc ILensHub

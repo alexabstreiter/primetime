@@ -9,6 +9,7 @@ import {
   Currency__factory,
   FreeCollectModule__factory,
   FeeCollectModule__factory,
+  PrimetimeCollectModule__factory,
   FeeFollowModule__factory,
   FollowerOnlyReferenceModule__factory,
   FollowNFT__factory,
@@ -35,6 +36,7 @@ import {
 } from './helpers/utils';
 import { CreateProfileDataStruct } from '../typechain-types/LensHub';
 import { PostDataStruct } from '../typechain-types/LensHub';
+import {ethers} from "ethers";
 
 const TREASURY_FEE_BPS = 50;
 const LENS_HUB_NFT_NAME = 'Lens Protocol Profiles';
@@ -148,6 +150,12 @@ task('full-deploy', 'deploys the entire Lens Protocol').setAction(async ({}, hre
       nonce: deployerNonce++,
     })
   );
+  console.log('\n\t-- Deploying primetimeCollectModule --');
+  const primetimeCollectModule = await deployContract(
+    new PrimetimeCollectModule__factory(deployer).deploy(lensHub.address, moduleGlobals.address, {
+      nonce: deployerNonce++,
+    })
+  );
   console.log('\n\t-- Deploying limitedFeeCollectModule --');
   const limitedFeeCollectModule = await deployContract(
     new LimitedFeeCollectModule__factory(deployer).deploy(lensHub.address, moduleGlobals.address, {
@@ -220,6 +228,9 @@ task('full-deploy', 'deploys the entire Lens Protocol').setAction(async ({}, hre
     lensHub.whitelistCollectModule(feeCollectModule.address, true, { nonce: governanceNonce++ })
   );
   await waitForTx(
+    lensHub.whitelistCollectModule(primetimeCollectModule.address, true, { nonce: governanceNonce++ })
+  );
+  await waitForTx(
     lensHub.whitelistCollectModule(limitedFeeCollectModule.address, true, {
       nonce: governanceNonce++,
     })
@@ -282,6 +293,7 @@ task('full-deploy', 'deploys the entire Lens Protocol').setAction(async ({}, hre
     'lens periphery': lensPeriphery.address,
     'module globals': moduleGlobals.address,
     'fee collect module': feeCollectModule.address,
+    'primetime collect module': primetimeCollectModule.address,
     'limited fee collect module': limitedFeeCollectModule.address,
     'timed fee collect module': timedFeeCollectModule.address,
     'limited timed fee collect module': limitedTimedFeeCollectModule.address,
@@ -298,6 +310,7 @@ task('full-deploy', 'deploys the entire Lens Protocol').setAction(async ({}, hre
   console.log(json);
 
   fs.writeFileSync('addresses.json', json, 'utf-8');
+  fs.writeFileSync('client/src/artifacts/addresses.json', json, 'utf-8');
 });
 
 task('unpause', 'unpauses the protocol').setAction(async ({}, hre) => {
@@ -338,20 +351,20 @@ task('create-profile', 'creates a profile').setAction(async ({}, hre) => {
 task('post', 'publishes a post').setAction(async ({}, hre) => {
   const [governance, , user] = await initEnv(hre);
   const addrs = getAddrs();
-  const freeCollectModuleAddr = addrs['free collect module'];
+  const collectModuleAddr = addrs['fee collect module'];
   const lensHub = LensHub__factory.connect(addrs['lensHub proxy'], governance);
 
   //await waitForTx(lensHub.whitelistCollectModule(emptyCollectModuleAddr, true));
   //await waitForTx(lensHub.whitelistCollectModule(freeCollectModuleAddr, true));
-  console.log(freeCollectModuleAddr);
-  console.log([false]);
-
   const inputStruct: PostDataStruct = {
     profileId: 1,
     contentURI:
       'https://ipfs.fleek.co/ipfs/plantghostplantghostplantghostplantghostplantghostplantghos',
-    collectModule: freeCollectModuleAddr,
-    collectModuleInitData: defaultAbiCoder.encode(['bool'], [false]),
+    collectModule: collectModuleAddr,
+    collectModuleInitData: defaultAbiCoder.encode(
+      ['uint256', 'address', 'address', 'uint16', 'bool'],
+      [1, addrs['currency'], user.address, 0, false]
+    ),
     referenceModule: ZERO_ADDRESS,
     referenceModuleInitData: [],
   };
@@ -380,14 +393,23 @@ task('follow', 'follows a profile').setAction(async ({}, hre) => {
 });
 
 task('collect', 'collects a post').setAction(async ({}, hre) => {
-  const [, , user] = await initEnv(hre);
+  const [, , user, user2] = await initEnv(hre);
   const addrs = getAddrs();
-  const lensHub = LensHub__factory.connect(addrs['lensHub proxy'], user);
+  const lensHub = LensHub__factory.connect(addrs['lensHub proxy'], user2);
+  const currency = Currency__factory.connect(addrs['currency'], user2);
 
+  await waitForTx(currency.approve(addrs['fee collect module'], ethers.constants.MaxUint256));
+  console.log('allowence addresses');
+  console.log('owner: ', user2.address);
+  console.log('spender: ', user.address);
+  console.log('currency: ', currency.address);
+  await waitForTx(currency.mint(user2.address, 123456));
+  console.log('balanceOf owner: ', await currency.balanceOf(user2.address))
+  console.log('allowance: ', await currency.allowance(user2.address, user.address));
   await waitForTx(lensHub.collect(1, 1, []));
 
   const collectNFTAddr = await lensHub.getCollectNFT(1, 1);
-  const collectNFT = CollectNFT__factory.connect(collectNFTAddr, user);
+  const collectNFT = CollectNFT__factory.connect(collectNFTAddr, user2);
 
   const publicationContentURI = await lensHub.getContentURI(1, 1);
   const totalSupply = await collectNFT.totalSupply();
