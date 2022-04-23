@@ -144,11 +144,13 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         uint256 profileId,
         uint256 pubId
     ) external {
-        if (_dataByPublicationByProfile[profileId][pubId].participants.length > 0) {
+        console.log('nParticipatns', _dataByPublicationByProfile[profileId][pubId].participants.length);
+        if (_dataByPublicationByProfile[profileId][pubId].participants.length > 1) {
             _checkinTime[profileId][pubId][msg.sender] = 1000500;
         } else {
             _checkinTime[profileId][pubId][msg.sender] = 1000000;
         }
+        console.log('checkintime', uint256(_checkinTime[profileId][pubId][msg.sender]));
         /*
         int256 timeSinceMeetingStart = int256(block.timestamp) - int256(_dataByPublicationByProfile[profileId][pubId].meetingTime);
         if (timeSinceMeetingStart >= - 5 minutes) {
@@ -170,12 +172,14 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         CustomProfilePublicationData memory meeting = _dataByPublicationByProfile[profileId][pubId];
         //if (block.timestamp >= meeting.meetingTime + meeting.maxLateTime && !meeting.hasBeenDistributed) {
         if (true) {
-            uint256 stakedAmount = meeting.participants.length * meeting.stakingAmount;
+            uint256 stakedAmount = meeting.stakingAmount;
             uint256 treasuryAmount = stakedAmount / 100;
             int256 adjustedAmount = int256(stakedAmount - treasuryAmount);
 
             int256 totalLateTime = 0;
             for (uint256 i = 0; i < meeting.participants.length; i++) {
+                console.log('checkintime', i, uint256(_checkinTime[profileId][pubId][meeting.participants[i]]));
+                console.log('meetingTime', uint256(meeting.meetingTime));
                 int256 lateTime = int256(_checkinTime[profileId][pubId][meeting.participants[i]]) - int256(meeting.meetingTime);
                 if (_checkinTime[profileId][pubId][meeting.participants[i]] == 0) {
                     lateTime = int256(meeting.maxLateTime);
@@ -185,21 +189,26 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
                 }
                 totalLateTime += lateTime;
             }
+            console.log('totalLateTime', uint256(totalLateTime));
 
             for (uint256 i = 0; i < meeting.participants.length; i++) {
-                int256 lateTime = int256(_checkinTime[profileId][pubId][meeting.participants[i]]) - int256(meeting.meetingTime);
-                if (_checkinTime[profileId][pubId][meeting.participants[i]] == 0) {
-                    lateTime = int256(meeting.maxLateTime);
-                }
-                if (lateTime < 0) {
-                    lateTime = 0;
-                }
+                int256 reward = adjustedAmount;
+                if (totalLateTime > 0 && meeting.participants.length > 1) {
+                    int256 lateTime = int256(_checkinTime[profileId][pubId][meeting.participants[i]]) - int256(meeting.meetingTime);
+                    if (_checkinTime[profileId][pubId][meeting.participants[i]] == 0) {
+                        lateTime = int256(meeting.maxLateTime);
+                    }
+                    if (lateTime < 0) {
+                        lateTime = 0;
+                    }
+                    console.log('lateTime', i, uint256(lateTime));
 
-                int256 reward = adjustedAmount - adjustedAmount * lateTime / int256(meeting.maxLateTime) * int256(meeting.participants.length) / int256(meeting.participants.length - 1);
-                reward += adjustedAmount * totalLateTime / int256(meeting.maxLateTime) / int256(meeting.participants.length - 1);
+                    reward = adjustedAmount - adjustedAmount * lateTime / int256(meeting.maxLateTime) * int256(meeting.participants.length) / int256(meeting.participants.length - 1);
+                    console.log('prereward', i, uint256(reward));
+                    reward += adjustedAmount * totalLateTime / int256(meeting.maxLateTime) / int256(meeting.participants.length - 1);
+                }
                 if (reward > 0) {
-                    console.log('reward');
-                    console.log(uint256(reward));
+                    console.log('reward', i, uint256(reward));
                     IERC20(meeting.currency).safeTransfer(meeting.participants[i], uint256(reward));
                     //(bool sent, bytes memory data) = payable(meeting.participants[i]).call{value : uint256(reward)}("");
                 }

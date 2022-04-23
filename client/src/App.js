@@ -167,7 +167,7 @@ function App() {
                                 </Button>
                                 <Button
                                     onClick={async () => {
-                                        const { contract, userAddress, signer, currency } =
+                                        const { contract, userAddress, signer, currency, primetimeContract } =
                                             web3state;
                                         console.log('Approve');
 
@@ -193,6 +193,23 @@ function App() {
 
                                         console.log('Pub:');
                                         console.log(await contract.getPub(2, 1));
+
+                                        const participants =
+                                            await primetimeContract.getParticipants(2, 1);
+                                        console.log('participants');
+                                        console.log(participants);
+                                        for (let i = 0; i < participants.length; i++) {
+                                            const p = participants[i];
+                                            console.log(p);
+                                            console.log(
+                                                'balance ',
+                                                p,
+                                                ' ',
+                                                (
+                                                    await currency.balanceOf(p)
+                                                ).toNumber()
+                                            );
+                                        }
                                     }}
                                 >
                                     Collect
@@ -205,26 +222,30 @@ function App() {
                                             await primetimeContract.getParticipants(2, 1);
                                         console.log('participants');
                                         console.log(participants);
-                                        for (const p in participants) {
+                                        for (let i = 0; i < participants.length; i++) {
+                                            const p = participants[i];
+                                            console.log(p);
                                             console.log(
                                                 'balance ',
                                                 p,
                                                 ' ',
                                                 (
-                                                    await currency.balanceOf(participants[0])
+                                                    await currency.balanceOf(p)
                                                 ).toNumber()
                                             );
                                         }
                                         console.log('Distribute stake');
                                         console.log('prime balance: ', (await currency.balanceOf(Addresses['primetime collect module'])).toNumber());
-                                        console.log(await primetimeContract.distributeStake(2, 1));
-                                        for (const p in participants) {
+                                        console.log(await (await primetimeContract.distributeStake(2, 1)).wait());
+                                        for (let i = 0; i < participants.length; i++) {
+                                            const p = participants[i];
+                                            console.log(p);
                                             console.log(
                                                 'balance ',
                                                 p,
                                                 ' ',
                                                 (
-                                                    await currency.balanceOf(participants[0])
+                                                    await currency.balanceOf(p)
                                                 ).toNumber()
                                             );
                                         }
@@ -326,7 +347,7 @@ function App() {
                                                     variant="outlined"
                                                     name="stakingAmount"
                                                     type="number"
-                                                    defaultValue={10}
+                                                    defaultValue={1000}
                                                     placeholder="Staking amount"
                                                 />
                                             </Grid>
