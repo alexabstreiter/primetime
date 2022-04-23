@@ -126,14 +126,14 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         address currency = _dataByPublicationByProfile[profileId][pubId].currency;
         //_validateDataIsExpected(data, currency, amount);
 
-        (address treasury, uint16 treasuryFee) = _treasuryData();
+        //(address treasury, uint16 treasuryFee) = _treasuryData();
         //address recipient = _dataByPublicationByProfile[profileId][pubId].recipient;
         //uint256 treasuryAmount = (amount * treasuryFee) / BPS_MAX;
         //uint256 adjustedAmount = amount - treasuryAmount;
 
         //IERC20(currency).safeTransferFrom(collector, recipient, adjustedAmount);
         //if (treasuryAmount > 0)
-        IERC20(currency).safeTransferFrom(collector, treasury, stakingAmount);
+        IERC20(currency).safeTransferFrom(collector, address(this), stakingAmount);
         _dataByPublicationByProfile[profileId][pubId].participants.push(collector);
     }
 
@@ -147,10 +147,17 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         }
     }
 
+    function getParticipants(
+        uint256 profileId,
+        uint256 pubId
+    ) external returns (address[] memory) {
+        return _dataByPublicationByProfile[profileId][pubId].participants;
+    }
+
     function distributeStake(
         uint256 profileId,
         uint256 pubId
-    ) internal {
+    ) external {
         CustomProfilePublicationData memory meeting = _dataByPublicationByProfile[profileId][pubId];
         if (block.timestamp >= meeting.meetingTime + meeting.maxLateTime && !meeting.hasBeenDistributed) {
             uint256 stakedAmount = meeting.participants.length * meeting.stakingAmount;
@@ -181,8 +188,8 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
                 int256 reward = adjustedAmount - adjustedAmount * lateTime / int256(meeting.maxLateTime) * int256(meeting.participants.length) / int256(meeting.participants.length - 1);
                 reward += adjustedAmount * totalLateTime / int256(meeting.maxLateTime) / int256(meeting.participants.length - 1);
                 if (reward > 0) {
-                    //IERC20(meeting.currency).safeTransferFrom(collector, treasury, stakingAmount);
-                    (bool sent, bytes memory data) = payable(meeting.participants[i]).call{value : uint256(reward)}("");
+                    IERC20(meeting.currency).safeTransferFrom(address(this), meeting.participants[i], uint256(reward));
+                    //(bool sent, bytes memory data) = payable(meeting.participants[i]).call{value : uint256(reward)}("");
                 }
             }
 
