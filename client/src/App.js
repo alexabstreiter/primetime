@@ -39,6 +39,14 @@ function App() {
         async function checkIn() {
             setIsLoadingCheckin(true);
             console.log('run checkin');
+            const { contract } = web3state;
+
+            const inputStruct = {
+                profileId: urlParams.profileId,
+                publicationId: urlParams.publicationId,
+            };
+            const x = await (await contract.checkin(inputStruct)).wait();
+            console.log(x);
             setIsLoadingCheckin(false);
         }
 
@@ -63,15 +71,15 @@ function App() {
             console.log('currency address: ', Addresses['currency']);
 
             const contract = new ethers.Contract(Addresses['lensHub proxy'], LensHub.abi, signer);
-            const primetimeContract = new ethers.Contract(Addresses['primetime collect module'], PrimetimeModule.abi, signer);
+            const primetimeContract = new ethers.Contract(
+                Addresses['primetime collect module'],
+                PrimetimeModule.abi,
+                signer
+            );
             const message = await contract.getProfile(1);
             console.log(message);
 
-            const currency = new ethers.Contract(
-                Addresses['currency'],
-                CurrencyModule.abi,
-                signer
-            );
+            const currency = new ethers.Contract(Addresses['currency'], CurrencyModule.abi, signer);
 
             console.log(Addresses['lensHub proxy']);
             setWeb3state({
@@ -161,7 +169,8 @@ function App() {
                                 </Button>
                                 <Button
                                     onClick={async () => {
-                                        const { contract, userAddress, signer, currency } = web3state;
+                                        const { contract, userAddress, signer, currency } =
+                                            web3state;
                                         console.log('Approve');
 
                                         await (
@@ -178,11 +187,11 @@ function App() {
                                             (await currency.balanceOf(userAddress)).toNumber()
                                         );
 
-                                        console.log('Collect')
+                                        console.log('Collect');
                                         const x = await (await contract.collect(2, 1, [])).wait();
                                         console.log(x);
 
-                                        console.log('Pub:')
+                                        console.log('Pub:');
                                         console.log(await contract.getPub(2, 1));
                                     }}
                                 >
@@ -192,9 +201,9 @@ function App() {
                                     onClick={async () => {
                                         const { primetimeContract, currency } = web3state;
 
-                                        console.log('Distribute stake')
+                                        console.log('Distribute stake');
                                         //console.log(
-                                            //(await currency.balanceOf(userAddress)).toNumber()
+                                        //(await currency.balanceOf(userAddress)).toNumber()
                                         //);
                                         console.log(await primetimeContract.distributeStake(2, 1));
                                     }}
