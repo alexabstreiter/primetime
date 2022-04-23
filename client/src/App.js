@@ -51,9 +51,9 @@ function App() {
             //                await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)
             //).wait();
             //console.log(x);
-            let pub = await contract.getPub(urlParams.profileId, urlParams.publicationId);
-            console.log('pub');
-            console.log(pub);
+            //let pub = await contract.getPub(urlParams.profileId, urlParams.publicationId);
+            //console.log('pub');
+            //console.log(pub);
             let pubData = await primetimeContract.getPublicationData(
                 urlParams.profileId,
                 urlParams.publicationId
@@ -61,7 +61,7 @@ function App() {
             console.log('pubData');
             console.log(pubData);
 
-            await fetch(pub['contentURI'])
+            await fetch(pubData['contentURI'])
                 .then(response => response.text())
                 .then(async meetingInformation => {
                     console.log(meetingInformation);
@@ -475,9 +475,10 @@ function App() {
                                                     new Date(
                                                         event.target.meetingTime.value
                                                     ).getTime() / 1000;
+                                                const contentURI = `https://ipfs.io${ipfsurl}`;
                                                 const inputStructPub = {
                                                     profileId: defaultProfile,
-                                                    contentURI: `https://ipfs.io${ipfsurl}`,
+                                                    contentURI: contentURI,
                                                     collectModule:
                                                         Addresses['primetime collect module'],
                                                     collectModuleInitData: defaultAbiCoder.encode(
@@ -486,12 +487,14 @@ function App() {
                                                             'address',
                                                             'uint256',
                                                             'uint256',
+                                                            'string',
                                                         ],
                                                         [
                                                             event.target.stakingAmount.value,
                                                             Addresses['currency'],
                                                             meetingTime,
                                                             event.target.maxLateTime.value * 60,
+                                                            contentURI,
                                                         ]
                                                     ),
                                                     referenceModule: ZERO_ADDRESS,
@@ -513,7 +516,7 @@ function App() {
                                                 //console.log(pub.logs);
                                                 //console.log(await pub.events[0].getTransaction());
 
-                                                const publication = await contract.getPub(
+                                                /*const publication = await contract.getPub(
                                                     profileId,
                                                     pubId
                                                 );
@@ -521,7 +524,7 @@ function App() {
                                                     .then((response) => response.text())
                                                     .then(async (meetingInformation) => {
                                                         console.log(meetingInformation);
-                                                    });
+                                                    });*/
                                             }}
                                         >
                                             <Grid
