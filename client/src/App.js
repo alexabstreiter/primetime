@@ -36,8 +36,7 @@ function App() {
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
-    const isMeetingCheckIn =
-        urlParams.publicationId && urlParams.profileId;
+    const isMeetingCheckIn = urlParams.publicationId && urlParams.profileId;
 
     useEffect(() => {
         async function checkIn() {
@@ -45,7 +44,9 @@ function App() {
             console.log('run checkin');
             const { primetimeContract } = web3state;
 
-            const x = await (await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)).wait();
+            const x = await (
+                await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)
+            ).wait();
             console.log(x);
             setIsLoadingCheckin(false);
         }
@@ -189,11 +190,25 @@ function App() {
                                             (await currency.balanceOf(userAddress)).toNumber()
                                         );
 
-                                        console.log('prime balance: ', (await currency.balanceOf(Addresses['primetime collect module'])).toNumber());
+                                        console.log(
+                                            'prime balance: ',
+                                            (
+                                                await currency.balanceOf(
+                                                    Addresses['primetime collect module']
+                                                )
+                                            ).toNumber()
+                                        );
                                         console.log('Collect');
                                         const x = await (await contract.collect(2, 1, [])).wait();
                                         console.log(x);
-                                        console.log('prime balance: ', (await currency.balanceOf(Addresses['primetime collect module'])).toNumber());
+                                        console.log(
+                                            'prime balance: ',
+                                            (
+                                                await currency.balanceOf(
+                                                    Addresses['primetime collect module']
+                                                )
+                                            ).toNumber()
+                                        );
 
                                         console.log('Pub:');
                                         console.log(await contract.getPub(2, 1));
@@ -220,7 +235,14 @@ function App() {
                                             );
                                         }
                                         console.log('Distribute stake');
-                                        console.log('prime balance: ', (await currency.balanceOf(Addresses['primetime collect module'])).toNumber());
+                                        console.log(
+                                            'prime balance: ',
+                                            (
+                                                await currency.balanceOf(
+                                                    Addresses['primetime collect module']
+                                                )
+                                            ).toNumber()
+                                        );
                                         console.log(await primetimeContract.distributeStake(2, 1));
                                         for (const p in participants) {
                                             console.log(
@@ -251,18 +273,7 @@ function App() {
                                     <form
                                         onSubmit={async (event) => {
                                             event.preventDefault();
-
-                                            console.log(new Date(event.target.meetingTime.value));
-                                            console.log(
-                                                'abcd' +
-                                                    new Date(
-                                                        event.target.meetingTime.value
-                                                    ).getTime() /
-                                                        1000
-                                            );
                                             const { contract, userAddress } = web3state;
-                                            //event.target.handle.value;
-
                                             // create meeting information and publish to filecoin
                                             console.log('upload meeting information');
                                             const meetingInformation =
