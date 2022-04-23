@@ -36,6 +36,7 @@ function App() {
     const [value, setValue] = React.useState(new Date());
     const [meetingLink, setMeetingLink] = React.useState(undefined);
     const [joinMeetingPub, setJoinMeetingPub] = React.useState(undefined);
+    const [isLoadingJoinMeeting, setIsLoadingJoinMeeting] = useState(false);
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
@@ -64,7 +65,7 @@ function App() {
     useEffect(() => {
         async function showJoinMeeting() {
             console.log('run join meeting');
-            const {primetimeContract, contract} = web3state;
+            const {primetimeContract, contract, userAddress} = web3state;
 
             //const x = await (
             //                await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)
@@ -81,19 +82,28 @@ function App() {
                 .then(response => response.text())
                 .then(async meetingInformation => {
                     console.log(meetingInformation);
-                    const newPubData = {meetingInformation: meetingInformation, ...pubData}
-                    //pubData['meetingInformation'] = meetingInformation;
+                    let participantHandles = [];
+                    let isRegistered = false;
+                    for (let i = 0; i < pubData.participants.length; i++) {
+                        const p = pubData.participants[i];
+                        if (p === userAddress) {
+                            isRegistered = true;
+                        }
+                        const profileId = (await contract.defaultProfile(p)).toNumber();
+                        const handle = await contract.getHandle(profileId);
+                        participantHandles.push(handle);
+                    }
+                    const newPubData = {meetingInformation: meetingInformation, participantHandles: participantHandles, isRegistered: isRegistered, ...pubData}
                     setJoinMeetingPub(newPubData);
                     console.log(newPubData);
                 });
-
         }
 
         const {contract} = web3state;
         if (isJoinMeeting && contract !== null) {
             showJoinMeeting();
         }
-    }, [isJoinMeeting, web3state]);
+    }, [isJoinMeeting, web3state, isLoadingJoinMeeting]);
 
     useEffect(() => {
         async function initializeWeb3() {
@@ -129,6 +139,7 @@ function App() {
             const prof = (await contract.defaultProfile(userAddress)).toNumber();
             console.log('prof', prof);
 
+            /*
             console.log(
                 'prime balance: ',
                 (
@@ -152,7 +163,7 @@ function App() {
                         await currency.balanceOf(p)
                     ).toNumber()
                 );
-            }
+            }*/
 
             console.log('finished loading');
 
@@ -171,6 +182,54 @@ function App() {
 
         initializeWeb3();
     }, [setWeb3state]);
+
+    const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+    async function getDefaultProfile(state) {
+        const {contract, userAddress, currency} = state;
+        let defaultProfile = (
+            await contract.defaultProfile(userAddress)
+        ).toNumber();
+        console.log('defaultProfile', defaultProfile);
+        if (defaultProfile === 0) {
+            // create profile
+            console.log('create profile');
+            let handle =
+                'p' + Math.floor(Math.random() * 100000000);
+            const inputStruct = {
+                to: userAddress,
+                handle: handle,
+                imageURI:
+                    'https://ipfs.io/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                followModule: ZERO_ADDRESS,
+                followModuleInitData: [],
+                followNFTURI:
+                    'https://ipfs.io/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+            };
+            console.log(inputStruct);
+            const x = await (
+                await contract.createProfile(inputStruct)
+            ).wait();
+            console.log(x);
+            console.log('get profileID');
+            const profileId = (
+                await contract.getProfileIdByHandle(handle)
+            ).toNumber();
+            console.log(profileId);
+
+            await (
+                await currency.mint(userAddress, 1000000000)
+            ).wait();
+
+            await (
+                await contract.setDefaultProfile(profileId)
+            ).wait();
+            defaultProfile = (
+                await contract.defaultProfile(userAddress)
+            ).toNumber();
+            console.log('prof', defaultProfile);
+        }
+        return defaultProfile;
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -200,72 +259,85 @@ function App() {
                                             variant="h6">Date: {new Date(parseInt(joinMeetingPub.meetingTime.toNumber())).toLocaleString()}</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Button
-                                            variant="contained"
-                                            style={{marginTop: '16px'}}
-                                            onClick={async () => {
-                                                const {
-                                                    contract,
-                                                    userAddress,
-                                                    signer,
-                                                    currency,
-                                                    primetimeContract,
-                                                } = web3state;
-                                                console.log('Approve');
+                                        <Typography
+                                            variant="h6">Participants: {joinMeetingPub.participantHandles.join(', ')}</Typography>
+                                    </Grid>
+                                    <Grid item xs={4} style={{marginTop: '16px'}}>
+                                        {joinMeetingPub.isRegistered ? (
+                                            <Typography variant="h5">You are registered!</Typography>
+                                        ) : (
+                                            <Button
+                                                variant="contained"
+                                                style={{marginTop: '16px'}}
+                                                disabled={isLoadingJoinMeeting === true}
+                                                onClick={async () => {
+                                                    setIsLoadingJoinMeeting(true);
+                                                    const {
+                                                        contract,
+                                                        userAddress,
+                                                        signer,
+                                                        currency,
+                                                        primetimeContract,
+                                                    } = web3state;
+                                                    console.log('Approve');
 
-                                                await (
-                                                    await currency.approve(
-                                                        Addresses['primetime collect module'],
-                                                        joinMeetingPub.stakingAmount.toNumber()
-                                                    )
-                                                ).wait();
+                                                    await getDefaultProfile(web3state);
 
-                                                console.log('Balance');
-                                                console.log(
-                                                    (await currency.balanceOf(userAddress)).toNumber()
-                                                );
-
-                                                console.log(
-                                                    'prime balance: ',
-                                                    (
-                                                        await currency.balanceOf(
-                                                            Addresses['primetime collect module']
+                                                    await (
+                                                        await currency.approve(
+                                                            Addresses['primetime collect module'],
+                                                            joinMeetingPub.stakingAmount.toNumber()
                                                         )
-                                                    ).toNumber()
-                                                );
-                                                console.log('Collect');
-                                                const x = await (await contract.collect(urlParams.profileId, urlParams.publicationId, [])).wait();
-                                                console.log(x);
-                                                console.log(
-                                                    'prime balance: ',
-                                                    (
-                                                        await currency.balanceOf(
-                                                            Addresses['primetime collect module']
-                                                        )
-                                                    ).toNumber()
-                                                );
+                                                    ).wait();
 
-                                                console.log('Pub:');
-                                                console.log(await contract.getPub(urlParams.profileId, urlParams.publicationId));
-
-                                                const participants =
-                                                    await primetimeContract.getParticipants(urlParams.profileId, urlParams.publicationId);
-                                                console.log('participants');
-                                                console.log(participants);
-                                                for (let i = 0; i < participants.length; i++) {
-                                                    const p = participants[i];
-                                                    console.log(p);
+                                                    console.log('Balance');
                                                     console.log(
-                                                        'balance ',
-                                                        p,
-                                                        ' ',
-                                                        (await currency.balanceOf(p)).toNumber()
+                                                        (await currency.balanceOf(userAddress)).toNumber()
                                                     );
-                                                }
-                                            }}
-                                        >
-                                            Collect
-                                        </Button>
+
+                                                    console.log(
+                                                        'prime balance: ',
+                                                        (
+                                                            await currency.balanceOf(
+                                                                Addresses['primetime collect module']
+                                                            )
+                                                        ).toNumber()
+                                                    );
+                                                    console.log('Collect');
+                                                    const x = await (await contract.collect(urlParams.profileId, urlParams.publicationId, [])).wait();
+                                                    console.log(x);
+                                                    console.log(
+                                                        'prime balance: ',
+                                                        (
+                                                            await currency.balanceOf(
+                                                                Addresses['primetime collect module']
+                                                            )
+                                                        ).toNumber()
+                                                    );
+
+                                                    console.log('Pub:');
+                                                    console.log(await contract.getPub(urlParams.profileId, urlParams.publicationId));
+
+                                                    const participants =
+                                                        await primetimeContract.getParticipants(urlParams.profileId, urlParams.publicationId);
+                                                    console.log('participants');
+                                                    console.log(participants);
+                                                    for (let i = 0; i < participants.length; i++) {
+                                                        const p = participants[i];
+                                                        console.log(p);
+                                                        console.log(
+                                                            'balance ',
+                                                            p,
+                                                            ' ',
+                                                            (await currency.balanceOf(p)).toNumber()
+                                                        );
+                                                    }
+                                                    setIsLoadingJoinMeeting(false);
+                                                }}
+                                            >
+                                                Collect
+                                            </Button>
+                                        )}
                                     </Grid>
                                 </>
                             ) : (<></>)
@@ -428,50 +500,7 @@ function App() {
                                                     );
                                                     console.log(ipfsurl);
 
-                                                    const ZERO_ADDRESS =
-                                                        '0x0000000000000000000000000000000000000000';
-                                                    let defaultProfile = (
-                                                        await contract.defaultProfile(userAddress)
-                                                    ).toNumber();
-                                                    console.log('defaultProfile', defaultProfile);
-                                                    if (defaultProfile === 0) {
-                                                        // create profile
-                                                        console.log('create profile');
-                                                        let handle =
-                                                            'p' + Math.floor(Math.random() * 100000000);
-                                                        const inputStruct = {
-                                                            to: userAddress,
-                                                            handle: handle,
-                                                            imageURI:
-                                                                'https://ipfs.io/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                                            followModule: ZERO_ADDRESS,
-                                                            followModuleInitData: [],
-                                                            followNFTURI:
-                                                                'https://ipfs.io/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                                        };
-                                                        console.log(inputStruct);
-                                                        const x = await (
-                                                            await contract.createProfile(inputStruct)
-                                                        ).wait();
-                                                        console.log(x);
-                                                        console.log('get profileID');
-                                                        const profileId = (
-                                                            await contract.getProfileIdByHandle(handle)
-                                                        ).toNumber();
-                                                        console.log(profileId);
-
-                                                        await (
-                                                            await currency.mint(userAddress, 1000000000)
-                                                        ).wait();
-
-                                                        await (
-                                                            await contract.setDefaultProfile(profileId)
-                                                        ).wait();
-                                                        defaultProfile = (
-                                                            await contract.defaultProfile(userAddress)
-                                                        ).toNumber();
-                                                        console.log('prof', defaultProfile);
-                                                    }
+                                                    const defaultProfile = await getDefaultProfile(web3state);
 
                                                     // create publication
                                                     const meetingTime =
