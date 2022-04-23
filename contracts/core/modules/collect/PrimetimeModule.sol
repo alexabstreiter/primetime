@@ -31,6 +31,11 @@ import "hardhat/console.sol";
         bool hasBeenDistributed;
     }
 
+    struct MeetingID {
+        uint256 profileId;
+        uint256 pubId;
+    }
+
 /**
  * @title FeeCollectModule
  * @author Lens Protocol
@@ -45,6 +50,9 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
 
     mapping(uint256 => mapping(uint256 => CustomProfilePublicationData)) internal _dataByPublicationByProfile;
     mapping(uint256 => mapping(uint256 => mapping(address => uint256))) internal _checkinTime;
+
+    mapping(uint256 => MeetingID) meetings;
+    uint256 meetingCounter;
 
     constructor(address hub, address moduleGlobals) FeeModuleBase(moduleGlobals) ModuleBase(hub) {}
 
@@ -81,6 +89,9 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         //_dataByPublicationByProfile[profileId][pubId].maxLateTime = maxLateTime;
         _dataByPublicationByProfile[profileId][pubId].maxLateTime = 1000;
         //_dataByPublicationByProfile[profileId][pubId].participants.push(recipient);
+
+        meetings[meetingCounter] = MeetingID(profileId, pubId);
+        meetingCounter += 1;
 
         return data;
     }
@@ -168,10 +179,10 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
     function distributeStake(
         uint256 profileId,
         uint256 pubId
-    ) external {
+    ) internal {
         CustomProfilePublicationData memory meeting = _dataByPublicationByProfile[profileId][pubId];
         //if (block.timestamp >= meeting.meetingTime + meeting.maxLateTime && !meeting.hasBeenDistributed) {
-        if (true) {
+        if (!meeting.hasBeenDistributed) {
             uint256 stakedAmount = meeting.stakingAmount;
             uint256 treasuryAmount = stakedAmount / 100;
             int256 adjustedAmount = int256(stakedAmount - treasuryAmount);
@@ -215,6 +226,12 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
             }
 
             meeting.hasBeenDistributed = true;
+        }
+    }
+
+    function maybeDistribute() external {
+        for (uint256 i = 0; i < meetingCounter; i++) {
+            distributeStake(meetings[i].profileId, meetings[i].pubId);
         }
     }
 

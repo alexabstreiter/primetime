@@ -255,7 +255,8 @@ function App() {
                                         }
                                         console.log('Distribute stake');
                                         console.log('prime balance: ', (await currency.balanceOf(Addresses['primetime collect module'])).toNumber());
-                                        console.log(await (await primetimeContract.distributeStake(2, 1)).wait());
+                                        //console.log(await (await primetimeContract.distributeStake(2, 1)).wait());
+                                        console.log(await (await primetimeContract.maybeDistribute()).wait());
                                         for (let i = 0; i < participants.length; i++) {
                                             const p = participants[i];
                                             console.log(p);
