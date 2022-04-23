@@ -66,24 +66,18 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         uint256 pubId,
         bytes calldata data
     ) external override onlyHub returns (bytes memory) {
-        (
-        uint256 stakingAmount,
+        (uint256 stakingAmount,
         address currency,
         uint256 meetingTime,
-        uint256 maxLateTime,
-        address recipient
-        ) = abi.decode(data, (uint256, address, uint256, uint256, address));
-        if (
-            !_currencyWhitelisted(currency) ||
-        recipient == address(0) ||
-        stakingAmount == 0
-        ) revert Errors.InitParamsInvalid();
+        uint256 maxLateTime
+        ) = abi.decode(data, (uint256, address, uint256, uint256));
+        if (!_currencyWhitelisted(currency) || stakingAmount == 0) revert Errors.InitParamsInvalid();
 
         _dataByPublicationByProfile[profileId][pubId].stakingAmount = stakingAmount;
         _dataByPublicationByProfile[profileId][pubId].currency = currency;
         _dataByPublicationByProfile[profileId][pubId].meetingTime = meetingTime;
         _dataByPublicationByProfile[profileId][pubId].maxLateTime = maxLateTime;
-        _dataByPublicationByProfile[profileId][pubId].participants.push(recipient);
+        //_dataByPublicationByProfile[profileId][pubId].participants.push(recipient);
 
         return data;
     }

@@ -11,7 +11,6 @@ import Web3 from 'web3';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme.js';
 import InputAdornment from '@mui/material/InputAdornment';
-import { useLocation } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { CssBaseline } from '@mui/material';
@@ -197,10 +196,10 @@ function App() {
                                     const inputStructPub = {
                                         profileId: profileId,
                                         contentURI: `https://hub.textile.io${ipfsurl}`,
-                                        collectModule: Addresses['fee collect module'],
+                                        collectModule: Addresses['primetime collect module'],
                                         collectModuleInitData: defaultAbiCoder.encode(
-                                            ['uint256', 'address', 'address', 'uint16', 'bool'],
-                                            [1, Addresses['currency'], userAddress, 0, false]
+                                            ['uint256', 'address', 'uint256', 'uint256'],
+                                            [event.target.stakingAmount.value, Addresses['currency'], event.target.meetingTime.value, event.target.maxLateTime.value]
                                         ),
                                         referenceModule: ZERO_ADDRESS,
                                         referenceModuleInitData: [],
@@ -224,6 +223,7 @@ function App() {
                                             variant="outlined"
                                             name="stakingAmount"
                                             type="number"
+                                            defaultValue={10}
                                             placeholder="Staking amount"
                                         />
                                     </Grid>
@@ -231,6 +231,7 @@ function App() {
                                         <TextField
                                             variant="outlined"
                                             name="meetingTime"
+                                            defaultValue={1650738372}
                                             placeholder="Meeting time"
                                         />
                                     </Grid>
@@ -238,6 +239,7 @@ function App() {
                                         <TextField
                                             variant="outlined"
                                             name="maxLateTime"
+                                            defaultValue={600}
                                             placeholder="Max late time"
                                         />
                                     </Grid>
@@ -245,6 +247,7 @@ function App() {
                                         <TextField
                                             variant="outlined"
                                             name="meetingInformation"
+                                            defaultValue={'somelink'}
                                             placeholder="Meeting information"
                                         />
                                     </Grid>
