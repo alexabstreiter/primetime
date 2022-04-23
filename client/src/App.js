@@ -19,6 +19,8 @@ import { CssBaseline } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Confetti from 'react-confetti';
 import { defaultAbiCoder } from 'ethers/lib/utils';
+import {pushTextToIpfs} from "./textileFunctions";
+
 
 function App() {
     const [web3state, setWeb3state] = useState({
@@ -95,18 +97,18 @@ function App() {
                                 ).toNumber();
                                 console.log(profileId);
 
-                                const inputStructPub = {
-                                    profileId: profileId,
-                                    contentURI:
-                                        'https://ipfs.fleek.co/ipfs/plantghostplantghostplantghostplantghostplantghostplantghos',
-                                    collectModule: Addresses['fee collect module'],
-                                    collectModuleInitData: defaultAbiCoder.encode(
-                                        ['uint256', 'address', 'address', 'uint16', 'bool'],
-                                        [1, Addresses['currency'], userAddress, 0, false]
-                                    ),
-                                    referenceModule: ZERO_ADDRESS,
-                                    referenceModuleInitData: [],
-                                };
+                            const inputStructPub = {
+                                profileId: profileId,
+                                contentURI:
+                                    'https://ipfs.fleek.co/ipfs/plantghostplantghostplantghostplantghostplantghostplantghos',
+                                collectModule: Addresses['primetime collect module'],
+                                collectModuleInitData: defaultAbiCoder.encode(
+                                    ['uint256', 'address', 'address', 'uint16', 'bool'],
+                                    [1, Addresses['currency'], userAddress, 0, false]
+                                ),
+                                referenceModule: ZERO_ADDRESS,
+                                referenceModuleInitData: [],
+                            };
 
                                 let pub = await (await contract.post(inputStructPub)).wait();
                                 console.log(await contract.getPub(profileId, 1));
@@ -125,15 +127,10 @@ function App() {
                                 );
                                 console.log('start approving');
 
-                                await (await currency.mint(userAddress, 100000000000)).wait();
-                                await (
-                                    await currency.approve(
-                                        Addresses['fee collect module'],
-                                        1000000000
-                                    )
-                                ).wait();
-                                console.log('Approved');
-                                console.log((await currency.balanceOf(userAddress)).toNumber());
+                            await (await currency.mint(userAddress, 100000000000)).wait();
+                            await (await currency.approve(Addresses['primetime collect module'], 1000000000)).wait();
+                            console.log("Approved");
+                            console.log((await currency.balanceOf(userAddress)).toNumber());
 
                                 const x = await (await contract.collect(1, 1, [])).wait();
                                 console.log(x);
@@ -156,8 +153,52 @@ function App() {
                             <form
                                 onSubmit={async (event) => {
                                     event.preventDefault();
-                                    const { contract } = web3state;
-                                    const _handle = event.target.handle.value;
+                                    const {contract, userAddress} = web3state;
+                                    //event.target.handle.value;
+
+                                    // create meeting information and publish to filecoin
+                                    console.log('upload meeting information')
+                                    const meetingInformation = event.target.meetingInformation.value;
+                                    const ipfsurl = await pushTextToIpfs(meetingInformation ? meetingInformation : 'no information');
+                                    console.log(ipfsurl);
+
+                                    // create profile
+                                    const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+                                    let handle = 'p' + Math.floor(Math.random() * 100000000);
+                                    const inputStruct = {
+                                        to: userAddress,
+                                        handle: handle,
+                                        imageURI:
+                                            'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                        followModule: ZERO_ADDRESS,
+                                        followModuleInitData: [],
+                                        followNFTURI:
+                                            'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                    };
+                                    console.log('create profile (test)')
+                                    const x = await (await contract.createProfile(inputStruct)).wait();
+                                    console.log(x);
+                                    console.log('get profileID')
+                                    const profileId = (await contract.getProfileIdByHandle(handle)).toNumber();
+                                    console.log(profileId);
+
+                                    // create publication
+                                    const inputStructPub = {
+                                        profileId: profileId,
+                                        contentURI:
+                                            `https://hub.textile.io${ipfsurl}`,
+                                        collectModule: Addresses['fee collect module'],
+                                        collectModuleInitData: defaultAbiCoder.encode(
+                                            ['uint256', 'address', 'address', 'uint16', 'bool'],
+                                            [1, Addresses['currency'], userAddress, 0, false]
+                                        ),
+                                        referenceModule: ZERO_ADDRESS,
+                                        referenceModuleInitData: [],
+                                    };
+
+                                    console.log('create publication')
+                                    let pub = await (await contract.post(inputStructPub)).wait();
+                                    console.log(await contract.getPub(profileId, 1));
                                 }}
                             >
                                 <Grid
