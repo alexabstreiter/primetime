@@ -34,6 +34,7 @@ function App() {
     });
     const [isLoadingCheckIn, setIsLoadingCheckin] = useState(true);
     const [value, setValue] = React.useState(new Date());
+    const [meetingLink, setMeetingLink] = React.useState(undefined);
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
@@ -236,151 +237,164 @@ function App() {
                                 style={{marginTop: '42px'}}
                             >
                                 <Grid item>
-                                    <form
-                                        onSubmit={async (event) => {
-                                            event.preventDefault();
-                                            const {contract, userAddress, currency} = web3state;
-                                            // create meeting information and publish to filecoin
-                                            console.log('upload meeting information');
-                                            const meetingInformation =
-                                                event.target.meetingInformation.value;
-                                            const ipfsurl = await pushTextToIpfs(
-                                                meetingInformation
-                                                    ? meetingInformation
-                                                    : 'no information'
-                                            );
-                                            console.log(ipfsurl);
+                                    {meetingLink === undefined ? (
+                                        <form
+                                            onSubmit={async (event) => {
+                                                event.preventDefault();
+                                                const {contract, userAddress, currency} = web3state;
+                                                // create meeting information and publish to filecoin
+                                                console.log('upload meeting information');
+                                                const meetingInformation =
+                                                    event.target.meetingInformation.value;
+                                                const ipfsurl = await pushTextToIpfs(
+                                                    meetingInformation
+                                                        ? meetingInformation
+                                                        : 'no information'
+                                                );
+                                                console.log(ipfsurl);
 
 
-                                            const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-                                            let defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
-                                            console.log('defaultProfile', defaultProfile);
-                                            if (defaultProfile === 0) {
-                                                // create profile
-                                                console.log('create profile');
-                                                let handle =
-                                                    'p' + Math.floor(Math.random() * 100000000);
-                                                const inputStruct = {
-                                                    to: userAddress,
-                                                    handle: handle,
-                                                    imageURI:
-                                                        'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                                    followModule: ZERO_ADDRESS,
-                                                    followModuleInitData: [],
-                                                    followNFTURI:
-                                                        'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                                const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+                                                let defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
+                                                console.log('defaultProfile', defaultProfile);
+                                                if (defaultProfile === 0) {
+                                                    // create profile
+                                                    console.log('create profile');
+                                                    let handle =
+                                                        'p' + Math.floor(Math.random() * 100000000);
+                                                    const inputStruct = {
+                                                        to: userAddress,
+                                                        handle: handle,
+                                                        imageURI:
+                                                            'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                                        followModule: ZERO_ADDRESS,
+                                                        followModuleInitData: [],
+                                                        followNFTURI:
+                                                            'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                                    };
+                                                    console.log(inputStruct);
+                                                    const x = await (
+                                                        await contract.createProfile(inputStruct)
+                                                    ).wait();
+                                                    console.log(x);
+                                                    console.log('get profileID');
+                                                    const profileId = (
+                                                        await contract.getProfileIdByHandle(handle)
+                                                    ).toNumber();
+                                                    console.log(profileId);
+
+                                                    await (
+                                                        await currency.mint(userAddress, 1000000000)
+                                                    ).wait();
+
+                                                    await (
+                                                        await contract.setDefaultProfile(profileId)
+                                                    ).wait();
+                                                    defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
+                                                    console.log('prof', defaultProfile);
+                                                }
+
+                                                // create publication
+                                                const meetingTime =
+                                                    new Date(event.target.meetingTime.value).getTime() /
+                                                    1000;
+                                                const inputStructPub = {
+                                                    profileId: defaultProfile,
+                                                    contentURI: `https://hub.textile.io${ipfsurl}`,
+                                                    collectModule:
+                                                        Addresses['primetime collect module'],
+                                                    collectModuleInitData: defaultAbiCoder.encode(
+                                                        ['uint256', 'address', 'uint256', 'uint256'],
+                                                        [
+                                                            event.target.stakingAmount.value,
+                                                            Addresses['currency'],
+                                                            meetingTime,
+                                                            event.target.maxLateTime.value * 60,
+                                                        ]
+                                                    ),
+                                                    referenceModule: ZERO_ADDRESS,
+                                                    referenceModuleInitData: [],
                                                 };
-                                                const x = await (
-                                                    await contract.createProfile(inputStruct)
-                                                ).wait();
-                                                console.log(x);
-                                                console.log('get profileID');
-                                                const profileId = (
-                                                    await contract.getProfileIdByHandle(handle)
-                                                ).toNumber();
-                                                console.log(profileId);
 
-                                                await (
-                                                    await currency.mint(userAddress, 1000000000)
-                                                ).wait();
-
-                                                await (
-                                                    await contract.setDefaultProfile(profileId)
-                                                ).wait();
-                                                defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
-                                                console.log('prof', defaultProfile);
-                                            }
-
-                                            // create publication
-                                            const meetingTime =
-                                                new Date(event.target.meetingTime.value).getTime() /
-                                                1000;
-                                            const inputStructPub = {
-                                                profileId: defaultProfile,
-                                                contentURI: `https://hub.textile.io${ipfsurl}`,
-                                                collectModule:
-                                                    Addresses['primetime collect module'],
-                                                collectModuleInitData: defaultAbiCoder.encode(
-                                                    ['uint256', 'address', 'uint256', 'uint256'],
-                                                    [
-                                                        event.target.stakingAmount.value,
-                                                        Addresses['currency'],
-                                                        meetingTime,
-                                                        event.target.maxLateTime.value * 60,
-                                                    ]
-                                                ),
-                                                referenceModule: ZERO_ADDRESS,
-                                                referenceModuleInitData: [],
-                                            };
-
-                                            console.log('create publication');
-                                            let pub = await (
-                                                await contract.post(inputStructPub)
-                                            ).wait();
-                                            console.log(await contract.getPub(defaultProfile, 1));
-                                        }}
-                                    >
-                                        <Grid
-                                            item
-                                            container
-                                            spacing={1}
-                                            direction={'row'}
-                                            xs={12}
-                                            alignItems="center"
+                                                //console.log('create publication');
+                                                let tx = await contract.post(inputStructPub);
+                                                //console.log(tx);
+                                                let pub = await tx.wait();
+                                                //console.log(pub);
+                                                console.log(Number(pub.events[0].topics[1]));
+                                                console.log(Number(pub.events[0].topics[2]));
+                                                let profileId = Number(pub.events[0].topics[1]);
+                                                let pubId = Number(pub.events[0].topics[2]);
+                                                setMeetingLink(`http://localhost:3000/?publicationId=${profileId}&profileId=${pubId}`);
+                                                //console.log(pub.logs);
+                                                //console.log(await pub.events[0].getTransaction());
+                                                //console.log(await contract.getPub(defaultProfile, 1));
+                                            }}
                                         >
-                                            <Grid item>
-                                                <TextField
-                                                    variant="outlined"
-                                                    name="stakingAmount"
-                                                    type="number"
-                                                    defaultValue={1000}
-                                                    placeholder="Staking amount"
-                                                />
-                                            </Grid>
-                                            <Grid item>
-                                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                                    <DateTimePicker
-                                                        renderInput={(props) => (
-                                                            <TextField
-                                                                {...props}
-                                                                name="meetingTime"
-                                                            />
-                                                        )}
-                                                        label="DateTimePicker"
-                                                        value={value}
-                                                        onChange={(newValue) => {
-                                                            setValue(newValue);
-                                                        }}
+                                            <Grid
+                                                item
+                                                container
+                                                spacing={1}
+                                                direction={'row'}
+                                                xs={12}
+                                                alignItems="center"
+                                            >
+                                                <Grid item>
+                                                    <TextField
+                                                        variant="outlined"
+                                                        name="stakingAmount"
+                                                        type="number"
+                                                        defaultValue={1000}
+                                                        placeholder="Staking amount"
                                                     />
-                                                </LocalizationProvider>
+                                                </Grid>
+                                                <Grid item>
+                                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                        <DateTimePicker
+                                                            renderInput={(props) => (
+                                                                <TextField
+                                                                    {...props}
+                                                                    name="meetingTime"
+                                                                />
+                                                            )}
+                                                            label="DateTimePicker"
+                                                            value={value}
+                                                            onChange={(newValue) => {
+                                                                setValue(newValue);
+                                                            }}
+                                                        />
+                                                    </LocalizationProvider>
+                                                </Grid>
+                                                <Grid item>
+                                                    <TextField
+                                                        variant="outlined"
+                                                        name="maxLateTime"
+                                                        defaultValue={600}
+                                                        placeholder="Max tolerance in minutes"
+                                                    />
+                                                </Grid>
+                                                <Grid item>
+                                                    <TextField
+                                                        variant="outlined"
+                                                        name="meetingInformation"
+                                                        defaultValue={'somelink'}
+                                                        placeholder="Meeting information"
+                                                    />
+                                                </Grid>
+                                                <Grid item>
+                                                    <Button
+                                                        variant="contained"
+                                                        type="submit"
+                                                        className="cta-button submit-gif-button"
+                                                    >
+                                                        Create meeting
+                                                    </Button>
+                                                </Grid>
                                             </Grid>
-                                            <Grid item>
-                                                <TextField
-                                                    variant="outlined"
-                                                    name="maxLateTime"
-                                                    defaultValue={600}
-                                                    placeholder="Max tolerance in minutes"
-                                                />
-                                            </Grid>
-                                            <Grid item>
-                                                <TextField
-                                                    variant="outlined"
-                                                    name="meetingInformation"
-                                                    defaultValue={'somelink'}
-                                                    placeholder="Meeting information"
-                                                />
-                                            </Grid>
-                                            <Grid item>
-                                                <Button
-                                                    variant="contained"
-                                                    type="submit"
-                                                    className="cta-button submit-gif-button"
-                                                >
-                                                    Create meeting
-                                                </Button>
-                                            </Grid>
-                                        </Grid>
-                                    </form>
+                                        </form>
+                                    ):(
+                                        <Typography>{meetingLink}</Typography>
+                                    )}
                                 </Grid>
                             </Grid>
                         </Grid>
