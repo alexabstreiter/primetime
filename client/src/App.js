@@ -1,27 +1,26 @@
-import React, {useEffect, useState, useCallback} from 'react';
-import {ContractTransaction, ethers} from 'ethers';
-import PrimetimeModule
-    from './artifacts/contracts/core/modules/collect/PrimetimeModule.sol/PrimetimeCollectModule.json';
+import React, { useEffect, useState, useCallback } from 'react';
+import { ContractTransaction, ethers } from 'ethers';
+import PrimetimeModule from './artifacts/contracts/core/modules/collect/PrimetimeModule.sol/PrimetimeCollectModule.json';
 import LensHub from './artifacts/contracts/core/LensHub.sol/LensHub.json';
 import Addresses from './artifacts/addresses.json';
 import CurrencyModule from './artifacts/contracts/mocks/Currency.sol/Currency.json';
-import {BallTriangle} from 'react-loader-spinner';
+import { BallTriangle } from 'react-loader-spinner';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Web3 from 'web3';
-import {ThemeProvider} from '@mui/material/styles';
-import {theme} from './theme.js';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './theme.js';
 import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import {CssBaseline} from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Confetti from 'react-confetti';
-import {defaultAbiCoder} from 'ethers/lib/utils';
-import {pushTextToIpfs} from './textileFunctions';
-import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
+import { defaultAbiCoder } from 'ethers/lib/utils';
+import { pushTextToIpfs } from './textileFunctions';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 function App() {
     const [web3state, setWeb3state] = useState({
@@ -44,7 +43,7 @@ function App() {
         async function checkIn() {
             setIsLoadingCheckin(true);
             console.log('run checkin');
-            const {primetimeContract} = web3state;
+            const { primetimeContract } = web3state;
 
             const x = await (
                 await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)
@@ -53,7 +52,7 @@ function App() {
             setIsLoadingCheckin(false);
         }
 
-        const {contract} = web3state;
+        const { contract } = web3state;
         if (isMeetingCheckIn && contract !== null) {
             checkIn();
         }
@@ -79,12 +78,8 @@ function App() {
                 PrimetimeModule.abi,
                 signer
             );
-            //const message = await contract.getProfile(1);
-            //console.log(message);
 
             const currency = new ethers.Contract(Addresses['currency'], CurrencyModule.abi, signer);
-
-            console.log(Addresses['lensHub proxy']);
             setWeb3state({
                 web3: null,
                 signer,
@@ -104,8 +99,8 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            <Grid container direction={'column'} xs={12} spacing={1} style={{padding: '16px'}}>
+            <CssBaseline />
+            <Grid container direction={'column'} xs={12} spacing={1} style={{ padding: '16px' }}>
                 {isMeetingCheckIn ? (
                     isLoadingCheckIn ? (
                         <Typography variant="h5">Checking into meeting...</Typography>
@@ -127,8 +122,13 @@ function App() {
                             <Grid item xs={4}>
                                 <Button
                                     onClick={async () => {
-                                        const {contract, userAddress, signer, currency, primetimeContract} =
-                                            web3state;
+                                        const {
+                                            contract,
+                                            userAddress,
+                                            signer,
+                                            currency,
+                                            primetimeContract,
+                                        } = web3state;
                                         console.log('Approve');
 
                                         await (
@@ -176,9 +176,7 @@ function App() {
                                                 'balance ',
                                                 p,
                                                 ' ',
-                                                (
-                                                    await currency.balanceOf(p)
-                                                ).toNumber()
+                                                (await currency.balanceOf(p)).toNumber()
                                             );
                                         }
                                     }}
@@ -187,7 +185,7 @@ function App() {
                                 </Button>
                                 <Button
                                     onClick={async () => {
-                                        const {primetimeContract, currency} = web3state;
+                                        const { primetimeContract, currency } = web3state;
 
                                         const participants =
                                             await primetimeContract.getParticipants(2, 1);
@@ -200,15 +198,22 @@ function App() {
                                                 'balance ',
                                                 p,
                                                 ' ',
-                                                (
-                                                    await currency.balanceOf(p)
-                                                ).toNumber()
+                                                (await currency.balanceOf(p)).toNumber()
                                             );
                                         }
                                         console.log('Distribute stake');
-                                        console.log('prime balance: ', (await currency.balanceOf(Addresses['primetime collect module'])).toNumber());
+                                        console.log(
+                                            'prime balance: ',
+                                            (
+                                                await currency.balanceOf(
+                                                    Addresses['primetime collect module']
+                                                )
+                                            ).toNumber()
+                                        );
                                         //console.log(await (await primetimeContract.distributeStake(2, 1)).wait());
-                                        console.log(await (await primetimeContract.maybeDistribute()).wait());
+                                        console.log(
+                                            await (await primetimeContract.maybeDistribute()).wait()
+                                        );
                                         for (let i = 0; i < participants.length; i++) {
                                             const p = participants[i];
                                             console.log(p);
@@ -216,9 +221,7 @@ function App() {
                                                 'balance ',
                                                 p,
                                                 ' ',
-                                                (
-                                                    await currency.balanceOf(p)
-                                                ).toNumber()
+                                                (await currency.balanceOf(p)).toNumber()
                                             );
                                         }
                                     }}
@@ -234,14 +237,15 @@ function App() {
                                 direction={'column'}
                                 spacing={1}
                                 xs={4}
-                                style={{marginTop: '42px'}}
+                                style={{ marginTop: '42px' }}
                             >
                                 <Grid item>
                                     {meetingLink === undefined ? (
                                         <form
                                             onSubmit={async (event) => {
                                                 event.preventDefault();
-                                                const {contract, userAddress, currency} = web3state;
+                                                const { contract, userAddress, currency } =
+                                                    web3state;
                                                 // create meeting information and publish to filecoin
                                                 console.log('upload meeting information');
                                                 const meetingInformation =
@@ -253,9 +257,11 @@ function App() {
                                                 );
                                                 console.log(ipfsurl);
 
-
-                                                const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-                                                let defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
+                                                const ZERO_ADDRESS =
+                                                    '0x0000000000000000000000000000000000000000';
+                                                let defaultProfile = (
+                                                    await contract.defaultProfile(userAddress)
+                                                ).toNumber();
                                                 console.log('defaultProfile', defaultProfile);
                                                 if (defaultProfile === 0) {
                                                     // create profile
@@ -290,21 +296,29 @@ function App() {
                                                     await (
                                                         await contract.setDefaultProfile(profileId)
                                                     ).wait();
-                                                    defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
+                                                    defaultProfile = (
+                                                        await contract.defaultProfile(userAddress)
+                                                    ).toNumber();
                                                     console.log('prof', defaultProfile);
                                                 }
 
                                                 // create publication
                                                 const meetingTime =
-                                                    new Date(event.target.meetingTime.value).getTime() /
-                                                    1000;
+                                                    new Date(
+                                                        event.target.meetingTime.value
+                                                    ).getTime() / 1000;
                                                 const inputStructPub = {
                                                     profileId: defaultProfile,
                                                     contentURI: `https://hub.textile.io${ipfsurl}`,
                                                     collectModule:
                                                         Addresses['primetime collect module'],
                                                     collectModuleInitData: defaultAbiCoder.encode(
-                                                        ['uint256', 'address', 'uint256', 'uint256'],
+                                                        [
+                                                            'uint256',
+                                                            'address',
+                                                            'uint256',
+                                                            'uint256',
+                                                        ],
                                                         [
                                                             event.target.stakingAmount.value,
                                                             Addresses['currency'],
@@ -325,7 +339,9 @@ function App() {
                                                 console.log(Number(pub.events[0].topics[2]));
                                                 let profileId = Number(pub.events[0].topics[1]);
                                                 let pubId = Number(pub.events[0].topics[2]);
-                                                setMeetingLink(`http://localhost:3000/?publicationId=${profileId}&profileId=${pubId}`);
+                                                setMeetingLink(
+                                                    `http://localhost:3000/?publicationId=${profileId}&profileId=${pubId}`
+                                                );
                                                 //console.log(pub.logs);
                                                 //console.log(await pub.events[0].getTransaction());
                                                 //console.log(await contract.getPub(defaultProfile, 1));
@@ -349,7 +365,9 @@ function App() {
                                                     />
                                                 </Grid>
                                                 <Grid item>
-                                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                    <LocalizationProvider
+                                                        dateAdapter={AdapterDateFns}
+                                                    >
                                                         <DateTimePicker
                                                             renderInput={(props) => (
                                                                 <TextField
@@ -392,7 +410,7 @@ function App() {
                                                 </Grid>
                                             </Grid>
                                         </form>
-                                    ):(
+                                    ) : (
                                         <Typography>{meetingLink}</Typography>
                                     )}
                                 </Grid>

@@ -235,5 +235,15 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         }
     }
 
+    function getAllPublications() public view returns(CustomProfilePublicationData[] memory) {
+        console.log("getAllPublications called123");
+        CustomProfilePublicationData[] memory arr = new CustomProfilePublicationData[](meetingCounter);
+        for (uint256 i = 0; i < meetingCounter; i++) {
+            console.log(_dataByPublicationByProfile[meetings[i].profileId][meetings[i].pubId].meetingTime);
+            arr[i] = _dataByPublicationByProfile[meetings[i].profileId][meetings[i].pubId];
+        }
+        return arr;
+    }
+
 }
 
