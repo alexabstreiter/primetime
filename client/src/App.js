@@ -1,23 +1,24 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { ContractTransaction, ethers } from 'ethers';
-import PrimetimeModule from './artifacts/contracts/core/modules/collect/PrimetimeModule.sol/PrimetimeCollectModule.json';
+import React, {useEffect, useState, useCallback} from 'react';
+import {ContractTransaction, ethers} from 'ethers';
+import PrimetimeModule
+    from './artifacts/contracts/core/modules/collect/PrimetimeModule.sol/PrimetimeCollectModule.json';
 import LensHub from './artifacts/contracts/core/LensHub.sol/LensHub.json';
 import Addresses from './artifacts/addresses.json';
 import CurrencyModule from './artifacts/contracts/mocks/Currency.sol/Currency.json';
-import { BallTriangle } from 'react-loader-spinner';
+import {BallTriangle} from 'react-loader-spinner';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Web3 from 'web3';
-import { ThemeProvider } from '@mui/material/styles';
-import { theme } from './theme.js';
+import {ThemeProvider} from '@mui/material/styles';
+import {theme} from './theme.js';
 import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { CssBaseline } from '@mui/material';
+import {CssBaseline} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Confetti from 'react-confetti';
-import { defaultAbiCoder } from 'ethers/lib/utils';
-import { pushTextToIpfs } from './textileFunctions';
+import {defaultAbiCoder} from 'ethers/lib/utils';
+import {pushTextToIpfs} from './textileFunctions';
 
 function App() {
     const [web3state, setWeb3state] = useState({
@@ -97,8 +98,8 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Grid container direction={'column'} xs={12} spacing={1} style={{ padding: '16px' }}>
+            <CssBaseline/>
+            <Grid container direction={'column'} xs={12} spacing={1} style={{padding: '16px'}}>
                 {isMeetingCheckIn ? (
                     isLoadingCheckIn ? (
                         <Typography variant="h5">Checking into meeting...</Typography>
@@ -120,7 +121,7 @@ function App() {
                             <Grid item xs={4}>
                                 <Button
                                     onClick={async () => {
-                                        const { contract, userAddress } = web3state;
+                                        const {contract, userAddress} = web3state;
 
                                         const ZERO_ADDRESS =
                                             '0x0000000000000000000000000000000000000000';
@@ -163,14 +164,15 @@ function App() {
                                             await contract.post(inputStructPub)
                                         ).wait();
                                         console.log(await contract.getPub(profileId, 1));
+                                        const linkurl = `http://localhost:3000/?publicationId=1&profileId=${profileId}`
+                                        console.log(linkurl);
                                     }}
                                 >
                                     post
                                 </Button>
                                 <Button
                                     onClick={async () => {
-                                        const { contract, userAddress, signer, currency } =
-                                            web3state;
+                                        const {contract, userAddress, signer, currency} = web3state;
                                         console.log('Approve');
 
                                         await (
@@ -199,13 +201,19 @@ function App() {
                                 </Button>
                                 <Button
                                     onClick={async () => {
-                                        const { primetimeContract, currency } = web3state;
+                                        const {primetimeContract, currency} = web3state;
 
-                                        console.log('Distribute stake');
-                                        //console.log(
-                                        //(await currency.balanceOf(userAddress)).toNumber()
-                                        //);
+                                        const participants = await primetimeContract.getParticipants(2, 1);
+                                        console.log('participants');
+                                        console.log(participants);
+                                        for (const p in participants) {
+                                            console.log('balance ', p, ' ', (await currency.balanceOf(participants[0])).toNumber());
+                                        }
+                                        console.log('Distribute stake')
                                         console.log(await primetimeContract.distributeStake(2, 1));
+                                        for (const p in participants) {
+                                            console.log('balance ', p, ' ', (await currency.balanceOf(participants[0])).toNumber());
+                                        }
                                     }}
                                 >
                                     Distribute
@@ -219,13 +227,13 @@ function App() {
                                 direction={'column'}
                                 spacing={1}
                                 xs={4}
-                                style={{ marginTop: '42px' }}
+                                style={{marginTop: '42px'}}
                             >
                                 <Grid item>
                                     <form
                                         onSubmit={async (event) => {
                                             event.preventDefault();
-                                            const { contract, userAddress } = web3state;
+                                            const {contract, userAddress} = web3state;
                                             //event.target.handle.value;
 
                                             // create meeting information and publish to filecoin
@@ -269,16 +277,10 @@ function App() {
                                             const inputStructPub = {
                                                 profileId: profileId,
                                                 contentURI: `https://hub.textile.io${ipfsurl}`,
-                                                collectModule:
-                                                    Addresses['primetime collect module'],
+                                                collectModule: Addresses['primetime collect module'],
                                                 collectModuleInitData: defaultAbiCoder.encode(
                                                     ['uint256', 'address', 'uint256', 'uint256'],
-                                                    [
-                                                        event.target.stakingAmount.value,
-                                                        Addresses['currency'],
-                                                        event.target.meetingTime.value,
-                                                        event.target.maxLateTime.value,
-                                                    ]
+                                                    [event.target.stakingAmount.value, Addresses['currency'], event.target.meetingTime.value, event.target.maxLateTime.value]
                                                 ),
                                                 referenceModule: ZERO_ADDRESS,
                                                 referenceModuleInitData: [],

@@ -150,7 +150,7 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
     function getParticipants(
         uint256 profileId,
         uint256 pubId
-    ) external returns (address[] memory) {
+    ) external view returns (address[] memory) {
         return _dataByPublicationByProfile[profileId][pubId].participants;
     }
 
