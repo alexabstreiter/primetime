@@ -1,26 +1,27 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { ContractTransaction, ethers } from 'ethers';
-import PrimetimeModule from './artifacts/contracts/core/modules/collect/PrimetimeModule.sol/PrimetimeCollectModule.json';
+import React, {useEffect, useState, useCallback} from 'react';
+import {ContractTransaction, ethers} from 'ethers';
+import PrimetimeModule
+    from './artifacts/contracts/core/modules/collect/PrimetimeModule.sol/PrimetimeCollectModule.json';
 import LensHub from './artifacts/contracts/core/LensHub.sol/LensHub.json';
 import Addresses from './artifacts/addresses.json';
 import CurrencyModule from './artifacts/contracts/mocks/Currency.sol/Currency.json';
-import { BallTriangle } from 'react-loader-spinner';
+import {BallTriangle} from 'react-loader-spinner';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Web3 from 'web3';
-import { ThemeProvider } from '@mui/material/styles';
-import { theme } from './theme.js';
+import {ThemeProvider} from '@mui/material/styles';
+import {theme} from './theme.js';
 import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { CssBaseline } from '@mui/material';
+import {CssBaseline} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Confetti from 'react-confetti';
-import { defaultAbiCoder } from 'ethers/lib/utils';
-import { pushTextToIpfs } from './textileFunctions';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import {defaultAbiCoder} from 'ethers/lib/utils';
+import {pushTextToIpfs} from './textileFunctions';
+import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
 
 function App() {
     const [web3state, setWeb3state] = useState({
@@ -42,7 +43,7 @@ function App() {
         async function checkIn() {
             setIsLoadingCheckin(true);
             console.log('run checkin');
-            const { primetimeContract } = web3state;
+            const {primetimeContract} = web3state;
 
             const x = await (
                 await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)
@@ -51,7 +52,7 @@ function App() {
             setIsLoadingCheckin(false);
         }
 
-        const { contract } = web3state;
+        const {contract} = web3state;
         if (isMeetingCheckIn && contract !== null) {
             checkIn();
         }
@@ -91,6 +92,10 @@ function App() {
                 primetimeContract,
                 currency,
             });
+
+            const prof = (await contract.defaultProfile(userAddress)).toNumber();
+            console.log('prof', prof);
+
         }
 
         initializeWeb3();
@@ -98,8 +103,8 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Grid container direction={'column'} xs={12} spacing={1} style={{ padding: '16px' }}>
+            <CssBaseline/>
+            <Grid container direction={'column'} xs={12} spacing={1} style={{padding: '16px'}}>
                 {isMeetingCheckIn ? (
                     isLoadingCheckIn ? (
                         <Typography variant="h5">Checking into meeting...</Typography>
@@ -121,64 +126,10 @@ function App() {
                             <Grid item xs={4}>
                                 <Button
                                     onClick={async () => {
-                                        const { contract, userAddress } = web3state;
-
-                                        const ZERO_ADDRESS =
-                                            '0x0000000000000000000000000000000000000000';
-
-                                        let handle = 'p' + Math.floor(Math.random() * 100000000);
-                                        const inputStruct = {
-                                            to: userAddress,
-                                            handle: handle,
-                                            imageURI:
-                                                'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                            followModule: ZERO_ADDRESS,
-                                            followModuleInitData: [],
-                                            followNFTURI:
-                                                'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                        };
-                                        const x = await (
-                                            await contract.createProfile(inputStruct)
-                                        ).wait();
-                                        console.log(x);
-
-                                        const profileId = (
-                                            await contract.getProfileIdByHandle(handle)
-                                        ).toNumber();
-                                        console.log(profileId);
-
-                                        const inputStructPub = {
-                                            profileId: profileId,
-                                            contentURI:
-                                                'https://ipfs.fleek.co/ipfs/plantghostplantghostplantghostplantghostplantghostplantghos',
-                                            collectModule: Addresses['primetime collect module'],
-                                            collectModuleInitData: defaultAbiCoder.encode(
-                                                ['uint256', 'address', 'address', 'uint16', 'bool'],
-                                                [1, Addresses['currency'], userAddress, 0, false]
-                                            ),
-                                            referenceModule: ZERO_ADDRESS,
-                                            referenceModuleInitData: [],
-                                        };
-
-                                        let pub = await (
-                                            await contract.post(inputStructPub)
-                                        ).wait();
-                                        console.log(await contract.getPub(profileId, 1));
-                                        const linkurl = `http://localhost:3000/?publicationId=1&profileId=${profileId}`;
-                                        console.log(linkurl);
-                                    }}
-                                >
-                                    post
-                                </Button>
-                                <Button
-                                    onClick={async () => {
-                                        const { contract, userAddress, signer, currency, primetimeContract } =
+                                        const {contract, userAddress, signer, currency, primetimeContract} =
                                             web3state;
                                         console.log('Approve');
 
-                                        await (
-                                            await currency.mint(userAddress, 100000000000)
-                                        ).wait();
                                         await (
                                             await currency.approve(
                                                 Addresses['primetime collect module'],
@@ -235,7 +186,7 @@ function App() {
                                 </Button>
                                 <Button
                                     onClick={async () => {
-                                        const { primetimeContract, currency } = web3state;
+                                        const {primetimeContract, currency} = web3state;
 
                                         const participants =
                                             await primetimeContract.getParticipants(2, 1);
@@ -282,13 +233,13 @@ function App() {
                                 direction={'column'}
                                 spacing={1}
                                 xs={4}
-                                style={{ marginTop: '42px' }}
+                                style={{marginTop: '42px'}}
                             >
                                 <Grid item>
                                     <form
                                         onSubmit={async (event) => {
                                             event.preventDefault();
-                                            const { contract, userAddress } = web3state;
+                                            const {contract, userAddress, currency} = web3state;
                                             // create meeting information and publish to filecoin
                                             console.log('upload meeting information');
                                             const meetingInformation =
@@ -300,38 +251,52 @@ function App() {
                                             );
                                             console.log(ipfsurl);
 
-                                            // create profile
-                                            const ZERO_ADDRESS =
-                                                '0x0000000000000000000000000000000000000000';
-                                            let handle =
-                                                'p' + Math.floor(Math.random() * 100000000);
-                                            const inputStruct = {
-                                                to: userAddress,
-                                                handle: handle,
-                                                imageURI:
-                                                    'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                                followModule: ZERO_ADDRESS,
-                                                followModuleInitData: [],
-                                                followNFTURI:
-                                                    'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                            };
-                                            console.log('create profile (test)');
-                                            const x = await (
-                                                await contract.createProfile(inputStruct)
-                                            ).wait();
-                                            console.log(x);
-                                            console.log('get profileID');
-                                            const profileId = (
-                                                await contract.getProfileIdByHandle(handle)
-                                            ).toNumber();
-                                            console.log(profileId);
+
+                                            const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+                                            let defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
+                                            console.log('defaultProfile', defaultProfile);
+                                            if (defaultProfile === 0) {
+                                                // create profile
+                                                console.log('create profile');
+                                                let handle =
+                                                    'p' + Math.floor(Math.random() * 100000000);
+                                                const inputStruct = {
+                                                    to: userAddress,
+                                                    handle: handle,
+                                                    imageURI:
+                                                        'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                                    followModule: ZERO_ADDRESS,
+                                                    followModuleInitData: [],
+                                                    followNFTURI:
+                                                        'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                                };
+                                                const x = await (
+                                                    await contract.createProfile(inputStruct)
+                                                ).wait();
+                                                console.log(x);
+                                                console.log('get profileID');
+                                                const profileId = (
+                                                    await contract.getProfileIdByHandle(handle)
+                                                ).toNumber();
+                                                console.log(profileId);
+
+                                                await (
+                                                    await currency.mint(userAddress, 1000000000)
+                                                ).wait();
+
+                                                await (
+                                                    await contract.setDefaultProfile(profileId)
+                                                ).wait();
+                                                defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
+                                                console.log('prof', defaultProfile);
+                                            }
 
                                             // create publication
                                             const meetingTime =
                                                 new Date(event.target.meetingTime.value).getTime() /
                                                 1000;
                                             const inputStructPub = {
-                                                profileId: profileId,
+                                                profileId: defaultProfile,
                                                 contentURI: `https://hub.textile.io${ipfsurl}`,
                                                 collectModule:
                                                     Addresses['primetime collect module'],
@@ -352,7 +317,7 @@ function App() {
                                             let pub = await (
                                                 await contract.post(inputStructPub)
                                             ).wait();
-                                            console.log(await contract.getPub(profileId, 1));
+                                            console.log(await contract.getPub(defaultProfile, 1));
                                         }}
                                     >
                                         <Grid
