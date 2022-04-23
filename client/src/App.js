@@ -34,29 +34,6 @@ function App() {
 
     useEffect(() => {
         async function checkIn() {
-            const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
-            await provider.send('eth_requestAccounts', []);
-            const signer = provider.getSigner();
-
-            let userAddress = 0;
-            await (async function () {
-                userAddress = await signer.getAddress();
-                console.log('Your wallet is ' + userAddress);
-            })();
-
-            console.log('currency address: ', Addresses['currency']);
-
-            const contract = new ethers.Contract(Addresses['lensHub proxy'], LensHub.abi, signer);
-            const message = await contract.getProfile(1);
-            console.log(message);
-
-            console.log(Addresses['lensHub proxy']);
-            setWeb3state({
-                web3: null,
-                signer,
-                userAddress,
-                contract,
-            });
         }
 
         if ((isMeetingCheckIn, web3state !== undefined)) {
