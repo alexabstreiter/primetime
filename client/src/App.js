@@ -29,6 +29,40 @@ function App() {
 
     const urlSearchParams = new URLSearchParams(window.location.searcsh);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
+    const isMeetingCheckIn =
+        urlParams.publicationId !== undefined && urlParams.profileId !== undefined;
+
+    useEffect(() => {
+        async function checkIn() {
+            const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
+            await provider.send('eth_requestAccounts', []);
+            const signer = provider.getSigner();
+
+            let userAddress = 0;
+            await (async function () {
+                userAddress = await signer.getAddress();
+                console.log('Your wallet is ' + userAddress);
+            })();
+
+            console.log('currency address: ', Addresses['currency']);
+
+            const contract = new ethers.Contract(Addresses['lensHub proxy'], LensHub.abi, signer);
+            const message = await contract.getProfile(1);
+            console.log(message);
+
+            console.log(Addresses['lensHub proxy']);
+            setWeb3state({
+                web3: null,
+                signer,
+                userAddress,
+                contract,
+            });
+        }
+
+        if ((isMeetingCheckIn, web3state !== undefined)) {
+            checkIn();
+        }
+    }, [isMeetingCheckIn, web3state]);
 
     useEffect(() => {
         async function initializeWeb3() {
@@ -64,133 +98,155 @@ function App() {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Grid container direction={'column'} xs={12} spacing={1} style={{ padding: '16px' }}>
-                <Grid item container direction={'row'} spacing={4} justifyContent="space-between">
-                    <Grid item xs={4}>
-                        <Typography variant="h3">Primetime</Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Button
-                            onClick={async () => {
-                                const { contract, userAddress } = web3state;
-
-                                const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-
-                                let handle = 'p' + Math.floor(Math.random() * 100000000);
-                                const inputStruct = {
-                                    to: userAddress,
-                                    handle: handle,
-                                    imageURI:
-                                        'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                    followModule: ZERO_ADDRESS,
-                                    followModuleInitData: [],
-                                    followNFTURI:
-                                        'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                };
-                                const x = await (await contract.createProfile(inputStruct)).wait();
-                                console.log(x);
-
-                                const profileId = (
-                                    await contract.getProfileIdByHandle(handle)
-                                ).toNumber();
-                                console.log(profileId);
-
-                                const inputStructPub = {
-                                    profileId: profileId,
-                                    contentURI:
-                                        'https://ipfs.fleek.co/ipfs/plantghostplantghostplantghostplantghostplantghostplantghos',
-                                    collectModule: Addresses['primetime collect module'],
-                                    collectModuleInitData: defaultAbiCoder.encode(
-                                        ['uint256', 'address', 'address', 'uint16', 'bool'],
-                                        [1, Addresses['currency'], userAddress, 0, false]
-                                    ),
-                                    referenceModule: ZERO_ADDRESS,
-                                    referenceModuleInitData: [],
-                                };
-
-                                let pub = await (await contract.post(inputStructPub)).wait();
-                                console.log(await contract.getPub(profileId, 1));
-                            }}
+                {isMeetingCheckIn ? (
+                    <></>
+                ) : (
+                    <>
+                        <Grid
+                            item
+                            container
+                            direction={'row'}
+                            spacing={4}
+                            justifyContent="space-between"
                         >
-                            post
-                        </Button>
-                        <Button
-                            onClick={async () => {
-                                console.log('Collecting..');
-                                const { contract, userAddress, signer } = web3state;
-                                const currency = new ethers.Contract(
-                                    Addresses['currency'],
-                                    CurrencyModule.abi,
-                                    signer
-                                );
-                                console.log('start approving');
+                            <Grid item xs={4}>
+                                <Typography variant="h3">Primetime</Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Button
+                                    onClick={async () => {
+                                        const { contract, userAddress } = web3state;
 
-                                await (await currency.mint(userAddress, 100000000000)).wait();
-                                await (
-                                    await currency.approve(
-                                        Addresses['primetime collect module'],
-                                        1000000000
-                                    )
-                                ).wait();
-                                console.log('Approved');
-                                console.log((await currency.balanceOf(userAddress)).toNumber());
+                                        const ZERO_ADDRESS =
+                                            '0x0000000000000000000000000000000000000000';
 
-                                const x = await (await contract.collect(1, 1, [])).wait();
-                                console.log(x);
-                            }}
-                        >
-                            Collect
-                        </Button>
-                    </Grid>
-                </Grid>
-                <Grid item container direction={'row'} spacing={4}>
-                    <Grid
-                        item
-                        container
-                        direction={'column'}
-                        spacing={1}
-                        xs={4}
-                        style={{ marginTop: '42px' }}
-                    >
-                        <Grid item>
-                            <form
-                                onSubmit={async (event) => {
-                                    event.preventDefault();
-                                    const { contract, userAddress } = web3state;
-                                    //event.target.handle.value;
+                                        let handle = 'p' + Math.floor(Math.random() * 100000000);
+                                        const inputStruct = {
+                                            to: userAddress,
+                                            handle: handle,
+                                            imageURI:
+                                                'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                            followModule: ZERO_ADDRESS,
+                                            followModuleInitData: [],
+                                            followNFTURI:
+                                                'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                        };
+                                        const x = await (
+                                            await contract.createProfile(inputStruct)
+                                        ).wait();
+                                        console.log(x);
 
-                                    // create meeting information and publish to filecoin
-                                    console.log('upload meeting information');
-                                    const meetingInformation =
-                                        event.target.meetingInformation.value;
-                                    const ipfsurl = await pushTextToIpfs(
-                                        meetingInformation ? meetingInformation : 'no information'
-                                    );
-                                    console.log(ipfsurl);
+                                        const profileId = (
+                                            await contract.getProfileIdByHandle(handle)
+                                        ).toNumber();
+                                        console.log(profileId);
 
-                                    // create profile
-                                    const ZERO_ADDRESS =
-                                        '0x0000000000000000000000000000000000000000';
-                                    let handle = 'p' + Math.floor(Math.random() * 100000000);
-                                    const inputStruct = {
-                                        to: userAddress,
-                                        handle: handle,
-                                        imageURI:
-                                            'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                        followModule: ZERO_ADDRESS,
-                                        followModuleInitData: [],
-                                        followNFTURI:
-                                            'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
-                                    };
-                                    console.log('create profile (test)');
-                                    const x = await (
-                                        await contract.createProfile(inputStruct)
-                                    ).wait();
-                                    console.log(x);
-                                    console.log('get profileID');
-                                    const profileId = (
-                                        await contract.getProfileIdByHandle(handle)
-                                    ).toNumber();
-                                    console.log(profileId);
+                                        const inputStructPub = {
+                                            profileId: profileId,
+                                            contentURI:
+                                                'https://ipfs.fleek.co/ipfs/plantghostplantghostplantghostplantghostplantghostplantghos',
+                                            collectModule: Addresses['primetime collect module'],
+                                            collectModuleInitData: defaultAbiCoder.encode(
+                                                ['uint256', 'address', 'address', 'uint16', 'bool'],
+                                                [1, Addresses['currency'], userAddress, 0, false]
+                                            ),
+                                            referenceModule: ZERO_ADDRESS,
+                                            referenceModuleInitData: [],
+                                        };
+
+                                        let pub = await (
+                                            await contract.post(inputStructPub)
+                                        ).wait();
+                                        console.log(await contract.getPub(profileId, 1));
+                                    }}
+                                >
+                                    post
+                                </Button>
+                                <Button
+                                    onClick={async () => {
+                                        console.log('Collecting..');
+                                        const { contract, userAddress, signer } = web3state;
+                                        const currency = new ethers.Contract(
+                                            Addresses['currency'],
+                                            CurrencyModule.abi,
+                                            signer
+                                        );
+                                        console.log('start approving');
+
+                                        await (
+                                            await currency.mint(userAddress, 100000000000)
+                                        ).wait();
+                                        await (
+                                            await currency.approve(
+                                                Addresses['primetime collect module'],
+                                                1000000000
+                                            )
+                                        ).wait();
+                                        console.log('Approved');
+                                        console.log(
+                                            (await currency.balanceOf(userAddress)).toNumber()
+                                        );
+
+                                        const x = await (await contract.collect(1, 1, [])).wait();
+                                        console.log(x);
+                                    }}
+                                >
+                                    Collect
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid item container direction={'row'} spacing={4}>
+                            <Grid
+                                item
+                                container
+                                direction={'column'}
+                                spacing={1}
+                                xs={4}
+                                style={{ marginTop: '42px' }}
+                            >
+                                <Grid item>
+                                    <form
+                                        onSubmit={async (event) => {
+                                            event.preventDefault();
+                                            const { contract, userAddress } = web3state;
+                                            //event.target.handle.value;
+
+                                            // create meeting information and publish to filecoin
+                                            console.log('upload meeting information');
+                                            const meetingInformation =
+                                                event.target.meetingInformation.value;
+                                            const ipfsurl = await pushTextToIpfs(
+                                                meetingInformation
+                                                    ? meetingInformation
+                                                    : 'no information'
+                                            );
+                                            console.log(ipfsurl);
+
+                                            // create profile
+                                            const ZERO_ADDRESS =
+                                                '0x0000000000000000000000000000000000000000';
+                                            let handle =
+                                                'p' + Math.floor(Math.random() * 100000000);
+                                            const inputStruct = {
+                                                to: userAddress,
+                                                handle: handle,
+                                                imageURI:
+                                                    'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                                followModule: ZERO_ADDRESS,
+                                                followModuleInitData: [],
+                                                followNFTURI:
+                                                    'https://ipfs.fleek.co/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
+                                            };
+                                            console.log('create profile (test)');
+                                            const x = await (
+                                                await contract.createProfile(inputStruct)
+                                            ).wait();
+                                            console.log(x);
+                                            console.log('get profileID');
+                                            const profileId = (
+                                                await contract.getProfileIdByHandle(handle)
+                                            ).toNumber();
+                                            console.log(profileId);
 
                                     // create publication
                                     const inputStructPub = {
@@ -205,66 +261,70 @@ function App() {
                                         referenceModuleInitData: [],
                                     };
 
-                                    console.log('create publication');
-                                    let pub = await (await contract.post(inputStructPub)).wait();
-                                    console.log(await contract.getPub(profileId, 1));
-                                }}
-                            >
-                                <Grid
-                                    item
-                                    container
-                                    spacing={1}
-                                    direction={'row'}
-                                    xs={12}
-                                    alignItems="center"
-                                >
-                                    <Grid item>
-                                        <TextField
-                                            variant="outlined"
-                                            name="stakingAmount"
-                                            type="number"
-                                            defaultValue={10}
-                                            placeholder="Staking amount"
-                                        />
-                                    </Grid>
-                                    <Grid item>
-                                        <TextField
-                                            variant="outlined"
-                                            name="meetingTime"
-                                            defaultValue={1650738372}
-                                            placeholder="Meeting time"
-                                        />
-                                    </Grid>
-                                    <Grid item>
-                                        <TextField
-                                            variant="outlined"
-                                            name="maxLateTime"
-                                            defaultValue={600}
-                                            placeholder="Max late time"
-                                        />
-                                    </Grid>
-                                    <Grid item>
-                                        <TextField
-                                            variant="outlined"
-                                            name="meetingInformation"
-                                            defaultValue={'somelink'}
-                                            placeholder="Meeting information"
-                                        />
-                                    </Grid>
-                                    <Grid item>
-                                        <Button
-                                            variant="contained"
-                                            type="submit"
-                                            className="cta-button submit-gif-button"
+                                            console.log('create publication');
+                                            let pub = await (
+                                                await contract.post(inputStructPub)
+                                            ).wait();
+                                            console.log(await contract.getPub(profileId, 1));
+                                        }}
+                                    >
+                                        <Grid
+                                            item
+                                            container
+                                            spacing={1}
+                                            direction={'row'}
+                                            xs={12}
+                                            alignItems="center"
                                         >
-                                            Create meeting
-                                        </Button>
-                                    </Grid>
+                                            <Grid item>
+                                                <TextField
+                                                    variant="outlined"
+                                                    name="stakingAmount"
+                                                    type="number"
+                                                    defaultValue={10}
+                                                    placeholder="Staking amount"
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField
+                                                    variant="outlined"
+                                                    name="meetingTime"
+                                                    defaultValue={1650738372}
+                                                    placeholder="Meeting time"
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField
+                                                    variant="outlined"
+                                                    name="maxLateTime"
+                                                    defaultValue={600}
+                                                    placeholder="Max late time"
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField
+                                                    variant="outlined"
+                                                    name="meetingInformation"
+                                                    defaultValue={'somelink'}
+                                                    placeholder="Meeting information"
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <Button
+                                                    variant="contained"
+                                                    type="submit"
+                                                    className="cta-button submit-gif-button"
+                                                >
+                                                    Create meeting
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </form>
                                 </Grid>
-                            </form>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Grid>
+                    </>
+                )}
             </Grid>
         </ThemeProvider>
     );
