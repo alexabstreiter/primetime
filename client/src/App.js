@@ -26,17 +26,22 @@ function App() {
         userAddress: null,
         contract: null,
     });
+    const [isLoadingCheckIn, setIsLoadingCheckin] = useState(true);
 
-    const urlSearchParams = new URLSearchParams(window.location.searcsh);
+    const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
     const isMeetingCheckIn =
         urlParams.publicationId !== undefined && urlParams.profileId !== undefined;
 
     useEffect(() => {
         async function checkIn() {
+            setIsLoadingCheckin(true);
+            console.log('run checkin');
+            setIsLoadingCheckin(false);
         }
 
-        if ((isMeetingCheckIn, web3state !== undefined)) {
+        const { contract } = web3state;
+        if ((isMeetingCheckIn, contract !== null)) {
             checkIn();
         }
     }, [isMeetingCheckIn, web3state]);
@@ -76,7 +81,11 @@ function App() {
             <CssBaseline />
             <Grid container direction={'column'} xs={12} spacing={1} style={{ padding: '16px' }}>
                 {isMeetingCheckIn ? (
-                    <></>
+                    isLoadingCheckIn ? (
+                        <Typography variant="h5">Checking into meeting...</Typography>
+                    ) : (
+                        <Typography variant="h5">Check in done</Typography>
+                    )
                 ) : (
                     <>
                         <Grid
@@ -225,18 +234,24 @@ function App() {
                                             ).toNumber();
                                             console.log(profileId);
 
-                                    // create publication
-                                    const inputStructPub = {
-                                        profileId: profileId,
-                                        contentURI: `https://hub.textile.io${ipfsurl}`,
-                                        collectModule: Addresses['primetime collect module'],
-                                        collectModuleInitData: defaultAbiCoder.encode(
-                                            ['uint256', 'address', 'uint256', 'uint256'],
-                                            [event.target.stakingAmount.value, Addresses['currency'], event.target.meetingTime.value, event.target.maxLateTime.value]
-                                        ),
-                                        referenceModule: ZERO_ADDRESS,
-                                        referenceModuleInitData: [],
-                                    };
+                                            // create publication
+                                            const inputStructPub = {
+                                                profileId: profileId,
+                                                contentURI: `https://hub.textile.io${ipfsurl}`,
+                                                collectModule:
+                                                    Addresses['primetime collect module'],
+                                                collectModuleInitData: defaultAbiCoder.encode(
+                                                    ['uint256', 'address', 'uint256', 'uint256'],
+                                                    [
+                                                        event.target.stakingAmount.value,
+                                                        Addresses['currency'],
+                                                        event.target.meetingTime.value,
+                                                        event.target.maxLateTime.value,
+                                                    ]
+                                                ),
+                                                referenceModule: ZERO_ADDRESS,
+                                                referenceModuleInitData: [],
+                                            };
 
                                             console.log('create publication');
                                             let pub = await (
