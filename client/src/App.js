@@ -35,7 +35,7 @@ function App() {
     const [isLoadingCheckIn, setIsLoadingCheckin] = useState(true);
     const [value, setValue] = React.useState(new Date());
     const [meetingLink, setMeetingLink] = React.useState(undefined);
-    const [joinMeetingPub, setJoinMeetingPub] = React.useState({});
+    const [joinMeetingPub, setJoinMeetingPub] = React.useState(undefined);
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
@@ -76,7 +76,17 @@ function App() {
             let pubData = await primetimeContract.getPublicationData(urlParams.profileId, urlParams.publicationId);
             console.log('pubData');
             console.log(pubData);
-            setJoinMeetingPub(pub);
+
+            await fetch(pub['contentURI'])
+                .then(response => response.text())
+                .then(async meetingInformation => {
+                    console.log(meetingInformation);
+                    const newPubData = {meetingInformation: meetingInformation, ...pubData}
+                    //pubData['meetingInformation'] = meetingInformation;
+                    setJoinMeetingPub(newPubData);
+                    console.log(newPubData);
+                });
+
         }
 
         const {contract} = web3state;
@@ -119,7 +129,6 @@ function App() {
             const prof = (await contract.defaultProfile(userAddress)).toNumber();
             console.log('prof', prof);
 
-
             console.log(
                 'prime balance: ',
                 (
@@ -145,6 +154,8 @@ function App() {
                 );
             }
 
+            console.log('finished loading');
+
             //const ipfsurl = await pushTextToIpfs('some meeting information');
             //console.log(ipfsurl);
             /*const url = 'https://ipfs.io/ipfs/bafkreicodlwqj6pxdpemsuhx53zneu4hsm234uq63vi6jl4rl5nr4siovy';
@@ -166,7 +177,100 @@ function App() {
             <CssBaseline/>
             <Grid container direction={'column'} xs={12} spacing={1} style={{padding: '16px'}}>
                 {isJoinMeeting ? (
-                        <Typography variant="h5">Join Meeting</Typography>
+                        <Grid container direction={'column'}>
+                            <Grid item xs={4} style={{marginBottom: '16px'}}>
+                                <Typography variant="h5">Join Meeting</Typography>
+                            </Grid>
+                            {joinMeetingPub !== undefined ? (
+                                <>
+                                    <Grid item xs={4}>
+                                        <Typography variant="h6">Meeting
+                                            information: {joinMeetingPub.meetingInformation}</Typography>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <Typography variant="h6">Staking
+                                            amount: {joinMeetingPub.stakingAmount.toNumber()}</Typography>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <Typography variant="h6">Max tolerance in
+                                            minutes: {joinMeetingPub.maxLateTime.toNumber() / 60}</Typography>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <Typography
+                                            variant="h6">Date: {new Date(parseInt(joinMeetingPub.meetingTime.toNumber())).toLocaleString()}</Typography>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <Button
+                                            variant="contained"
+                                            style={{marginTop: '16px'}}
+                                            onClick={async () => {
+                                                const {
+                                                    contract,
+                                                    userAddress,
+                                                    signer,
+                                                    currency,
+                                                    primetimeContract,
+                                                } = web3state;
+                                                console.log('Approve');
+
+                                                await (
+                                                    await currency.approve(
+                                                        Addresses['primetime collect module'],
+                                                        joinMeetingPub.stakingAmount.toNumber()
+                                                    )
+                                                ).wait();
+
+                                                console.log('Balance');
+                                                console.log(
+                                                    (await currency.balanceOf(userAddress)).toNumber()
+                                                );
+
+                                                console.log(
+                                                    'prime balance: ',
+                                                    (
+                                                        await currency.balanceOf(
+                                                            Addresses['primetime collect module']
+                                                        )
+                                                    ).toNumber()
+                                                );
+                                                console.log('Collect');
+                                                const x = await (await contract.collect(urlParams.profileId, urlParams.publicationId, [])).wait();
+                                                console.log(x);
+                                                console.log(
+                                                    'prime balance: ',
+                                                    (
+                                                        await currency.balanceOf(
+                                                            Addresses['primetime collect module']
+                                                        )
+                                                    ).toNumber()
+                                                );
+
+                                                console.log('Pub:');
+                                                console.log(await contract.getPub(urlParams.profileId, urlParams.publicationId));
+
+                                                const participants =
+                                                    await primetimeContract.getParticipants(urlParams.profileId, urlParams.publicationId);
+                                                console.log('participants');
+                                                console.log(participants);
+                                                for (let i = 0; i < participants.length; i++) {
+                                                    const p = participants[i];
+                                                    console.log(p);
+                                                    console.log(
+                                                        'balance ',
+                                                        p,
+                                                        ' ',
+                                                        (await currency.balanceOf(p)).toNumber()
+                                                    );
+                                                }
+                                            }}
+                                        >
+                                            Collect
+                                        </Button>
+                                    </Grid>
+                                </>
+                            ) : (<></>)
+                            }
+                        </Grid>
                     ) :
                     isMeetingCheckIn ? (
                         isLoadingCheckIn ? (
