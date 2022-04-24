@@ -1,32 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 export const CheckInPage = ({ web3state }) => {
-    const [isLoadingCheckIn, setIsLoadingCheckin] = useState(true);
+    const [isLoadingCheckIn, setIsLoadingCheckIn] = useState(true);
     const [meetings, setMeetings] = useState([]);
     const [meetingsWithInfo, setMeetingsWithInfo] = useState([]);
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
     const isMeetingCheckIn = urlParams.action === 'checkin';
-
-    /*useEffect(() => {
-        async function checkIn() {
-            setIsLoadingCheckin(true);
-            console.log('run checkin');
-            const { primetimeContract } = web3state;
-
-            const x = await (
-                await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)
-            ).wait();
-            console.log(x);
-            setIsLoadingCheckin(false);
-        }
-
-        const { contract } = web3state;
-        if (isMeetingCheckIn && contract !== null) {
-            checkIn();
-        }
-    }, [isMeetingCheckIn, web3state]);*/
 
     useEffect(() => {
         async function checkIn() {
@@ -48,7 +31,7 @@ export const CheckInPage = ({ web3state }) => {
 
     useEffect(() => {
         async function loadIpfsData() {
-            //setIsLoadingCheckin(true);
+            setIsLoadingCheckIn(true);
             console.log('run loadIpfsData');
             const { userAddress } = web3state;
             const test2 = await Promise.all(
@@ -63,19 +46,19 @@ export const CheckInPage = ({ web3state }) => {
                     return r;
                 })
             );
-            const test4 = test3
-                .map(function (information, i) {
-                    const newPubData = {
-                        meetingInformation: information,
-                        ...meetings[i],
-                    };
-                    console.log(newPubData);
-                    return newPubData;
-                })
-                .filter((meeting) => meeting.participants.includes(userAddress));
+            const test4 = test3.map(function (information, i) {
+                const newPubData = {
+                    meetingInformation: information,
+                    ...meetings[i],
+                };
+                console.log(newPubData);
+                return newPubData;
+            });
+            //.filter((meeting) => meeting.participants.includes(userAddress));
             console.log('loadIpfsData result');
             console.log(test4);
             setMeetingsWithInfo(test4);
+            setIsLoadingCheckIn(false);
             // TODO: filter for logged in profile
         }
 
@@ -85,13 +68,37 @@ export const CheckInPage = ({ web3state }) => {
         }
     }, [isMeetingCheckIn, web3state, setMeetingsWithInfo, meetings]);
 
+    // todo
+    // maybe show profile handle of the one who created the meeting
+    // onClick go to details page
     return (
-        <>
-            {meetingsWithInfo.map((meeting) => (
-                <>
-                    <Typography>{meeting.contentURI}</Typography>
-                </>
-            ))}
-        </>
+        <Grid container direction={'column'} spacing={2}>
+            <Grid item>
+                <Typography variant={'h3'}>Your meetings</Typography>
+            </Grid>
+            <Grid item container direction={'column'} spacing={1}>
+                {isLoadingCheckIn ? (
+                    <Typography variant={'h6'}>Loading...</Typography>
+                ) : (
+                    meetingsWithInfo.map((meeting) => (
+                        <Grid container spacing={2} onClick={() => {}}>
+                            <Grid item>
+                                <Typography variant={'h6'}>
+                                    {new Date(
+                                        parseInt(meeting.meetingTime.toNumber())
+                                    ).toLocaleString()}
+                                    :
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant={'h6'}>
+                                    <Box sx={{ fontWeight: 800 }}>{meeting.meetingInformation}</Box>
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    ))
+                )}
+            </Grid>
+        </Grid>
     );
 };
