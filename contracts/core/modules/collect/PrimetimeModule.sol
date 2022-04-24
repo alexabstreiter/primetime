@@ -238,6 +238,14 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         }
     }
 
+    function getCheckinTime(
+        uint256 profileId,
+        uint256 pubId,
+        address participant
+    ) external view returns (uint256) {
+        return _checkinTime[profileId][pubId][participant];
+    }
+
     function getAllPublications() public view returns(CustomProfilePublicationData[] memory) {
         console.log("getAllPublications called123");
         CustomProfilePublicationData[] memory arr = new CustomProfilePublicationData[](meetingCounter);
