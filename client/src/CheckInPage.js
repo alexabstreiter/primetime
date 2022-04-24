@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Button from "@mui/material/Button";
 
 export const CheckInPage = ({ web3state }) => {
     const [isLoadingCheckIn, setIsLoadingCheckIn] = useState(true);
@@ -72,6 +73,17 @@ export const CheckInPage = ({ web3state }) => {
         <Grid container direction={'column'} spacing={2}>
             <Grid item>
                 <Typography variant={'h3'}>Your meetings</Typography>
+                <Button
+                    style={{marginTop: '16px', marginBottom: '16px'}}
+                    variant='contained'
+                    onClick={async () => {
+                        const origin = window.location.origin;
+                        const url = `${origin}?action=create`;
+                        window.location.href = url;
+                    }}
+                >
+                    Create meeting
+                </Button>
             </Grid>
             <Grid item container direction={'column'} spacing={1} style={{marginLeft: '8px'}}>
                 {isLoadingCheckIn ? (

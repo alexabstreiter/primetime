@@ -237,7 +237,7 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <Grid container direction={'column'} xs={12} spacing={1} style={{padding: '16px'}}>
+            <Grid container direction={'column'} xs={8} spacing={1} style={{padding: '16px'}}>
                 {isJoinMeeting ? (
                     <Grid container direction={'column'} spacing={2}>
                         <Grid item xs={4} style={{marginBottom: '16px'}}>
@@ -531,6 +531,17 @@ function App() {
                         >
                             <Grid item xs={4}>
                                 <Typography variant="h3">Primetime</Typography>
+                                <Button
+                                    style={{marginTop: '16px'}}
+                                    variant='contained'
+                                    onClick={async () => {
+                                        const origin = window.location.origin;
+                                        const url = `${origin}?action=overview`;
+                                        window.location.href = url;
+                                    }}
+                                >
+                                    All meetings
+                                </Button>
                             </Grid>
                         </Grid>
                         <Grid item container direction={'row'} spacing={4}>
@@ -658,7 +669,7 @@ function App() {
                                                         />
                                                     </LocalizationProvider>
                                                 </Grid>
-                                                <Grid item xs={8}>
+                                                <Grid item xs={5}>
                                                     <TextField
                                                         fullWidth
                                                         variant="outlined"
@@ -679,7 +690,7 @@ function App() {
                                                         }}
                                                     />
                                                 </Grid>
-                                                <Grid item xs={8}>
+                                                <Grid item xs={5}>
                                                     <TextField
                                                         fullWidth
                                                         variant="outlined"
