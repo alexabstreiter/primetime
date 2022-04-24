@@ -255,7 +255,8 @@ function App() {
                                 <Grid item xs={4}>
                                     <Typography variant="h6">
                                         Staking amount:{' '}
-                                        {ethers.utils.formatEther(joinMeetingPub.stakingAmount)}
+                                        {ethers.utils.formatEther(joinMeetingPub.stakingAmount)}{' '}
+                                        MATIC
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
