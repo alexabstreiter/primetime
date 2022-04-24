@@ -48,7 +48,7 @@ function App() {
             const {primetimeContract, contract, userAddress} = web3state;
 
             //const x = await (
-            //                await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)
+            //  await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)
             //).wait();
             //console.log(x);
             //let pub = await contract.getPub(urlParams.profileId, urlParams.publicationId);
@@ -62,8 +62,8 @@ function App() {
             console.log(pubData);
 
             await fetch(pubData['contentURI'])
-                .then(response => response.text())
-                .then(async meetingInformation => {
+                .then((response) => response.text())
+                .then(async (meetingInformation) => {
                     console.log(meetingInformation);
                     let participantHandles = [];
                     let isRegistered = false;
