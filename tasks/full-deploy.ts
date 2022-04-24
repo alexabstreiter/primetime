@@ -230,7 +230,7 @@ task('full-deploy', 'deploys the entire Lens Protocol').setAction(async ({}, hre
   await waitForTx(
     lensHub.whitelistCollectModule(primetimeCollectModule.address, true, { nonce: governanceNonce++ })
   );
-  await waitForTx(
+  /*await waitForTx(
     lensHub.whitelistCollectModule(limitedFeeCollectModule.address, true, {
       nonce: governanceNonce++,
     })
@@ -250,7 +250,7 @@ task('full-deploy', 'deploys the entire Lens Protocol').setAction(async ({}, hre
   );
   await waitForTx(
     lensHub.whitelistCollectModule(freeCollectModule.address, true, { nonce: governanceNonce++ })
-  );
+  );*/
 
   // Whitelist the follow modules
   console.log('\n\t-- Whitelisting Follow Modules --');
