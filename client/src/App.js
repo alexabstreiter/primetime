@@ -1,27 +1,28 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { ContractTransaction, ethers } from 'ethers';
-import PrimetimeModule from './artifacts/contracts/core/modules/collect/PrimetimeModule.sol/PrimetimeCollectModule.json';
+import React, {useEffect, useState, useCallback} from 'react';
+import {ContractTransaction, ethers} from 'ethers';
+import PrimetimeModule
+    from './artifacts/contracts/core/modules/collect/PrimetimeModule.sol/PrimetimeCollectModule.json';
 import LensHub from './artifacts/contracts/core/LensHub.sol/LensHub.json';
 import Addresses from './artifacts/addresses.json';
 import CurrencyModule from './artifacts/contracts/mocks/Currency.sol/Currency.json';
-import { BallTriangle } from 'react-loader-spinner';
+import {BallTriangle} from 'react-loader-spinner';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Web3 from 'web3';
-import { ThemeProvider } from '@mui/material/styles';
-import { theme } from './theme.js';
+import {ThemeProvider} from '@mui/material/styles';
+import {theme} from './theme.js';
 import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { CssBaseline } from '@mui/material';
+import {CssBaseline} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Confetti from 'react-confetti';
-import { defaultAbiCoder } from 'ethers/lib/utils';
-import { pushTextToIpfs } from './textileFunctions';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { CheckInPage } from './CheckInPage';
+import {defaultAbiCoder} from 'ethers/lib/utils';
+import {pushTextToIpfs} from './textileFunctions';
+import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
+import {CheckInPage} from './CheckInPage';
 
 function App() {
     const [web3state, setWeb3state] = useState({
@@ -49,7 +50,7 @@ function App() {
         async function showJoinMeeting() {
             setLoadingState('Fetching meeting information...');
             console.log('run join meeting');
-            const { primetimeContract, contract, userAddress } = web3state;
+            const {primetimeContract, contract, userAddress} = web3state;
 
             //const x = await (
             //  await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)
@@ -77,7 +78,7 @@ function App() {
                         }
                         const participantProfileId = (await contract.defaultProfile(p)).toNumber();
                         const handle = await contract.getHandle(participantProfileId);
-                        const participant = { handle: handle };
+                        const participant = {handle: handle};
 
                         if (pubData.hasBeenDistributed) {
                             const allRewards = await primetimeContract.getAllRewards(
@@ -122,7 +123,7 @@ function App() {
                 });
         }
 
-        const { contract } = web3state;
+        const {contract} = web3state;
         if (isJoinMeeting && contract !== null) {
             showJoinMeeting();
         }
@@ -198,7 +199,7 @@ function App() {
     const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
     async function getDefaultProfile(state) {
-        const { contract, userAddress, currency } = state;
+        const {contract, userAddress, currency} = state;
         let defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
         console.log('defaultProfile', defaultProfile);
         if (defaultProfile === 0) {
@@ -233,205 +234,205 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Grid container direction={'column'} xs={12} spacing={1} style={{ padding: '16px' }}>
+            <CssBaseline/>
+            <Grid container direction={'column'} xs={12} spacing={1} style={{padding: '16px'}}>
                 {isJoinMeeting ? (
-                        <Grid container direction={'column'} spacing={2}>
-                            <Grid item xs={4} style={{marginBottom: '16px'}}>
-                                <Typography variant="h5"></Typography>
-                            </Grid>
-                            {joinMeetingPub !== undefined ? (
-                                <>
-                                    <Grid item xs={4} style={{marginBottom: '16px'}}>
-                                        <Typography variant="h4">{joinMeetingPub.meetingName}</Typography>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <Typography variant="h6"
-                                                    style={{whiteSpace: 'pre-line'}}>{joinMeetingPub.meetingInformation}</Typography>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <Typography variant="h6">Staking
-                                            amount: {ethers.utils.formatEther(joinMeetingPub.stakingAmount)}</Typography>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <Typography variant="h6">Max
-                                            tolerance: {joinMeetingPub.maxLateTime.toNumber() / 60}min</Typography>
-                                    </Grid>
-                                    <Grid item xs={4}>
+                    <Grid container direction={'column'} spacing={2}>
+                        <Grid item xs={4} style={{marginBottom: '16px'}}>
+                            <Typography variant="h5"></Typography>
+                        </Grid>
+                        {joinMeetingPub !== undefined ? (
+                            <>
+                                <Grid item xs={4} style={{marginBottom: '16px'}}>
+                                    <Typography variant="h4">{joinMeetingPub.meetingName}</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Typography variant="h6"
+                                                style={{whiteSpace: 'pre-line'}}>{joinMeetingPub.meetingInformation}</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Typography variant="h6">Staking
+                                        amount: {ethers.utils.formatEther(joinMeetingPub.stakingAmount)}</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Typography variant="h6">Max
+                                        tolerance: {joinMeetingPub.maxLateTime.toNumber() / 60}min</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Typography
+                                        variant="h6">Date: {new Date(parseInt(joinMeetingPub.meetingTime.toNumber()) * 1000).toLocaleString()}</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    {joinMeetingPub.hasBeenDistributed ? (
+                                        joinMeetingPub.participantInfo.map(pInfo => (
+                                            <>
+                                                <Typography
+                                                    variant="h6">{pInfo.handle} was {pInfo.lateTime}s too late,
+                                                    got {ethers.utils.formatEther(pInfo.reward)} MATIC
+                                                    back.</Typography>
+                                            </>
+                                        ))
+                                    ) : (
                                         <Typography
-                                            variant="h6">Date: {new Date(parseInt(joinMeetingPub.meetingTime.toNumber()) * 1000).toLocaleString()}</Typography>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        {joinMeetingPub.hasBeenDistributed ? (
-                                            joinMeetingPub.participantInfo.map(pInfo => (
-                                                <>
-                                                    <Typography
-                                                        variant="h6">{pInfo.handle} was {pInfo.lateTime}s too late,
-                                                        got {ethers.utils.formatEther(pInfo.reward)} MATIC
-                                                        back.</Typography>
-                                                </>
-                                            ))
-                                        ) : (
-                                            <Typography
-                                                variant="h6">Participants: {joinMeetingPub.participantInfo.map(p => p.handle).join(', ')}</Typography>
-                                        )}
-                                    </Grid>
-                                    <Grid item xs={4} style={{marginTop: '16px'}}>
-                                        {joinMeetingPub.checkinTime > 0 ? (
-                                            <Typography variant="h5">You are checked in!</Typography>
-                                        ) : (
-                                            joinMeetingPub.isRegistered ? (
-                                                <>
-                                                    <Typography variant="h5">You are registered!</Typography>
-                                                    <Button
-                                                        variant="contained"
-                                                        style={{marginTop: '16px'}}
-                                                        disabled={isLoadingCheckinMeeting === true || (joinMeetingPub.meetingTime-5*60 >= (new Date().getTime() / 1000))}
-                                                        onClick={async () => {
-                                                            setIsLoadingCheckinMeeting(true);
-                                                            const {primetimeContract} = web3state;
-                                                            await (await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)).wait();
-                                                            setIsLoadingCheckinMeeting(false);
-                                                        }}
-                                                    >
-                                                        Checkin
-                                                    </Button>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Button
-                                                        variant="contained"
-                                                        style={{marginTop: '16px'}}
-                                                        disabled={isLoadingJoinMeeting === true}
-                                                        onClick={async () => {
-                                                            setIsLoadingJoinMeeting(true);
-                                                            setJoinMeetingLoadingState('Join meeting...')
-                                                            const {
-                                                                contract,
-                                                                userAddress,
-                                                                signer,
-                                                                currency,
-                                                                primetimeContract,
-                                                            } = web3state;
-                                                            console.log('Approve');
-
-                                                    await getDefaultProfile(web3state);
-
-                                                    await (
-                                                        await currency.approve(
-                                                            Addresses['primetime collect module'],
-                                                            joinMeetingPub.stakingAmount
-                                                        )
-                                                    ).wait();
-
-                                                    console.log('Balance');
-                                                    console.log(
-                                                        ethers.utils.formatEther(
-                                                            await currency.balanceOf(userAddress)
-                                                        )
-                                                    );
-
-                                                    console.log(
-                                                        'prime balance: ',
-                                                        ethers.utils.formatEther(
-                                                            await currency.balanceOf(
-                                                                Addresses[
-                                                                    'primetime collect module'
-                                                                ]
-                                                            )
-                                                        )
-                                                    );
-                                                    console.log('Collect');
-                                                    const x = await (
-                                                        await contract.collect(
-                                                            urlParams.profileId,
-                                                            urlParams.publicationId,
-                                                            []
-                                                        )
-                                                    ).wait();
-                                                    console.log(x);
-                                                    console.log(
-                                                        'prime balance: ',
-                                                        ethers.utils.formatEther(
-                                                            await currency.balanceOf(
-                                                                Addresses[
-                                                                    'primetime collect module'
-                                                                ]
-                                                            )
-                                                        )
-                                                    );
-
-                                                    console.log('Pub:');
-                                                    console.log(
-                                                        await contract.getPub(
-                                                            urlParams.profileId,
-                                                            urlParams.publicationId
-                                                        )
-                                                    );
-
-                                                    const participants =
-                                                        await primetimeContract.getParticipants(
-                                                            urlParams.profileId,
-                                                            urlParams.publicationId
-                                                        );
-                                                    console.log('participants');
-                                                    console.log(participants);
-                                                    for (let i = 0; i < participants.length; i++) {
-                                                        const p = participants[i];
-                                                        console.log(p);
-                                                        console.log(
-                                                            'balance ',
-                                                            p,
-                                                            ' ',
-                                                            ethers.utils.formatEther(
-                                                                await currency.balanceOf(p)
-                                                            )
-                                                        );
-                                                    }
-                                                    setIsLoadingJoinMeeting(false);
-                                                    setJoinMeetingLoadingState('');
-                                                }}
-                                            >
-                                                Join meeting
-                                            </Button>
-                                            {joinMeetingLoadingState !== '' ? (
-                                                <Grid
-                                                    container
-                                                    direction={'row'}
-                                                    alignItems="center"
-                                                >
-                                                    <Grid
-                                                        item
-                                                        style={{
-                                                            visibility:
-                                                                joinMeetingLoadingState === ''
-                                                                    ? 'hidden'
-                                                                    : 'visible',
-                                                            display: 'flex',
-                                                            fontSize: 15,
-                                                        }}
-                                                    >
-                                                        <BallTriangle
-                                                            height="40"
-                                                            width="40"
-                                                            color="grey"
-                                                            ariaLabel="loading-indicator"
-                                                        />
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Typography
-                                                            variant="h6"
-                                                            style={{ fontWeight: 'bold' }}
-                                                        >
-                                                            {joinMeetingLoadingState}{' '}
-                                                        </Typography>
-                                                    </Grid>
-                                                </Grid>
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </>
+                                            variant="h6">Participants: {joinMeetingPub.participantInfo.map(p => p.handle).join(', ')}</Typography>
                                     )}
+                                </Grid>
+                                <Grid item xs={4} style={{marginTop: '16px'}}>
+                                    {joinMeetingPub.checkinTime > 0 ? (
+                                        <Typography variant="h5">You are checked in!</Typography>
+                                    ) : (
+                                        joinMeetingPub.isRegistered ? (
+                                            <>
+                                                <Typography variant="h5">You are registered!</Typography>
+                                                <Button
+                                                    variant="contained"
+                                                    style={{marginTop: '16px'}}
+                                                    disabled={isLoadingCheckinMeeting === true || (joinMeetingPub.meetingTime - 5 * 60 >= (new Date().getTime() / 1000))}
+                                                    onClick={async () => {
+                                                        setIsLoadingCheckinMeeting(true);
+                                                        const {primetimeContract} = web3state;
+                                                        await (await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)).wait();
+                                                        setIsLoadingCheckinMeeting(false);
+                                                    }}
+                                                >
+                                                    Checkin
+                                                </Button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Button
+                                                    variant="contained"
+                                                    style={{marginTop: '16px'}}
+                                                    disabled={isLoadingJoinMeeting === true}
+                                                    onClick={async () => {
+                                                        setIsLoadingJoinMeeting(true);
+                                                        setJoinMeetingLoadingState('Join meeting...')
+                                                        const {
+                                                            contract,
+                                                            userAddress,
+                                                            signer,
+                                                            currency,
+                                                            primetimeContract,
+                                                        } = web3state;
+                                                        console.log('Approve');
+
+                                                        await getDefaultProfile(web3state);
+
+                                                        await (
+                                                            await currency.approve(
+                                                                Addresses['primetime collect module'],
+                                                                joinMeetingPub.stakingAmount
+                                                            )
+                                                        ).wait();
+
+                                                        console.log('Balance');
+                                                        console.log(
+                                                            ethers.utils.formatEther(
+                                                                await currency.balanceOf(userAddress)
+                                                            )
+                                                        );
+
+                                                        console.log(
+                                                            'prime balance: ',
+                                                            ethers.utils.formatEther(
+                                                                await currency.balanceOf(
+                                                                    Addresses[
+                                                                        'primetime collect module'
+                                                                        ]
+                                                                )
+                                                            )
+                                                        );
+                                                        console.log('Collect');
+                                                        const x = await (
+                                                            await contract.collect(
+                                                                urlParams.profileId,
+                                                                urlParams.publicationId,
+                                                                []
+                                                            )
+                                                        ).wait();
+                                                        console.log(x);
+                                                        console.log(
+                                                            'prime balance: ',
+                                                            ethers.utils.formatEther(
+                                                                await currency.balanceOf(
+                                                                    Addresses[
+                                                                        'primetime collect module'
+                                                                        ]
+                                                                )
+                                                            )
+                                                        );
+
+                                                        console.log('Pub:');
+                                                        console.log(
+                                                            await contract.getPub(
+                                                                urlParams.profileId,
+                                                                urlParams.publicationId
+                                                            )
+                                                        );
+
+                                                        const participants =
+                                                            await primetimeContract.getParticipants(
+                                                                urlParams.profileId,
+                                                                urlParams.publicationId
+                                                            );
+                                                        console.log('participants');
+                                                        console.log(participants);
+                                                        for (let i = 0; i < participants.length; i++) {
+                                                            const p = participants[i];
+                                                            console.log(p);
+                                                            console.log(
+                                                                'balance ',
+                                                                p,
+                                                                ' ',
+                                                                ethers.utils.formatEther(
+                                                                    await currency.balanceOf(p)
+                                                                )
+                                                            );
+                                                        }
+                                                        setIsLoadingJoinMeeting(false);
+                                                        setJoinMeetingLoadingState('');
+                                                    }}
+                                                >
+                                                    Join meeting
+                                                </Button>
+                                                {joinMeetingLoadingState !== '' ? (
+                                                    <Grid
+                                                        container
+                                                        direction={'row'}
+                                                        alignItems="center"
+                                                    >
+                                                        <Grid
+                                                            item
+                                                            style={{
+                                                                visibility:
+                                                                    joinMeetingLoadingState === ''
+                                                                        ? 'hidden'
+                                                                        : 'visible',
+                                                                display: 'flex',
+                                                                fontSize: 15,
+                                                            }}
+                                                        >
+                                                            <BallTriangle
+                                                                height="40"
+                                                                width="40"
+                                                                color="grey"
+                                                                ariaLabel="loading-indicator"
+                                                            />
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography
+                                                                variant="h6"
+                                                                style={{fontWeight: 'bold'}}
+                                                            >
+                                                                {joinMeetingLoadingState}{' '}
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                ) : (
+                                                    <></>
+                                                )}
+                                            </>
+                                        ))}
                                 </Grid>
                             </>
                         ) : (
@@ -455,7 +456,7 @@ function App() {
                                             />
                                         </Grid>
                                         <Grid item>
-                                            <Typography variant="h6" style={{ fontWeight: 'bold' }}>
+                                            <Typography variant="h6" style={{fontWeight: 'bold'}}>
                                                 {loadingState}{' '}
                                             </Typography>
                                         </Grid>
@@ -488,7 +489,7 @@ function App() {
                                 direction={'column'}
                                 spacing={1}
                                 xs={20}
-                                style={{ marginTop: '42px' }}
+                                style={{marginTop: '42px'}}
                             >
                                 {meetingLink === undefined ? (
                                     <Grid item>
@@ -496,7 +497,7 @@ function App() {
                                             onSubmit={async (event) => {
                                                 event.preventDefault();
                                                 setLoadingState('Creating meeting...');
-                                                const { contract, userAddress, currency } =
+                                                const {contract, userAddress, currency} =
                                                     web3state;
                                                 // create meeting information and publish to filecoin
                                                 console.log('upload meeting information');
@@ -675,7 +676,7 @@ function App() {
                                                 </Grid>
                                                 <Grid item>
                                                     <Button
-                                                        style={{ marginTop: '16px' }}
+                                                        style={{marginTop: '16px'}}
                                                         variant="contained"
                                                         type="submit"
                                                         className="cta-button submit-gif-button"
@@ -711,7 +712,7 @@ function App() {
                                                         <Grid item>
                                                             <Typography
                                                                 variant="h6"
-                                                                style={{ fontWeight: 'bold' }}
+                                                                style={{fontWeight: 'bold'}}
                                                             >
                                                                 {loadingState}{' '}
                                                             </Typography>
@@ -732,7 +733,7 @@ function App() {
                 )}
                 <Button
                     onClick={async () => {
-                        const { primetimeContract, currency } = web3state;
+                        const {primetimeContract, currency} = web3state;
 
                         const participants = await primetimeContract.getParticipants(
                             urlParams.profileId,
