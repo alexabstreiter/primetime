@@ -51,6 +51,7 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
 
     mapping(uint256 => mapping(uint256 => CustomProfilePublicationData)) internal _dataByPublicationByProfile;
     mapping(uint256 => mapping(uint256 => mapping(address => uint256))) internal _checkinTime;
+    mapping(uint256 => mapping(uint256 => mapping(address => uint256))) internal _rewards;
 
     mapping(uint256 => MeetingID) meetings;
     uint256 meetingCounter;
@@ -221,6 +222,8 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
                     console.log('prereward', i, uint256(reward));
                     reward += adjustedAmount * totalLateTime / int256(meeting.maxLateTime) / int256(meeting.participants.length - 1);
                 }
+                console.log('reward', meeting.participants[i], uint256(reward));
+                _rewards[profileId][pubId][meeting.participants[i]] = uint256(reward);
                 if (reward > 0) {
                     console.log('reward', i, uint256(reward));
                     IERC20(meeting.currency).safeTransfer(meeting.participants[i], uint256(reward));
@@ -228,7 +231,7 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
                 }
             }
 
-            meeting.hasBeenDistributed = true;
+            _dataByPublicationByProfile[profileId][pubId].hasBeenDistributed = true;
         }
     }
 
@@ -244,6 +247,28 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         address participant
     ) external view returns (uint256) {
         return _checkinTime[profileId][pubId][participant];
+    }
+
+    function getAllRewards(
+        uint256 profileId,
+        uint256 pubId
+    ) public view returns(uint256[] memory) {
+        uint256[] memory arr = new uint256[](_dataByPublicationByProfile[profileId][pubId].participants.length);
+        for (uint256 i = 0; i < _dataByPublicationByProfile[profileId][pubId].participants.length; i++) {
+            console.log(_dataByPublicationByProfile[profileId][pubId].participants[i], _rewards[profileId][pubId][_dataByPublicationByProfile[profileId][pubId].participants[i]]);
+            arr[i] = _rewards[profileId][pubId][_dataByPublicationByProfile[profileId][pubId].participants[i]];
+        }
+        return arr;
+    }
+
+
+    function getReward(
+        uint256 profileId,
+        uint256 pubId,
+        address participant
+    ) external view returns (uint256) {
+        console.log(participant);
+        return _rewards[profileId][pubId][participant];
     }
 
     function getAllPublications() public view returns(CustomProfilePublicationData[] memory) {

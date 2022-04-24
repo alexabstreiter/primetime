@@ -66,16 +66,24 @@ function App() {
                 .then(response => response.text())
                 .then(async meetingInformation => {
                     console.log(meetingInformation);
-                    let participantHandles = [];
+                    let participantInfo = [];
                     let isRegistered = false;
                     for (let i = 0; i < pubData.participants.length; i++) {
                         const p = pubData.participants[i];
                         if (p === userAddress) {
                             isRegistered = true;
                         }
-                        const profileId = (await contract.defaultProfile(p)).toNumber();
-                        const handle = await contract.getHandle(profileId);
-                        participantHandles.push(handle);
+                        const participantProfileId = (await contract.defaultProfile(p)).toNumber();
+                        const handle = await contract.getHandle(participantProfileId);
+                        const participant = {handle: handle}
+
+                        if (pubData.hasBeenDistributed) {
+                            const allRewards = (await primetimeContract.getAllRewards(profileId, publicationId));
+                            const checkinTime = (await primetimeContract.getCheckinTime(profileId, publicationId, p)).toNumber();
+                            participant['lateTime'] = checkinTime > 0 ? (checkinTime - pubData.meetingTime.toNumber()) : pubData.maxLateTime.toNumber();
+                            participant['reward'] = (await primetimeContract.getReward(profileId, publicationId, p)).toNumber();// - pubData.stakingAmount.toNumber();
+                        }
+                        participantInfo.push(participant);
                     }
                     let checkinTime = 0;
                     if (isRegistered) {
@@ -83,7 +91,7 @@ function App() {
                     }
                     const newPubData = {
                         meetingInformation: meetingInformation,
-                        participantHandles: participantHandles,
+                        participantInfo: participantInfo,
                         checkinTime: checkinTime,
                         isRegistered: isRegistered, ...pubData
                     }
@@ -242,8 +250,17 @@ function App() {
                                             variant="h6">Date: {new Date(parseInt(joinMeetingPub.meetingTime.toNumber())).toLocaleString()}</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Typography
-                                            variant="h6">Participants: {joinMeetingPub.participantHandles.join(', ')}</Typography>
+                                        {joinMeetingPub.hasBeenDistributed ? (
+                                            joinMeetingPub.participantInfo.map(pInfo => (
+                                                <>
+                                                    <Typography
+                                                        variant="h6">{pInfo.handle} was {pInfo.lateTime}s too late, got {pInfo.reward} ETH back.</Typography>
+                                                </>
+                                            ))
+                                        ) : (
+                                            <Typography
+                                                variant="h6">Participants: {joinMeetingPub.participantInfo.map(p => p.handle).join(', ')}</Typography>
+                                        )}
                                     </Grid>
                                     <Grid item xs={4} style={{marginTop: '16px'}}>
                                         {joinMeetingPub.checkinTime > 0 ? (
@@ -423,51 +440,7 @@ function App() {
                                     >
                                         Collect
                                     </Button>
-                                    <Button
-                                        onClick={async () => {
-                                            const {primetimeContract, currency} = web3state;
 
-                                            const participants =
-                                                await primetimeContract.getParticipants(1, 1);
-                                            console.log('participants');
-                                            console.log(participants);
-                                            for (let i = 0; i < participants.length; i++) {
-                                                const p = participants[i];
-                                                console.log(p);
-                                                console.log(
-                                                    'balance ',
-                                                    p,
-                                                    ' ',
-                                                    (await currency.balanceOf(p)).toNumber()
-                                                );
-                                            }
-                                            console.log('Distribute stake');
-                                            console.log(
-                                                'prime balance: ',
-                                                (
-                                                    await currency.balanceOf(
-                                                        Addresses['primetime collect module']
-                                                    )
-                                                ).toNumber()
-                                            );
-                                            //console.log(await (await primetimeContract.distributeStake(2, 1)).wait());
-                                            console.log(
-                                                await (await primetimeContract.maybeDistribute()).wait()
-                                            );
-                                            for (let i = 0; i < participants.length; i++) {
-                                                const p = participants[i];
-                                                console.log(p);
-                                                console.log(
-                                                    'balance ',
-                                                    p,
-                                                    ' ',
-                                                    (await currency.balanceOf(p)).toNumber()
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        Distribute
-                                    </Button>
                                 </Grid>
                             </Grid>
                             <Grid item container direction={'row'} spacing={4}>
@@ -627,6 +600,50 @@ function App() {
                             </Grid>
                         </>
                     )}
+                <Button
+                    onClick={async () => {
+                        const {primetimeContract, currency} = web3state;
+
+                        const participants = await primetimeContract.getParticipants(urlParams.profileId, urlParams.publicationId);
+                        console.log('participants');
+                        console.log(participants);
+                        for (let i = 0; i < participants.length; i++) {
+                            const p = participants[i];
+                            console.log(p);
+                            console.log(
+                                'balance ',
+                                p,
+                                ' ',
+                                (await currency.balanceOf(p)).toNumber()
+                            );
+                        }
+                        console.log('Distribute stake');
+                        console.log(
+                            'prime balance: ',
+                            (
+                                await currency.balanceOf(
+                                    Addresses['primetime collect module']
+                                )
+                            ).toNumber()
+                        );
+                        //console.log(await (await primetimeContract.distributeStake(2, 1)).wait());
+                        console.log(
+                            await (await primetimeContract.maybeDistribute()).wait()
+                        );
+                        for (let i = 0; i < participants.length; i++) {
+                            const p = participants[i];
+                            console.log(p);
+                            console.log(
+                                'balance ',
+                                p,
+                                ' ',
+                                (await currency.balanceOf(p)).toNumber()
+                            );
+                        }
+                    }}
+                >
+                    Distribute
+                </Button>
             </Grid>
         </ThemeProvider>
     );
