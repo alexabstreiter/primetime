@@ -253,8 +253,11 @@ function App() {
                                                 style={{whiteSpace: 'pre-line'}}>{joinMeetingPub.meetingInformation}</Typography>
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <Typography variant="h6">Staking
-                                        amount: {ethers.utils.formatEther(joinMeetingPub.stakingAmount)}</Typography>
+                                    <Typography variant="h6">
+                                        Staking amount:{' '}
+                                        {ethers.utils.formatEther(joinMeetingPub.stakingAmount)}{' '}
+                                        MATIC
+                                    </Typography>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Typography variant="h6">Max
