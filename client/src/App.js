@@ -279,7 +279,53 @@ function App() {
                                 </Grid>
                                 <Grid item xs={4} style={{marginTop: '16px'}}>
                                     {joinMeetingPub.checkinTime > 0 ? (
-                                        <Typography variant="h5">You are checked in!</Typography>
+                                        <>
+                                            <Typography variant="h5">You are checked in!</Typography>
+                                            <Button
+                                                style={{marginTop: '128px'}}
+                                                onClick={async () => {
+                                                    const {primetimeContract, currency} = web3state;
+
+                                                    const participants = await primetimeContract.getParticipants(
+                                                        urlParams.profileId,
+                                                        urlParams.publicationId
+                                                    );
+                                                    console.log('participants');
+                                                    console.log(participants);
+                                                    for (let i = 0; i < participants.length; i++) {
+                                                        const p = participants[i];
+                                                        console.log(p);
+                                                        console.log(
+                                                            'balance ',
+                                                            p,
+                                                            ' ',
+                                                            ethers.utils.formatEther(await currency.balanceOf(p))
+                                                        );
+                                                    }
+                                                    console.log('Distribute stake');
+                                                    console.log(
+                                                        'prime balance: ',
+                                                        ethers.utils.formatEther(
+                                                            await currency.balanceOf(Addresses['primetime collect module'])
+                                                        )
+                                                    );
+                                                    //console.log(await (await primetimeContract.distributeStake(2, 1)).wait());
+                                                    console.log(await (await primetimeContract.maybeDistribute()).wait());
+                                                    for (let i = 0; i < participants.length; i++) {
+                                                        const p = participants[i];
+                                                        console.log(p);
+                                                        console.log(
+                                                            'balance ',
+                                                            p,
+                                                            ' ',
+                                                            ethers.utils.formatEther(await currency.balanceOf(p))
+                                                        );
+                                                    }
+                                                }}
+                                            >
+                                                Distribute stakes
+                                            </Button>
+                                        </>
                                     ) : (
                                         joinMeetingPub.isRegistered ? (
                                             <>
@@ -731,49 +777,6 @@ function App() {
                         </Grid>
                     </>
                 )}
-                <Button
-                    onClick={async () => {
-                        const {primetimeContract, currency} = web3state;
-
-                        const participants = await primetimeContract.getParticipants(
-                            urlParams.profileId,
-                            urlParams.publicationId
-                        );
-                        console.log('participants');
-                        console.log(participants);
-                        for (let i = 0; i < participants.length; i++) {
-                            const p = participants[i];
-                            console.log(p);
-                            console.log(
-                                'balance ',
-                                p,
-                                ' ',
-                                ethers.utils.formatEther(await currency.balanceOf(p))
-                            );
-                        }
-                        console.log('Distribute stake');
-                        console.log(
-                            'prime balance: ',
-                            ethers.utils.formatEther(
-                                await currency.balanceOf(Addresses['primetime collect module'])
-                            )
-                        );
-                        //console.log(await (await primetimeContract.distributeStake(2, 1)).wait());
-                        console.log(await (await primetimeContract.maybeDistribute()).wait());
-                        for (let i = 0; i < participants.length; i++) {
-                            const p = participants[i];
-                            console.log(p);
-                            console.log(
-                                'balance ',
-                                p,
-                                ' ',
-                                ethers.utils.formatEther(await currency.balanceOf(p))
-                            );
-                        }
-                    }}
-                >
-                    Distribute
-                </Button>
             </Grid>
         </ThemeProvider>
     );
