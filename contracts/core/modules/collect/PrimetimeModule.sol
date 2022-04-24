@@ -26,6 +26,7 @@ import "hardhat/console.sol";
         uint256 meetingTime;
         uint256 maxLateTime;
         string contentURI;
+        string meetingName;
         address currency;
         address[] participants;
         //mapping(address => uint256) checkinTime;
@@ -81,8 +82,9 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         address currency,
         uint256 meetingTime,
         uint256 maxLateTime,
-        string memory contentURI
-        ) = abi.decode(data, (uint256, address, uint256, uint256, string));
+        string memory contentURI,
+        string memory meetingName
+        ) = abi.decode(data, (uint256, address, uint256, uint256, string, string));
         if (!_currencyWhitelisted(currency) || stakingAmount == 0) revert Errors.InitParamsInvalid();
 
         _dataByPublicationByProfile[profileId][pubId].stakingAmount = stakingAmount;
@@ -92,6 +94,7 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         _dataByPublicationByProfile[profileId][pubId].maxLateTime = maxLateTime;
         //_dataByPublicationByProfile[profileId][pubId].maxLateTime = 1000;
         _dataByPublicationByProfile[profileId][pubId].contentURI = contentURI;
+        _dataByPublicationByProfile[profileId][pubId].meetingName = meetingName;
 
         meetings[meetingCounter] = MeetingID(profileId, pubId);
         meetingCounter += 1;

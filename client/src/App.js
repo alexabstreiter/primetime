@@ -34,7 +34,7 @@ function App() {
         currency: null,
     });
     const [value, setValue] = React.useState(new Date());
-    const [meetingLink, setMeetingLink] = React.useState(undefined);
+    const [meetingLink, setMeetingLink] = React.useState(undefined);//'http://localhost:3000/?action=join&profileId=1&publicationId=1'
     const [joinMeetingPub, setJoinMeetingPub] = React.useState(undefined);
     const [isLoadingJoinMeeting, setIsLoadingJoinMeeting] = useState(false);
     const [isLoadingCheckinMeeting, setIsLoadingCheckinMeeting] = useState(false);
@@ -229,21 +229,23 @@ function App() {
                 {isJoinMeeting ? (
                         <Grid container direction={'column'}>
                             <Grid item xs={4} style={{marginBottom: '16px'}}>
-                                <Typography variant="h5">Join Meeting</Typography>
+                                <Typography variant="h5"></Typography>
                             </Grid>
                             {joinMeetingPub !== undefined ? (
                                 <>
                                     <Grid item xs={4}>
-                                        <Typography variant="h6">Meeting
-                                            information: {joinMeetingPub.meetingInformation}</Typography>
+                                        <Typography variant="h6">{joinMeetingPub.meetingName}</Typography>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <Typography variant="h6">{joinMeetingPub.meetingInformation}</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Typography variant="h6">Staking
                                             amount: {ethers.utils.formatEther(joinMeetingPub.stakingAmount)}</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Typography variant="h6">Max tolerance in
-                                            minutes: {joinMeetingPub.maxLateTime.toNumber() / 60}</Typography>
+                                        <Typography variant="h6">Max
+                                            tolerance: {joinMeetingPub.maxLateTime.toNumber() / 60}min</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Typography
@@ -254,7 +256,9 @@ function App() {
                                             joinMeetingPub.participantInfo.map(pInfo => (
                                                 <>
                                                     <Typography
-                                                        variant="h6">{pInfo.handle} was {pInfo.lateTime}s too late, got {ethers.utils.formatEther(pInfo.reward)} MATIC back.</Typography>
+                                                        variant="h6">{pInfo.handle} was {pInfo.lateTime}s too late,
+                                                        got {ethers.utils.formatEther(pInfo.reward)} MATIC
+                                                        back.</Typography>
                                                 </>
                                             ))
                                         ) : (
@@ -376,72 +380,6 @@ function App() {
                                 <Grid item xs={4}>
                                     <Typography variant="h3">Primetime</Typography>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <Button
-                                        onClick={async () => {
-                                            const {
-                                                contract,
-                                                userAddress,
-                                                signer,
-                                                currency,
-                                                primetimeContract,
-                                            } = web3state;
-                                            console.log('Approve');
-
-                                            await (
-                                                await currency.approve(
-                                                    Addresses['primetime collect module'],
-                                                    1000000000
-                                                )
-                                            ).wait();
-                                            console.log('Balance');
-                                            console.log(
-                                                ethers.utils.formatEther(await currency.balanceOf(userAddress))
-                                            );
-
-                                            console.log(
-                                                'prime balance: ',
-                                                ethers.utils.formatEther(
-                                                    await currency.balanceOf(
-                                                        Addresses['primetime collect module']
-                                                    )
-                                                )
-                                            );
-                                            console.log('Collect');
-                                            const x = await (await contract.collect(1, 1, [])).wait();
-                                            console.log(x);
-                                            console.log(
-                                                'prime balance: ',
-                                                ethers.utils.formatEther(
-                                                    await currency.balanceOf(
-                                                        Addresses['primetime collect module']
-                                                    )
-                                                )
-                                            );
-
-                                            console.log('Pub:');
-                                            console.log(await contract.getPub(1, 1));
-
-                                            const participants =
-                                                await primetimeContract.getParticipants(1, 1);
-                                            console.log('participants');
-                                            console.log(participants);
-                                            for (let i = 0; i < participants.length; i++) {
-                                                const p = participants[i];
-                                                console.log(p);
-                                                console.log(
-                                                    'balance ',
-                                                    p,
-                                                    ' ',
-                                                    ethers.utils.formatEther(await currency.balanceOf(p))
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        Collect
-                                    </Button>
-
-                                </Grid>
                             </Grid>
                             <Grid item container direction={'row'} spacing={4}>
                                 <Grid
@@ -449,11 +387,11 @@ function App() {
                                     container
                                     direction={'column'}
                                     spacing={1}
-                                    xs={4}
+                                    xs={20}
                                     style={{marginTop: '42px'}}
                                 >
-                                    <Grid item>
-                                        {meetingLink === undefined ? (
+                                    {meetingLink === undefined ? (
+                                        <Grid item>
                                             <form
                                                 onSubmit={async (event) => {
                                                     event.preventDefault();
@@ -493,6 +431,7 @@ function App() {
                                                                 'uint256',
                                                                 'uint256',
                                                                 'string',
+                                                                'string',
                                                             ],
                                                             [
                                                                 stakingAmount,
@@ -500,6 +439,7 @@ function App() {
                                                                 meetingTime,
                                                                 event.target.maxLateTime.value * 60,
                                                                 contentURI,
+                                                                event.target.meetingName.value,
                                                             ]
                                                         ),
                                                         referenceModule: ZERO_ADDRESS,
@@ -537,25 +477,10 @@ function App() {
                                                     container
                                                     spacing={1}
                                                     direction={'row'}
-                                                    xs={12}
+                                                    xs={8}
                                                     alignItems="center"
                                                 >
-                                                    <Grid item>
-                                                        <TextField
-                                                            variant="outlined"
-                                                            name="stakingAmount"
-                                                            type="number"
-                                                            defaultValue="20"
-                                                            InputProps={{
-                                                                endAdornment: <InputAdornment position="end">MATIC</InputAdornment>,
-                                                            }}
-                                                            inputProps={{
-                                                                min: "0.0001",
-                                                                step: "0.0001",
-                                                            }}
-                                                        />
-                                                    </Grid>
-                                                    <Grid item>
+                                                    <Grid item xs={8}>
                                                         <LocalizationProvider
                                                             dateAdapter={AdapterDateFns}
                                                         >
@@ -574,24 +499,66 @@ function App() {
                                                             />
                                                         </LocalizationProvider>
                                                     </Grid>
-                                                    <Grid item>
+                                                    <Grid item xs={8}>
                                                         <TextField
+                                                            fullWidth
                                                             variant="outlined"
-                                                            name="maxLateTime"
-                                                            defaultValue={600}
-                                                            placeholder="Max tolerance in minutes"
+                                                            name="stakingAmount"
+                                                            type="number"
+                                                            defaultValue="20"
+                                                            label="Staking amount"
+                                                            InputProps={{
+                                                                endAdornment: <InputAdornment
+                                                                    position="end">MATIC</InputAdornment>,
+                                                            }}
+                                                            inputProps={{
+                                                                min: "0.0001",
+                                                                step: "0.0001",
+                                                            }}
                                                         />
                                                     </Grid>
-                                                    <Grid item>
+                                                    <Grid item xs={8}>
                                                         <TextField
+                                                            fullWidth
+                                                            variant="outlined"
+                                                            name="maxLateTime"
+                                                            type="number"
+                                                            defaultValue="10"
+                                                            InputProps={{
+                                                                endAdornment: <InputAdornment
+                                                                    position="end">min</InputAdornment>,
+                                                            }}
+                                                            inputProps={{
+                                                                min: "1",
+                                                                step: "1",
+                                                            }}
+                                                            label="Max tolerance"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={20}>
+                                                        <TextField
+                                                            fullWidth
+                                                            variant="outlined"
+                                                            name="meetingName"
+                                                            label="Name"
+                                                            defaultValue={'ETHGlobal finalist presentation'}
+                                                            placeholder="Meeting name"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={20}>
+                                                        <TextField
+                                                            fullWidth
                                                             variant="outlined"
                                                             name="meetingInformation"
-                                                            defaultValue={'somelink'}
+                                                            multiline
+                                                            label="Information"
+                                                            defaultValue={'A stitch in time saves nine!\n\nhttps://meet.google.com/aqo-mwbq-mot'}
                                                             placeholder="Meeting information"
                                                         />
                                                     </Grid>
                                                     <Grid item>
                                                         <Button
+                                                            style={{marginTop: '16px'}}
                                                             variant="contained"
                                                             type="submit"
                                                             className="cta-button submit-gif-button"
@@ -601,10 +568,10 @@ function App() {
                                                     </Grid>
                                                 </Grid>
                                             </form>
-                                        ) : (
-                                            <Typography>{meetingLink}</Typography>
-                                        )}
-                                    </Grid>
+                                        </Grid>
+                                    ) : (
+                                        <Typography>{meetingLink}</Typography>
+                                    )}
                                 </Grid>
                             </Grid>
                         </>
