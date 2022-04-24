@@ -25,6 +25,8 @@ import "hardhat/console.sol";
         uint256 stakingAmount;
         uint256 meetingTime;
         uint256 maxLateTime;
+        uint256 pubId;
+        uint256 profileId;
         string contentURI;
         string meetingName;
         address currency;
@@ -280,6 +282,8 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         for (uint256 i = 0; i < meetingCounter; i++) {
             console.log(_dataByPublicationByProfile[meetings[i].profileId][meetings[i].pubId].meetingTime);
             arr[i] = _dataByPublicationByProfile[meetings[i].profileId][meetings[i].pubId];
+            arr[i].profileId = meetings[i].profileId;
+            arr[i].pubId = meetings[i].pubId;
         }
         return arr;
     }

@@ -38,6 +38,7 @@ function App() {
     const [joinMeetingPub, setJoinMeetingPub] = React.useState(undefined);
     const [isLoadingJoinMeeting, setIsLoadingJoinMeeting] = useState(false);
     const [isLoadingCheckinMeeting, setIsLoadingCheckinMeeting] = useState(false);
+    const [loadingState, setLoadingState] = useState("");
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
@@ -566,6 +567,25 @@ function App() {
                                                             Create meeting
                                                         </Button>
                                                     </Grid>
+                                                    {loadingState !== "" ? (
+                                                        <Grid container direction={"row"} alignItems="center">
+                                                            <Grid
+                                                                item
+                                                                style={{
+                                                                    visibility: loadingState === "" ? "hidden" : "visible",
+                                                                    display: "flex",
+                                                                    fontSize: 15,
+                                                                }}
+                                                            >
+                                                                <BallTriangle height="40" width="40" color="grey" ariaLabel="loading-indicator" />
+                                                            </Grid>
+                                                            <Grid item>
+                                                                <Typography variant="h6" style={{ fontWeight: "bold" }}>
+                                                                    {loadingState} {" "}
+                                                                </Typography>
+                                                            </Grid>
+                                                        </Grid>
+                                                    ): (<></>)}
                                                 </Grid>
                                             </form>
                                         </Grid>
