@@ -190,8 +190,8 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         uint256 pubId
     ) internal {
         CustomProfilePublicationData memory meeting = _dataByPublicationByProfile[profileId][pubId];
-        //if (block.timestamp >= meeting.meetingTime + meeting.maxLateTime && !meeting.hasBeenDistributed) {
-        if (!meeting.hasBeenDistributed) {
+        if (block.timestamp >= meeting.meetingTime + meeting.maxLateTime && !meeting.hasBeenDistributed) {
+        //if (!meeting.hasBeenDistributed) {
             uint256 stakedAmount = meeting.stakingAmount;
             uint256 treasuryAmount = 0;//stakedAmount / 100;
             int256 adjustedAmount = int256(stakedAmount - treasuryAmount);
