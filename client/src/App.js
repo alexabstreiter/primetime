@@ -272,8 +272,8 @@ function App() {
                                         joinMeetingPub.participantInfo.map(pInfo => (
                                             <>
                                                 <Typography
-                                                    variant="h6">{pInfo.handle} was {pInfo.lateTime}s too late,
-                                                    got {ethers.utils.formatEther(pInfo.reward)} MATIC
+                                                    variant="h6">{pInfo.handle} was {pInfo.lateTime > 0 ? (parseInt(pInfo.lateTime/60)+'min too late') : 'on time'}
+                                                    , got {ethers.utils.formatEther(pInfo.reward)} MATIC
                                                     back.</Typography>
                                             </>
                                         ))
