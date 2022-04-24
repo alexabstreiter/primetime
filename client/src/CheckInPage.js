@@ -86,7 +86,7 @@ export const CheckInPage = ({ web3state }) => {
                                 const url = `${origin}?action=meeting&profileId=${meeting.profileId}&publicationId=${meeting.pubId}`;
                                 window.location.href = url;
                             }}
-                            style={{"cursor": "pointer" }}
+                            style={{ cursor: 'pointer' }}
                         >
                             <Grid item>
                                 <Typography variant={'h6'}>

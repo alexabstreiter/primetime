@@ -516,8 +516,11 @@ function App() {
                                                     console.log(Number(pub.events[0].topics[2]));
                                                     let profileId = Number(pub.events[0].topics[1]);
                                                     let pubId = Number(pub.events[0].topics[2]);
+
+                                                    const origin = window.location.origin;
+                                                    const url = `${origin}?action=meeting&profileId=${meeting.profileId}&publicationId=${meeting.pubId}`;
                                                     setMeetingLink(
-                                                        `http://localhost:3000/?action=meeting&profileId=${profileId}&publicationId=${pubId}`
+                                                        url
                                                     );
                                                     setLoadingState('');
                                                     //console.log(pub.logs);
