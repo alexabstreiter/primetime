@@ -773,7 +773,7 @@ function App() {
                                         </form>
                                     </Grid>
                                 ) : (
-                                    <Typography>{meetingLink}</Typography>
+                                    <Typography style={{marginLeft: '16px'}}>Share the meeting link:<br/>{meetingLink}</Typography>
                                 )}
                             </Grid>
                         </Grid>
