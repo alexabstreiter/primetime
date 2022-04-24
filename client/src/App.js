@@ -81,7 +81,7 @@ function App() {
                             const allRewards = (await primetimeContract.getAllRewards(profileId, publicationId));
                             const checkinTime = (await primetimeContract.getCheckinTime(profileId, publicationId, p)).toNumber();
                             participant['lateTime'] = checkinTime > 0 ? (checkinTime - pubData.meetingTime.toNumber()) : pubData.maxLateTime.toNumber();
-                            participant['reward'] = (await primetimeContract.getReward(profileId, publicationId, p)).toNumber();// - pubData.stakingAmount.toNumber();
+                            participant['reward'] = await primetimeContract.getReward(profileId, publicationId, p);// - pubData.stakingAmount.toNumber();
                         }
                         participantInfo.push(participant);
                     }
@@ -208,7 +208,7 @@ function App() {
             console.log(profileId);
 
             await (
-                await currency.mint(userAddress, 1000000000)
+                await currency.mint(userAddress, ethers.utils.parseEther('100'))
             ).wait();
 
             await (
@@ -239,7 +239,7 @@ function App() {
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Typography variant="h6">Staking
-                                            amount: {joinMeetingPub.stakingAmount.toNumber()}</Typography>
+                                            amount: {ethers.utils.formatEther(joinMeetingPub.stakingAmount)}</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Typography variant="h6">Max tolerance in
@@ -254,7 +254,7 @@ function App() {
                                             joinMeetingPub.participantInfo.map(pInfo => (
                                                 <>
                                                     <Typography
-                                                        variant="h6">{pInfo.handle} was {pInfo.lateTime}s too late, got {pInfo.reward} ETH back.</Typography>
+                                                        variant="h6">{pInfo.handle} was {pInfo.lateTime}s too late, got {ethers.utils.formatEther(pInfo.reward)} MATIC back.</Typography>
                                                 </>
                                             ))
                                         ) : (
@@ -304,33 +304,33 @@ function App() {
                                                         await (
                                                             await currency.approve(
                                                                 Addresses['primetime collect module'],
-                                                                joinMeetingPub.stakingAmount.toNumber()
+                                                                joinMeetingPub.stakingAmount
                                                             )
                                                         ).wait();
 
                                                         console.log('Balance');
                                                         console.log(
-                                                            (await currency.balanceOf(userAddress)).toNumber()
+                                                            ethers.utils.formatEther(await currency.balanceOf(userAddress))
                                                         );
 
                                                         console.log(
                                                             'prime balance: ',
-                                                            (
+                                                            ethers.utils.formatEther(
                                                                 await currency.balanceOf(
                                                                     Addresses['primetime collect module']
                                                                 )
-                                                            ).toNumber()
+                                                            )
                                                         );
                                                         console.log('Collect');
                                                         const x = await (await contract.collect(urlParams.profileId, urlParams.publicationId, [])).wait();
                                                         console.log(x);
                                                         console.log(
                                                             'prime balance: ',
-                                                            (
+                                                            ethers.utils.formatEther(
                                                                 await currency.balanceOf(
                                                                     Addresses['primetime collect module']
                                                                 )
-                                                            ).toNumber()
+                                                            )
                                                         );
 
                                                         console.log('Pub:');
@@ -347,7 +347,7 @@ function App() {
                                                                 'balance ',
                                                                 p,
                                                                 ' ',
-                                                                (await currency.balanceOf(p)).toNumber()
+                                                                ethers.utils.formatEther(await currency.balanceOf(p))
                                                             );
                                                         }
                                                         setIsLoadingJoinMeeting(false);
@@ -396,27 +396,27 @@ function App() {
                                             ).wait();
                                             console.log('Balance');
                                             console.log(
-                                                (await currency.balanceOf(userAddress)).toNumber()
+                                                ethers.utils.formatEther(await currency.balanceOf(userAddress))
                                             );
 
                                             console.log(
                                                 'prime balance: ',
-                                                (
+                                                ethers.utils.formatEther(
                                                     await currency.balanceOf(
                                                         Addresses['primetime collect module']
                                                     )
-                                                ).toNumber()
+                                                )
                                             );
                                             console.log('Collect');
                                             const x = await (await contract.collect(1, 1, [])).wait();
                                             console.log(x);
                                             console.log(
                                                 'prime balance: ',
-                                                (
+                                                ethers.utils.formatEther(
                                                     await currency.balanceOf(
                                                         Addresses['primetime collect module']
                                                     )
-                                                ).toNumber()
+                                                )
                                             );
 
                                             console.log('Pub:');
@@ -433,7 +433,7 @@ function App() {
                                                     'balance ',
                                                     p,
                                                     ' ',
-                                                    (await currency.balanceOf(p)).toNumber()
+                                                    ethers.utils.formatEther(await currency.balanceOf(p))
                                                 );
                                             }
                                         }}
@@ -478,6 +478,9 @@ function App() {
                                                             event.target.meetingTime.value
                                                         ).getTime() / 1000;
                                                     const contentURI = `https://ipfs.io${ipfsurl}`;
+                                                    const stakingAmount = ethers.utils.parseEther(event.target.stakingAmount.value);
+                                                    //console.log('stakingAmount', stakingAmount);
+                                                    //console.log('stakingAmount', ethers.utils.formatEther(stakingAmount));
                                                     const inputStructPub = {
                                                         profileId: defaultProfile,
                                                         contentURI: contentURI,
@@ -492,7 +495,7 @@ function App() {
                                                                 'string',
                                                             ],
                                                             [
-                                                                event.target.stakingAmount.value,
+                                                                stakingAmount,
                                                                 Addresses['currency'],
                                                                 meetingTime,
                                                                 event.target.maxLateTime.value * 60,
@@ -542,8 +545,14 @@ function App() {
                                                             variant="outlined"
                                                             name="stakingAmount"
                                                             type="number"
-                                                            defaultValue={1000}
-                                                            placeholder="Staking amount"
+                                                            defaultValue="20"
+                                                            InputProps={{
+                                                                endAdornment: <InputAdornment position="end">MATIC</InputAdornment>,
+                                                            }}
+                                                            inputProps={{
+                                                                min: "0.0001",
+                                                                step: "0.0001",
+                                                            }}
                                                         />
                                                     </Grid>
                                                     <Grid item>
@@ -614,17 +623,17 @@ function App() {
                                 'balance ',
                                 p,
                                 ' ',
-                                (await currency.balanceOf(p)).toNumber()
+                                ethers.utils.formatEther(await currency.balanceOf(p))
                             );
                         }
                         console.log('Distribute stake');
                         console.log(
                             'prime balance: ',
-                            (
+                            ethers.utils.formatEther(
                                 await currency.balanceOf(
                                     Addresses['primetime collect module']
                                 )
-                            ).toNumber()
+                            )
                         );
                         //console.log(await (await primetimeContract.distributeStake(2, 1)).wait());
                         console.log(
@@ -637,7 +646,7 @@ function App() {
                                 'balance ',
                                 p,
                                 ' ',
-                                (await currency.balanceOf(p)).toNumber()
+                                ethers.utils.formatEther(await currency.balanceOf(p))
                             );
                         }
                     }}

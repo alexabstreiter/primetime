@@ -87,12 +87,11 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
 
         _dataByPublicationByProfile[profileId][pubId].stakingAmount = stakingAmount;
         _dataByPublicationByProfile[profileId][pubId].currency = currency;
-        //_dataByPublicationByProfile[profileId][pubId].meetingTime = meetingTime;
-        _dataByPublicationByProfile[profileId][pubId].meetingTime = 1000000;
-        //_dataByPublicationByProfile[profileId][pubId].maxLateTime = maxLateTime;
-        _dataByPublicationByProfile[profileId][pubId].maxLateTime = 1000;
+        _dataByPublicationByProfile[profileId][pubId].meetingTime = meetingTime;
+        //_dataByPublicationByProfile[profileId][pubId].meetingTime = 1000000;
+        _dataByPublicationByProfile[profileId][pubId].maxLateTime = maxLateTime;
+        //_dataByPublicationByProfile[profileId][pubId].maxLateTime = 1000;
         _dataByPublicationByProfile[profileId][pubId].contentURI = contentURI;
-        //_dataByPublicationByProfile[profileId][pubId].participants.push(recipient);
 
         meetings[meetingCounter] = MeetingID(profileId, pubId);
         meetingCounter += 1;
@@ -159,18 +158,19 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         uint256 profileId,
         uint256 pubId
     ) external {
+        /*
         console.log('nParticipatns', _dataByPublicationByProfile[profileId][pubId].participants.length);
         if (_dataByPublicationByProfile[profileId][pubId].participants.length > 1) {
             _checkinTime[profileId][pubId][msg.sender] = 1000500;
         } else {
             _checkinTime[profileId][pubId][msg.sender] = 1000000;
         }
+        */
         console.log('checkintime', uint256(_checkinTime[profileId][pubId][msg.sender]));
-        /*
         int256 timeSinceMeetingStart = int256(block.timestamp) - int256(_dataByPublicationByProfile[profileId][pubId].meetingTime);
         if (timeSinceMeetingStart >= - 5 minutes) {
             _checkinTime[profileId][pubId][msg.sender] = block.timestamp;
-        }*/
+        }
     }
 
     function getParticipants(
@@ -188,7 +188,7 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         //if (block.timestamp >= meeting.meetingTime + meeting.maxLateTime && !meeting.hasBeenDistributed) {
         if (!meeting.hasBeenDistributed) {
             uint256 stakedAmount = meeting.stakingAmount;
-            uint256 treasuryAmount = stakedAmount / 100;
+            uint256 treasuryAmount = 0;//stakedAmount / 100;
             int256 adjustedAmount = int256(stakedAmount - treasuryAmount);
 
             int256 totalLateTime = 0;
@@ -252,7 +252,7 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
     function getAllRewards(
         uint256 profileId,
         uint256 pubId
-    ) public view returns(uint256[] memory) {
+    ) public view returns (uint256[] memory) {
         uint256[] memory arr = new uint256[](_dataByPublicationByProfile[profileId][pubId].participants.length);
         for (uint256 i = 0; i < _dataByPublicationByProfile[profileId][pubId].participants.length; i++) {
             console.log(_dataByPublicationByProfile[profileId][pubId].participants[i], _rewards[profileId][pubId][_dataByPublicationByProfile[profileId][pubId].participants[i]]);
@@ -271,7 +271,7 @@ contract PrimetimeCollectModule is FeeModuleBase, FollowValidationModuleBase, IC
         return _rewards[profileId][pubId][participant];
     }
 
-    function getAllPublications() public view returns(CustomProfilePublicationData[] memory) {
+    function getAllPublications() public view returns (CustomProfilePublicationData[] memory) {
         console.log("getAllPublications called123");
         CustomProfilePublicationData[] memory arr = new CustomProfilePublicationData[](meetingCounter);
         for (uint256 i = 0; i < meetingCounter; i++) {
