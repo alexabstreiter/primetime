@@ -281,7 +281,7 @@ function App() {
                                                     <Button
                                                         variant="contained"
                                                         style={{marginTop: '16px'}}
-                                                        disabled={isLoadingCheckinMeeting === true}
+                                                        disabled={isLoadingCheckinMeeting === true || (joinMeetingPub.meetingTime-5*60 >= (new Date().getTime() / 1000))}
                                                         onClick={async () => {
                                                             setIsLoadingCheckinMeeting(true);
                                                             const {primetimeContract} = web3state;
