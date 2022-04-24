@@ -249,7 +249,7 @@ function App() {
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Typography
-                                            variant="h6">Date: {new Date(parseInt(joinMeetingPub.meetingTime.toNumber())).toLocaleString()}</Typography>
+                                            variant="h6">Date: {new Date(parseInt(joinMeetingPub.meetingTime.toNumber()) * 1000).toLocaleString()}</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
                                         {joinMeetingPub.hasBeenDistributed ? (
