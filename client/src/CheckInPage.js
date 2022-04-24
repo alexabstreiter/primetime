@@ -10,7 +10,7 @@ export const CheckInPage = ({ web3state }) => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     console.log(window.location.origin);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
-    const isMeetingCheckIn = urlParams.action === 'checkin';
+    const isMeetingCheckIn = urlParams.action === 'overview';
 
     useEffect(() => {
         async function checkIn() {
@@ -20,6 +20,7 @@ export const CheckInPage = ({ web3state }) => {
             console.log('getAllPublications result:');
             console.log(x);
             setMeetings(x);
+            setIsLoadingCheckIn(false);
         }
 
         const { contract } = web3state;
@@ -35,12 +36,12 @@ export const CheckInPage = ({ web3state }) => {
             const { userAddress } = web3state;
             const test2 = await Promise.all(
                 meetings.map(async (meeting) => {
-                    return await fetch(meeting.contentURI);
+                    return '';//await fetch(meeting.contentURI);
                 })
             );
             const test3 = await Promise.all(
                 test2.map(async (response) => {
-                    const r = await response.text();
+                    const r = '';//await response.text();
                     console.log('r: ' + r);
                     return r;
                 })
@@ -63,7 +64,7 @@ export const CheckInPage = ({ web3state }) => {
 
         const { contract } = web3state;
         if (isMeetingCheckIn && contract !== null && meetings.length > 0) {
-            loadIpfsData();
+            //loadIpfsData();
         }
     }, [isMeetingCheckIn, web3state, setMeetingsWithInfo, meetings]);
 
@@ -72,11 +73,11 @@ export const CheckInPage = ({ web3state }) => {
             <Grid item>
                 <Typography variant={'h3'}>Your meetings</Typography>
             </Grid>
-            <Grid item container direction={'column'} spacing={1}>
+            <Grid item container direction={'column'} spacing={1} style={{marginLeft: '8px'}}>
                 {isLoadingCheckIn ? (
                     <Typography variant={'h6'}>Loading...</Typography>
                 ) : (
-                    meetingsWithInfo.map((meeting) => (
+                    meetings.map((meeting) => (
                         <Grid
                             container
                             spacing={2}
@@ -98,7 +99,7 @@ export const CheckInPage = ({ web3state }) => {
                             </Grid>
                             <Grid item>
                                 <Typography variant={'h6'}>
-                                    <Box sx={{ fontWeight: 800 }}>{meeting.meetingInformation}</Box>
+                                    <Box sx={{ fontWeight: 800 }}>{meeting.meetingName}</Box>
                                 </Typography>
                             </Grid>
                         </Grid>

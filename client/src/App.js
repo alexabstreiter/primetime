@@ -43,7 +43,7 @@ function App() {
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
-    const isMeetingCheckIn = urlParams.action === 'checkin'; //urlParams.publicationId && urlParams.profileId;
+    const isMeetingCheckIn = urlParams.action === 'overview'; //urlParams.publicationId && urlParams.profileId;
     const isJoinMeeting = urlParams.action === 'meeting';
 
     useEffect(() => {
