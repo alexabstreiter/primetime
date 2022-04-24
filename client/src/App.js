@@ -42,7 +42,7 @@ function App() {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
     const isMeetingCheckIn = urlParams.action === 'checkin'; //urlParams.publicationId && urlParams.profileId;
-    const isJoinMeeting = urlParams.action === 'join';
+    const isJoinMeeting = urlParams.action === 'meeting';
 
     useEffect(() => {
         async function showJoinMeeting() {
@@ -227,7 +227,7 @@ function App() {
             <CssBaseline/>
             <Grid container direction={'column'} xs={12} spacing={1} style={{padding: '16px'}}>
                 {isJoinMeeting ? (
-                        <Grid container direction={'column'}>
+                        <Grid container direction={'column'} spacing={1}>
                             <Grid item xs={4} style={{marginBottom: '16px'}}>
                                 <Typography variant="h5"></Typography>
                             </Grid>
@@ -237,7 +237,7 @@ function App() {
                                         <Typography variant="h6">{joinMeetingPub.meetingName}</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Typography variant="h6">{joinMeetingPub.meetingInformation}</Typography>
+                                        <Typography variant="h6" style={{whiteSpace: 'pre-line'}}>{joinMeetingPub.meetingInformation}</Typography>
                                     </Grid>
                                     <Grid item xs={4}>
                                         <Typography variant="h6">Staking
@@ -456,7 +456,7 @@ function App() {
                                                     let profileId = Number(pub.events[0].topics[1]);
                                                     let pubId = Number(pub.events[0].topics[2]);
                                                     setMeetingLink(
-                                                        `http://localhost:3000/?publicationId=${profileId}&profileId=${pubId}`
+                                                        `http://localhost:3000/?action=meeting&profileId=${profileId}&publicationId=${pubId}`
                                                     );
                                                     //console.log(pub.logs);
                                                     //console.log(await pub.events[0].getTransaction());
@@ -552,7 +552,7 @@ function App() {
                                                             name="meetingInformation"
                                                             multiline
                                                             label="Information"
-                                                            defaultValue={'A stitch in time saves nine!\n\nhttps://meet.google.com/aqo-mwbq-mot'}
+                                                            defaultValue={'A stitch in time saves nine!\nhttps://meet.google.com/aqo-mwbq-mot'}
                                                             placeholder="Meeting information"
                                                         />
                                                     </Grid>
