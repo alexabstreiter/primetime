@@ -1,28 +1,27 @@
-import React, {useEffect, useState, useCallback} from 'react';
-import {ContractTransaction, ethers} from 'ethers';
-import PrimetimeModule
-    from './artifacts/contracts/core/modules/collect/PrimetimeModule.sol/PrimetimeCollectModule.json';
+import React, { useEffect, useState, useCallback } from 'react';
+import { ContractTransaction, ethers } from 'ethers';
+import PrimetimeModule from './artifacts/contracts/core/modules/collect/PrimetimeModule.sol/PrimetimeCollectModule.json';
 import LensHub from './artifacts/contracts/core/LensHub.sol/LensHub.json';
 import Addresses from './artifacts/addresses.json';
 import CurrencyModule from './artifacts/contracts/mocks/Currency.sol/Currency.json';
-import {BallTriangle} from 'react-loader-spinner';
+import { BallTriangle } from 'react-loader-spinner';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Web3 from 'web3';
-import {ThemeProvider} from '@mui/material/styles';
-import {theme} from './theme.js';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './theme.js';
 import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import {CssBaseline} from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Confetti from 'react-confetti';
-import {defaultAbiCoder} from 'ethers/lib/utils';
-import {pushTextToIpfs} from './textileFunctions';
-import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
-import {CheckInPage} from './CheckInPage';
+import { defaultAbiCoder } from 'ethers/lib/utils';
+import { pushTextToIpfs } from './textileFunctions';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { CheckInPage } from './CheckInPage';
 
 function App() {
     const [web3state, setWeb3state] = useState({
@@ -34,12 +33,12 @@ function App() {
         currency: null,
     });
     const [value, setValue] = React.useState(new Date());
-    const [meetingLink, setMeetingLink] = React.useState(undefined);//'http://localhost:3000/?action=join&profileId=1&publicationId=1'
+    const [meetingLink, setMeetingLink] = React.useState(undefined); //'http://localhost:3000/?action=join&profileId=1&publicationId=1'
     const [joinMeetingPub, setJoinMeetingPub] = React.useState(undefined);
     const [isLoadingJoinMeeting, setIsLoadingJoinMeeting] = useState(false);
     const [isLoadingCheckinMeeting, setIsLoadingCheckinMeeting] = useState(false);
-    const [loadingState, setLoadingState] = useState("");
-    const [joinMeetingLoadingState, setJoinMeetingLoadingState] = useState("");
+    const [loadingState, setLoadingState] = useState('');
+    const [joinMeetingLoadingState, setJoinMeetingLoadingState] = useState('');
 
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
@@ -48,9 +47,9 @@ function App() {
 
     useEffect(() => {
         async function showJoinMeeting() {
-            setLoadingState('Fetching meeting information...')
+            setLoadingState('Fetching meeting information...');
             console.log('run join meeting');
-            const {primetimeContract, contract, userAddress} = web3state;
+            const { primetimeContract, contract, userAddress } = web3state;
 
             //const x = await (
             //  await primetimeContract.checkin(urlParams.profileId, urlParams.publicationId)
@@ -59,8 +58,8 @@ function App() {
             //let pub = await contract.getPub(urlParams.profileId, urlParams.publicationId);
             //console.log('pub');
             //console.log(pub);
-            const profileId = urlParams.profileId
-            const publicationId = urlParams.publicationId
+            const profileId = urlParams.profileId;
+            const publicationId = urlParams.publicationId;
             let pubData = await primetimeContract.getPublicationData(profileId, publicationId);
             console.log('pubData');
             console.log(pubData);
@@ -78,33 +77,52 @@ function App() {
                         }
                         const participantProfileId = (await contract.defaultProfile(p)).toNumber();
                         const handle = await contract.getHandle(participantProfileId);
-                        const participant = {handle: handle}
+                        const participant = { handle: handle };
 
                         if (pubData.hasBeenDistributed) {
-                            const allRewards = (await primetimeContract.getAllRewards(profileId, publicationId));
-                            const checkinTime = (await primetimeContract.getCheckinTime(profileId, publicationId, p)).toNumber();
-                            participant['lateTime'] = checkinTime > 0 ? (checkinTime - pubData.meetingTime.toNumber()) : pubData.maxLateTime.toNumber();
-                            participant['reward'] = await primetimeContract.getReward(profileId, publicationId, p);// - pubData.stakingAmount.toNumber();
+                            const allRewards = await primetimeContract.getAllRewards(
+                                profileId,
+                                publicationId
+                            );
+                            const checkinTime = (
+                                await primetimeContract.getCheckinTime(profileId, publicationId, p)
+                            ).toNumber();
+                            participant['lateTime'] =
+                                checkinTime > 0
+                                    ? checkinTime - pubData.meetingTime.toNumber()
+                                    : pubData.maxLateTime.toNumber();
+                            participant['reward'] = await primetimeContract.getReward(
+                                profileId,
+                                publicationId,
+                                p
+                            ); // - pubData.stakingAmount.toNumber();
                         }
                         participantInfo.push(participant);
                     }
                     let checkinTime = 0;
                     if (isRegistered) {
-                        checkinTime = (await primetimeContract.getCheckinTime(profileId, publicationId, userAddress)).toNumber();
+                        checkinTime = (
+                            await primetimeContract.getCheckinTime(
+                                profileId,
+                                publicationId,
+                                userAddress
+                            )
+                        ).toNumber();
                     }
                     const newPubData = {
                         meetingInformation: meetingInformation,
                         participantInfo: participantInfo,
                         checkinTime: checkinTime,
-                        isRegistered: isRegistered, ...pubData
-                    }
+                        isRegistered: isRegistered,
+                        ...pubData,
+                    };
                     setJoinMeetingPub(newPubData);
                     console.log(newPubData);
-                    setLoadingState('')
+                    setLoadingState('');
                 });
         }
 
-        const {contract} = web3state;
+        const { contract } = web3state;
         if (isJoinMeeting && contract !== null) {
             showJoinMeeting();
         }
@@ -180,16 +198,13 @@ function App() {
     const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
     async function getDefaultProfile(state) {
-        const {contract, userAddress, currency} = state;
-        let defaultProfile = (
-            await contract.defaultProfile(userAddress)
-        ).toNumber();
+        const { contract, userAddress, currency } = state;
+        let defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
         console.log('defaultProfile', defaultProfile);
         if (defaultProfile === 0) {
             // create profile
             console.log('create profile');
-            let handle =
-                'p' + Math.floor(Math.random() * 100000000);
+            let handle = 'p' + Math.floor(Math.random() * 100000000);
             const inputStruct = {
                 to: userAddress,
                 handle: handle,
@@ -201,26 +216,16 @@ function App() {
                     'https://ipfs.io/ipfs/ghostplantghostplantghostplantghostplantghostplantghostplan',
             };
             console.log(inputStruct);
-            const x = await (
-                await contract.createProfile(inputStruct)
-            ).wait();
+            const x = await (await contract.createProfile(inputStruct)).wait();
             console.log(x);
             console.log('get profileID');
-            const profileId = (
-                await contract.getProfileIdByHandle(handle)
-            ).toNumber();
+            const profileId = (await contract.getProfileIdByHandle(handle)).toNumber();
             console.log(profileId);
 
-            await (
-                await currency.mint(userAddress, ethers.utils.parseEther('100'))
-            ).wait();
+            await (await currency.mint(userAddress, ethers.utils.parseEther('100'))).wait();
 
-            await (
-                await contract.setDefaultProfile(profileId)
-            ).wait();
-            defaultProfile = (
-                await contract.defaultProfile(userAddress)
-            ).toNumber();
+            await (await contract.setDefaultProfile(profileId)).wait();
+            defaultProfile = (await contract.defaultProfile(userAddress)).toNumber();
             console.log('prof', defaultProfile);
         }
         return defaultProfile;
@@ -228,8 +233,8 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            <Grid container direction={'column'} xs={12} spacing={1} style={{padding: '16px'}}>
+            <CssBaseline />
+            <Grid container direction={'column'} xs={12} spacing={1} style={{ padding: '16px' }}>
                 {isJoinMeeting ? (
                         <Grid container direction={'column'} spacing={2}>
                             <Grid item xs={4} style={{marginBottom: '16px'}}>
@@ -310,211 +315,260 @@ function App() {
                                                             } = web3state;
                                                             console.log('Approve');
 
-                                                            await getDefaultProfile(web3state);
+                                                    await getDefaultProfile(web3state);
 
-                                                            await (
-                                                                await currency.approve(
-                                                                    Addresses['primetime collect module'],
-                                                                    joinMeetingPub.stakingAmount
-                                                                )
-                                                            ).wait();
+                                                    await (
+                                                        await currency.approve(
+                                                            Addresses['primetime collect module'],
+                                                            joinMeetingPub.stakingAmount
+                                                        )
+                                                    ).wait();
 
-                                                            console.log('Balance');
-                                                            console.log(
-                                                                ethers.utils.formatEther(await currency.balanceOf(userAddress))
-                                                            );
+                                                    console.log('Balance');
+                                                    console.log(
+                                                        ethers.utils.formatEther(
+                                                            await currency.balanceOf(userAddress)
+                                                        )
+                                                    );
 
-                                                            console.log(
-                                                                'prime balance: ',
-                                                                ethers.utils.formatEther(
-                                                                    await currency.balanceOf(
-                                                                        Addresses['primetime collect module']
-                                                                    )
-                                                                )
-                                                            );
-                                                            console.log('Collect');
-                                                            const x = await (await contract.collect(urlParams.profileId, urlParams.publicationId, [])).wait();
-                                                            console.log(x);
-                                                            console.log(
-                                                                'prime balance: ',
-                                                                ethers.utils.formatEther(
-                                                                    await currency.balanceOf(
-                                                                        Addresses['primetime collect module']
-                                                                    )
-                                                                )
-                                                            );
+                                                    console.log(
+                                                        'prime balance: ',
+                                                        ethers.utils.formatEther(
+                                                            await currency.balanceOf(
+                                                                Addresses[
+                                                                    'primetime collect module'
+                                                                ]
+                                                            )
+                                                        )
+                                                    );
+                                                    console.log('Collect');
+                                                    const x = await (
+                                                        await contract.collect(
+                                                            urlParams.profileId,
+                                                            urlParams.publicationId,
+                                                            []
+                                                        )
+                                                    ).wait();
+                                                    console.log(x);
+                                                    console.log(
+                                                        'prime balance: ',
+                                                        ethers.utils.formatEther(
+                                                            await currency.balanceOf(
+                                                                Addresses[
+                                                                    'primetime collect module'
+                                                                ]
+                                                            )
+                                                        )
+                                                    );
 
-                                                            console.log('Pub:');
-                                                            console.log(await contract.getPub(urlParams.profileId, urlParams.publicationId));
+                                                    console.log('Pub:');
+                                                    console.log(
+                                                        await contract.getPub(
+                                                            urlParams.profileId,
+                                                            urlParams.publicationId
+                                                        )
+                                                    );
 
-                                                            const participants =
-                                                                await primetimeContract.getParticipants(urlParams.profileId, urlParams.publicationId);
-                                                            console.log('participants');
-                                                            console.log(participants);
-                                                            for (let i = 0; i < participants.length; i++) {
-                                                                const p = participants[i];
-                                                                console.log(p);
-                                                                console.log(
-                                                                    'balance ',
-                                                                    p,
-                                                                    ' ',
-                                                                    ethers.utils.formatEther(await currency.balanceOf(p))
-                                                                );
-                                                            }
-                                                            setIsLoadingJoinMeeting(false);
-                                                            setJoinMeetingLoadingState('');
+                                                    const participants =
+                                                        await primetimeContract.getParticipants(
+                                                            urlParams.profileId,
+                                                            urlParams.publicationId
+                                                        );
+                                                    console.log('participants');
+                                                    console.log(participants);
+                                                    for (let i = 0; i < participants.length; i++) {
+                                                        const p = participants[i];
+                                                        console.log(p);
+                                                        console.log(
+                                                            'balance ',
+                                                            p,
+                                                            ' ',
+                                                            ethers.utils.formatEther(
+                                                                await currency.balanceOf(p)
+                                                            )
+                                                        );
+                                                    }
+                                                    setIsLoadingJoinMeeting(false);
+                                                    setJoinMeetingLoadingState('');
+                                                }}
+                                            >
+                                                Join meeting
+                                            </Button>
+                                            {joinMeetingLoadingState !== '' ? (
+                                                <Grid
+                                                    container
+                                                    direction={'row'}
+                                                    alignItems="center"
+                                                >
+                                                    <Grid
+                                                        item
+                                                        style={{
+                                                            visibility:
+                                                                joinMeetingLoadingState === ''
+                                                                    ? 'hidden'
+                                                                    : 'visible',
+                                                            display: 'flex',
+                                                            fontSize: 15,
                                                         }}
                                                     >
-                                                        Join meeting
-                                                    </Button>
-                                                    {joinMeetingLoadingState !== "" ? (
-                                                        <Grid container direction={"row"} alignItems="center">
-                                                            <Grid
-                                                                item
-                                                                style={{
-                                                                    visibility: joinMeetingLoadingState === "" ? "hidden" : "visible",
-                                                                    display: "flex",
-                                                                    fontSize: 15,
-                                                                }}
-                                                            >
-                                                                <BallTriangle height="40" width="40" color="grey"
-                                                                              ariaLabel="loading-indicator"/>
-                                                            </Grid>
-                                                            <Grid item>
-                                                                <Typography variant="h6" style={{fontWeight: "bold"}}>
-                                                                    {joinMeetingLoadingState} {" "}
-                                                                </Typography>
-                                                            </Grid>
-                                                        </Grid>
-                                                    ) : (<></>)}
-
-                                                </>
-                                            ))}
-                                    </Grid>
-                                </>
-                            ) : (<>
-                                {loadingState !== "" ? (
-                                    <Grid container direction={"row"} alignItems="center">
+                                                        <BallTriangle
+                                                            height="40"
+                                                            width="40"
+                                                            color="grey"
+                                                            ariaLabel="loading-indicator"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Typography
+                                                            variant="h6"
+                                                            style={{ fontWeight: 'bold' }}
+                                                        >
+                                                            {joinMeetingLoadingState}{' '}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            ) : (
+                                                <></>
+                                            )}
+                                        </>
+                                    )}
+                                </Grid>
+                            </>
+                        ) : (
+                            <>
+                                {loadingState !== '' ? (
+                                    <Grid container direction={'row'} alignItems="center">
                                         <Grid
                                             item
                                             style={{
-                                                visibility: loadingState === "" ? "hidden" : "visible",
-                                                display: "flex",
+                                                visibility:
+                                                    loadingState === '' ? 'hidden' : 'visible',
+                                                display: 'flex',
                                                 fontSize: 15,
                                             }}
                                         >
-                                            <BallTriangle height="40" width="40" color="grey"
-                                                          ariaLabel="loading-indicator"/>
+                                            <BallTriangle
+                                                height="40"
+                                                width="40"
+                                                color="grey"
+                                                ariaLabel="loading-indicator"
+                                            />
                                         </Grid>
                                         <Grid item>
-                                            <Typography variant="h6" style={{fontWeight: "bold"}}>
-                                                {loadingState} {" "}
+                                            <Typography variant="h6" style={{ fontWeight: 'bold' }}>
+                                                {loadingState}{' '}
                                             </Typography>
                                         </Grid>
                                     </Grid>
-                                ) : (<></>)}
-                            </>)
-                            }
+                                ) : (
+                                    <></>
+                                )}
+                            </>
+                        )}
+                    </Grid>
+                ) : isMeetingCheckIn ? (
+                    <CheckInPage web3state={web3state}></CheckInPage>
+                ) : (
+                    <>
+                        <Grid
+                            item
+                            container
+                            direction={'row'}
+                            spacing={4}
+                            justifyContent="space-between"
+                        >
+                            <Grid item xs={4}>
+                                <Typography variant="h3">Primetime</Typography>
+                            </Grid>
                         </Grid>
-                    ) :
-                    isMeetingCheckIn ? (
-                        <CheckInPage web3state={web3state}></CheckInPage>
-                    ) : (
-                        <>
+                        <Grid item container direction={'row'} spacing={4}>
                             <Grid
                                 item
                                 container
-                                direction={'row'}
-                                spacing={4}
-                                justifyContent="space-between"
+                                direction={'column'}
+                                spacing={1}
+                                xs={20}
+                                style={{ marginTop: '42px' }}
                             >
-                                <Grid item xs={4}>
-                                    <Typography variant="h3">Primetime</Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid item container direction={'row'} spacing={4}>
-                                <Grid
-                                    item
-                                    container
-                                    direction={'column'}
-                                    spacing={1}
-                                    xs={20}
-                                    style={{marginTop: '42px'}}
-                                >
-                                    {meetingLink === undefined ? (
-                                        <Grid item>
-                                            <form
-                                                onSubmit={async (event) => {
-                                                    event.preventDefault();
-                                                    setLoadingState('Creating meeting...');
-                                                    const {contract, userAddress, currency} =
-                                                        web3state;
-                                                    // create meeting information and publish to filecoin
-                                                    console.log('upload meeting information');
-                                                    const meetingInformation =
-                                                        event.target.meetingInformation.value;
-                                                    const ipfsurl = await pushTextToIpfs(
-                                                        meetingInformation
-                                                            ? meetingInformation
-                                                            : 'no information'
-                                                    );
-                                                    console.log(ipfsurl);
+                                {meetingLink === undefined ? (
+                                    <Grid item>
+                                        <form
+                                            onSubmit={async (event) => {
+                                                event.preventDefault();
+                                                setLoadingState('Creating meeting...');
+                                                const { contract, userAddress, currency } =
+                                                    web3state;
+                                                // create meeting information and publish to filecoin
+                                                console.log('upload meeting information');
+                                                const meetingInformation =
+                                                    event.target.meetingInformation.value;
+                                                const ipfsurl = await pushTextToIpfs(
+                                                    meetingInformation
+                                                        ? meetingInformation
+                                                        : 'no information'
+                                                );
+                                                console.log(ipfsurl);
 
-                                                    const defaultProfile = await getDefaultProfile(web3state);
+                                                const defaultProfile = await getDefaultProfile(
+                                                    web3state
+                                                );
 
-                                                    // create publication
-                                                    const meetingTime =
-                                                        new Date(
-                                                            event.target.meetingTime.value
-                                                        ).getTime() / 1000;
-                                                    const contentURI = `https://ipfs.io${ipfsurl}`;
-                                                    const stakingAmount = ethers.utils.parseEther(event.target.stakingAmount.value);
-                                                    //console.log('stakingAmount', stakingAmount);
-                                                    //console.log('stakingAmount', ethers.utils.formatEther(stakingAmount));
-                                                    const inputStructPub = {
-                                                        profileId: defaultProfile,
-                                                        contentURI: contentURI,
-                                                        collectModule:
-                                                            Addresses['primetime collect module'],
-                                                        collectModuleInitData: defaultAbiCoder.encode(
-                                                            [
-                                                                'uint256',
-                                                                'address',
-                                                                'uint256',
-                                                                'uint256',
-                                                                'string',
-                                                                'string',
-                                                            ],
-                                                            [
-                                                                stakingAmount,
-                                                                Addresses['currency'],
-                                                                meetingTime,
-                                                                event.target.maxLateTime.value * 60,
-                                                                contentURI,
-                                                                event.target.meetingName.value,
-                                                            ]
-                                                        ),
-                                                        referenceModule: ZERO_ADDRESS,
-                                                        referenceModuleInitData: [],
-                                                    };
+                                                // create publication
+                                                const meetingTime =
+                                                    new Date(
+                                                        event.target.meetingTime.value
+                                                    ).getTime() / 1000;
+                                                const contentURI = `https://ipfs.io${ipfsurl}`;
+                                                const stakingAmount = ethers.utils.parseEther(
+                                                    event.target.stakingAmount.value
+                                                );
+                                                //console.log('stakingAmount', stakingAmount);
+                                                //console.log('stakingAmount', ethers.utils.formatEther(stakingAmount));
+                                                const inputStructPub = {
+                                                    profileId: defaultProfile,
+                                                    contentURI: contentURI,
+                                                    collectModule:
+                                                        Addresses['primetime collect module'],
+                                                    collectModuleInitData: defaultAbiCoder.encode(
+                                                        [
+                                                            'uint256',
+                                                            'address',
+                                                            'uint256',
+                                                            'uint256',
+                                                            'string',
+                                                            'string',
+                                                        ],
+                                                        [
+                                                            stakingAmount,
+                                                            Addresses['currency'],
+                                                            meetingTime,
+                                                            event.target.maxLateTime.value * 60,
+                                                            contentURI,
+                                                            event.target.meetingName.value,
+                                                        ]
+                                                    ),
+                                                    referenceModule: ZERO_ADDRESS,
+                                                    referenceModuleInitData: [],
+                                                };
 
-                                                    //console.log('create publication');
-                                                    let tx = await contract.post(inputStructPub);
-                                                    //console.log(tx);
-                                                    let pub = await tx.wait();
-                                                    //console.log(pub);
-                                                    console.log(Number(pub.events[0].topics[1]));
-                                                    console.log(Number(pub.events[0].topics[2]));
-                                                    let profileId = Number(pub.events[0].topics[1]);
-                                                    let pubId = Number(pub.events[0].topics[2]);
-                                                    setMeetingLink(
-                                                        `http://localhost:3000/?action=meeting&profileId=${profileId}&publicationId=${pubId}`
-                                                    );
-                                                    setLoadingState('');
-                                                    //console.log(pub.logs);
-                                                    //console.log(await pub.events[0].getTransaction());
+                                                //console.log('create publication');
+                                                let tx = await contract.post(inputStructPub);
+                                                //console.log(tx);
+                                                let pub = await tx.wait();
+                                                //console.log(pub);
+                                                console.log(Number(pub.events[0].topics[1]));
+                                                console.log(Number(pub.events[0].topics[2]));
+                                                let profileId = Number(pub.events[0].topics[1]);
+                                                let pubId = Number(pub.events[0].topics[2]);
 
-                                                    /*const publication = await contract.getPub(
+                                                const origin = window.location.origin;
+                                                const url = `${origin}?action=meeting&profileId=${profileId}&publicationId=${pubId}`;
+                                                setMeetingLink(url);
+                                                setLoadingState('');
+                                                //console.log(pub.logs);
+                                                //console.log(await pub.events[0].getTransaction());
+
+                                                /*const publication = await contract.getPub(
                                                         profileId,
                                                         pubId
                                                     );
@@ -523,138 +577,167 @@ function App() {
                                                         .then(async (meetingInformation) => {
                                                             console.log(meetingInformation);
                                                         });*/
-                                                }}
+                                            }}
+                                        >
+                                            <Grid
+                                                item
+                                                container
+                                                spacing={1}
+                                                direction={'row'}
+                                                xs={8}
+                                                alignItems="center"
                                             >
-                                                <Grid
-                                                    item
-                                                    container
-                                                    spacing={1}
-                                                    direction={'row'}
-                                                    xs={8}
-                                                    alignItems="center"
-                                                >
-                                                    <Grid item xs={8}>
-                                                        <LocalizationProvider
-                                                            dateAdapter={AdapterDateFns}
-                                                        >
-                                                            <DateTimePicker
-                                                                renderInput={(props) => (
-                                                                    <TextField
-                                                                        {...props}
-                                                                        name="meetingTime"
-                                                                    />
-                                                                )}
-                                                                label="DateTimePicker"
-                                                                value={value}
-                                                                onChange={(newValue) => {
-                                                                    setValue(newValue);
-                                                                }}
-                                                            />
-                                                        </LocalizationProvider>
-                                                    </Grid>
-                                                    <Grid item xs={8}>
-                                                        <TextField
-                                                            fullWidth
-                                                            variant="outlined"
-                                                            name="stakingAmount"
-                                                            type="number"
-                                                            defaultValue="20"
-                                                            label="Staking amount"
-                                                            InputProps={{
-                                                                endAdornment: <InputAdornment
-                                                                    position="end">MATIC</InputAdornment>,
-                                                            }}
-                                                            inputProps={{
-                                                                min: "0.0001",
-                                                                step: "0.0001",
+                                                <Grid item xs={8}>
+                                                    <LocalizationProvider
+                                                        dateAdapter={AdapterDateFns}
+                                                    >
+                                                        <DateTimePicker
+                                                            renderInput={(props) => (
+                                                                <TextField
+                                                                    {...props}
+                                                                    name="meetingTime"
+                                                                />
+                                                            )}
+                                                            label="DateTimePicker"
+                                                            value={value}
+                                                            onChange={(newValue) => {
+                                                                setValue(newValue);
                                                             }}
                                                         />
-                                                    </Grid>
-                                                    <Grid item xs={8}>
-                                                        <TextField
-                                                            fullWidth
-                                                            variant="outlined"
-                                                            name="maxLateTime"
-                                                            type="number"
-                                                            defaultValue="10"
-                                                            InputProps={{
-                                                                endAdornment: <InputAdornment
-                                                                    position="end">min</InputAdornment>,
-                                                            }}
-                                                            inputProps={{
-                                                                min: "1",
-                                                                step: "1",
-                                                            }}
-                                                            label="Max tolerance"
-                                                        />
-                                                    </Grid>
-                                                    <Grid item xs={20}>
-                                                        <TextField
-                                                            fullWidth
-                                                            variant="outlined"
-                                                            name="meetingName"
-                                                            label="Name"
-                                                            defaultValue={'ETHGlobal finalist presentation'}
-                                                            placeholder="Meeting name"
-                                                        />
-                                                    </Grid>
-                                                    <Grid item xs={20}>
-                                                        <TextField
-                                                            fullWidth
-                                                            variant="outlined"
-                                                            name="meetingInformation"
-                                                            multiline
-                                                            label="Information"
-                                                            defaultValue={'A stitch in time saves nine!\nhttps://meet.google.com/aqo-mwbq-mot'}
-                                                            placeholder="Meeting information"
-                                                        />
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Button
-                                                            style={{marginTop: '16px'}}
-                                                            variant="contained"
-                                                            type="submit"
-                                                            className="cta-button submit-gif-button"
-                                                            disabled={loadingState !== ''}
-                                                        >
-                                                            Create meeting
-                                                        </Button>
-                                                    </Grid>
-                                                    {loadingState !== "" ? (
-                                                        <Grid container direction={"row"} alignItems="center">
-                                                            <Grid
-                                                                item
-                                                                style={{
-                                                                    visibility: loadingState === "" ? "hidden" : "visible",
-                                                                    display: "flex",
-                                                                    fontSize: 15,
-                                                                }}
-                                                            >
-                                                                <BallTriangle height="40" width="40" color="grey"
-                                                                              ariaLabel="loading-indicator"/>
-                                                            </Grid>
-                                                            <Grid item>
-                                                                <Typography variant="h6" style={{fontWeight: "bold"}}>
-                                                                    {loadingState} {" "}
-                                                                </Typography>
-                                                            </Grid>
-                                                        </Grid>
-                                                    ) : (<></>)}
+                                                    </LocalizationProvider>
                                                 </Grid>
-                                            </form>
-                                        </Grid>
-                                    ) : (
-                                        <Typography>{meetingLink}</Typography>
-                                    )}
-                                </Grid>
+                                                <Grid item xs={8}>
+                                                    <TextField
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        name="stakingAmount"
+                                                        type="number"
+                                                        defaultValue="20"
+                                                        label="Staking amount"
+                                                        InputProps={{
+                                                            endAdornment: (
+                                                                <InputAdornment position="end">
+                                                                    MATIC
+                                                                </InputAdornment>
+                                                            ),
+                                                        }}
+                                                        inputProps={{
+                                                            min: '0.0001',
+                                                            step: '0.0001',
+                                                        }}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={8}>
+                                                    <TextField
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        name="maxLateTime"
+                                                        type="number"
+                                                        defaultValue="10"
+                                                        InputProps={{
+                                                            endAdornment: (
+                                                                <InputAdornment position="end">
+                                                                    min
+                                                                </InputAdornment>
+                                                            ),
+                                                        }}
+                                                        inputProps={{
+                                                            min: '1',
+                                                            step: '1',
+                                                        }}
+                                                        label="Max tolerance"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={20}>
+                                                    <TextField
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        name="meetingName"
+                                                        label="Name"
+                                                        defaultValue={
+                                                            'ETHGlobal finalist presentation'
+                                                        }
+                                                        placeholder="Meeting name"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={20}>
+                                                    <TextField
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        name="meetingInformation"
+                                                        multiline
+                                                        label="Information"
+                                                        defaultValue={
+                                                            'A stitch in time saves nine!\nhttps://meet.google.com/aqo-mwbq-mot'
+                                                        }
+                                                        placeholder="Meeting information"
+                                                    />
+                                                </Grid>
+                                                <Grid item>
+                                                    <Button
+                                                        style={{ marginTop: '16px' }}
+                                                        variant="contained"
+                                                        type="submit"
+                                                        className="cta-button submit-gif-button"
+                                                        disabled={loadingState !== ''}
+                                                    >
+                                                        Create meeting
+                                                    </Button>
+                                                </Grid>
+                                                {loadingState !== '' ? (
+                                                    <Grid
+                                                        container
+                                                        direction={'row'}
+                                                        alignItems="center"
+                                                    >
+                                                        <Grid
+                                                            item
+                                                            style={{
+                                                                visibility:
+                                                                    loadingState === ''
+                                                                        ? 'hidden'
+                                                                        : 'visible',
+                                                                display: 'flex',
+                                                                fontSize: 15,
+                                                            }}
+                                                        >
+                                                            <BallTriangle
+                                                                height="40"
+                                                                width="40"
+                                                                color="grey"
+                                                                ariaLabel="loading-indicator"
+                                                            />
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography
+                                                                variant="h6"
+                                                                style={{ fontWeight: 'bold' }}
+                                                            >
+                                                                {loadingState}{' '}
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                ) : (
+                                                    <></>
+                                                )}
+                                            </Grid>
+                                        </form>
+                                    </Grid>
+                                ) : (
+                                    <Typography>{meetingLink}</Typography>
+                                )}
                             </Grid>
-                        </>
-                    )}
+                        </Grid>
+                    </>
+                )}
                 <Button
                     onClick={async () => {
-                        const {primetimeContract, currency} = web3state;
+                        const { primetimeContract, currency } = web3state;
 
-                        const participants = await primetimeContract.getParticipants(urlParams.profileId, urlParams.publicationId);
+                        const participants = await primetimeContract.getParticipants(
+                            urlParams.profileId,
+                            urlParams.publicationId
+                        );
                         console.log('participants');
                         console.log(participants);
                         for (let i = 0; i < participants.length; i++) {
@@ -671,15 +754,11 @@ function App() {
                         console.log(
                             'prime balance: ',
                             ethers.utils.formatEther(
-                                await currency.balanceOf(
-                                    Addresses['primetime collect module']
-                                )
+                                await currency.balanceOf(Addresses['primetime collect module'])
                             )
                         );
                         //console.log(await (await primetimeContract.distributeStake(2, 1)).wait());
-                        console.log(
-                            await (await primetimeContract.maybeDistribute()).wait()
-                        );
+                        console.log(await (await primetimeContract.maybeDistribute()).wait());
                         for (let i = 0; i < participants.length; i++) {
                             const p = participants[i];
                             console.log(p);

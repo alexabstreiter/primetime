@@ -8,19 +8,18 @@ export const CheckInPage = ({ web3state }) => {
     const [meetings, setMeetings] = useState([]);
     const [meetingsWithInfo, setMeetingsWithInfo] = useState([]);
     const urlSearchParams = new URLSearchParams(window.location.search);
+    console.log(window.location.origin);
     const urlParams = Object.fromEntries(urlSearchParams.entries());
     const isMeetingCheckIn = urlParams.action === 'checkin';
 
     useEffect(() => {
         async function checkIn() {
-            //setIsLoadingCheckin(true);
             console.log('run getAllPublications');
             const { primetimeContract } = web3state;
             const x = await primetimeContract.getAllPublications();
             console.log('getAllPublications result:');
             console.log(x);
             setMeetings(x);
-            //setIsLoadingCheckin(false);
         }
 
         const { contract } = web3state;
@@ -46,20 +45,20 @@ export const CheckInPage = ({ web3state }) => {
                     return r;
                 })
             );
-            const test4 = test3.map(function (information, i) {
-                const newPubData = {
-                    meetingInformation: information,
-                    ...meetings[i],
-                };
-                console.log(newPubData);
-                return newPubData;
-            });
-            //.filter((meeting) => meeting.participants.includes(userAddress));
+            const test4 = test3
+                .map(function (information, i) {
+                    const newPubData = {
+                        meetingInformation: information,
+                        ...meetings[i],
+                    };
+                    console.log(newPubData);
+                    return newPubData;
+                })
+                .filter((meeting) => meeting.participants.includes(userAddress));
             console.log('loadIpfsData result');
             console.log(test4);
             setMeetingsWithInfo(test4);
             setIsLoadingCheckIn(false);
-            // TODO: filter for logged in profile
         }
 
         const { contract } = web3state;
@@ -68,9 +67,6 @@ export const CheckInPage = ({ web3state }) => {
         }
     }, [isMeetingCheckIn, web3state, setMeetingsWithInfo, meetings]);
 
-    // todo
-    // maybe show profile handle of the one who created the meeting
-    // onClick go to details page
     return (
         <Grid container direction={'column'} spacing={2}>
             <Grid item>
@@ -81,11 +77,21 @@ export const CheckInPage = ({ web3state }) => {
                     <Typography variant={'h6'}>Loading...</Typography>
                 ) : (
                     meetingsWithInfo.map((meeting) => (
-                        <Grid container spacing={2} onClick={() => {}}>
+                        <Grid
+                            container
+                            spacing={2}
+                            key={meeting.meetingTime}
+                            onClick={() => {
+                                const origin = window.location.origin;
+                                const url = `${origin}?action=meeting&profileId=${meeting.profileId}&publicationId=${meeting.pubId}`;
+                                window.location.href = url;
+                            }}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <Grid item>
                                 <Typography variant={'h6'}>
                                     {new Date(
-                                        parseInt(meeting.meetingTime.toNumber())
+                                        parseInt(meeting.meetingTime.toNumber()) * 1000
                                     ).toLocaleString()}
                                     :
                                 </Typography>
